@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg">
+<marker id="inheritance_arrow" markerHeight="10" markerWidth="10" orient="auto-start-reverse" refX="10" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="white" stroke="black"/>
+</marker>
+<marker id="none" markerHeight="10" markerWidth="10" orient="auto-start-reverse" refX="10" refY="5" viewBox="0 0 10 10"/>
+<marker id="aggregation" markerHeight="10" markerWidth="10" orient="auto-start-reverse" refX="10" refY="5" viewBox="0 0 10 10">
+<path d="M 5 1 L 10 5 L 5 9 L 0 5 L 5 1" fill="black" stroke="black"/>
+</marker>
+<marker id="composition" markerHeight="10" markerWidth="10" orient="auto-start-reverse" refX="10" refY="5" viewBox="0 0 10 10">
+<path d="M 5 1 L 10 5 L 5 9 L 0 5 L 5 1" fill="white" stroke="black"/>
+</marker>
+<marker id="arrow" markerHeight="10" markerWidth="10" orient="auto-start-reverse" refX="10" refY="5" viewBox="0 0 10 10">
+<path d="M 0 0 L 10 5 L 0 10 L 7 5 z" fill="black" stroke="black"/>
+</marker>
+<rect fill="#e0e0e0e0" height="257.0" stroke="black" width="340.0" x="100.0" y="900.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="270.0" y="919.0">Area 1</text>
+<rect fill="#e0e0e0e0" height="197.0" stroke="black" width="310.0" x="120.0" y="950.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="275.0" y="969.0">Area 2</text>
+<rect fill="#efefef" height="137.0" stroke="black" width="164.0" x="170.0" y="1000.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="252.0" y="1016.5">TestClass</text>
+<line stroke="black" x1="170.0" x2="334.0" y1="1033.0" y2="1033.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="177.0" y="1049.5">+a: Int</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="177.0" y="1068.5">+name: String</text>
+<line stroke="black" x1="170.0" x2="334.0" y1="1085.0" y2="1085.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="177.0" y="1101.5">printIt(): void</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="177.0" y="1120.5">hashCode(): long</text>
+<circle cx="220.0" cy="100.0" fill="white" r="10.0" stroke="red"/>
+<rect fill="#e0e0e0e0" height="460.0" stroke="black" width="660.0" x="220.0" y="100.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="550.0" y="119.0">My Area</text>
+<rect fill="#efefef" height="137.0" stroke="black" width="164.0" x="270.0" y="150.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="352.0" y="166.5">WidgetFactory</text>
+<line stroke="black" x1="270.0" x2="434.0" y1="183.0" y2="183.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="277.0" y="199.5">+a: Int</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="277.0" y="218.5">+name: String</text>
+<line stroke="black" x1="270.0" x2="434.0" y1="235.0" y2="235.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="277.0" y="251.5">printIt(): void</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="277.0" y="270.5">hashCode(): long</text>
+<rect fill="#efefef" height="104.0" stroke="black" width="203.20000000000002" x="620.0" y="150.0"/>
+<text dominant-baseline="central" font-family="Helvetica" font-size="15" font-weight="" text-anchor="middle" x="721.6" y="163.57142857142858">&#171;data-class&#187;</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="721.6" y="185.5">ApplicationManager</text>
+<line stroke="black" x1="620.0" x2="823.2" y1="202.0" y2="202.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="627.0" y="218.5">+a: Int</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="627.0" y="237.5">+name: String</text>
+<rect fill="#efefef" height="33.0" stroke="black" width="164.0" x="270.0" y="350.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="352.0" y="366.5">RenderLogic</text>
+<rect fill="#efefef" height="85.0" stroke="black" width="164.0" x="620.0" y="370.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="702.0" y="386.5">DisplayLogic</text>
+<line stroke="black" x1="620.0" x2="784.0" y1="403.0" y2="403.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="627.0" y="419.5">printIt(): void</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="627.0" y="438.5">hashCode(): long</text>
+<rect fill="#efefef" height="85.0" stroke="black" width="164.0" x="600.0" y="670.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="18px" font-weight="bold" text-anchor="middle" x="682.0" y="686.5">Outside</text>
+<line stroke="black" x1="600.0" x2="764.0" y1="703.0" y2="703.0"/>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="607.0" y="719.5">printIt(): void</text>
+<text dominant-baseline="central" font-family="helvetica" font-size="16px" text-anchor="start" x="607.0" y="738.5">hashCode(): long</text>
+<polyline fill="none" marker-end="url(#inheritance_arrow)" points="330.0,1000.0,330.0,800.0,330.0,383.0" stroke="black" stroke-width="2"/>
+<polyline fill="none" marker-end="url(#inheritance_arrow)" points="711.8,370.0,711.8,254.0" stroke="black" stroke-width="2"/>
+<polyline fill="none" marker-end="url(#arrow)" marker-start="url(#aggregation)" points="640.0,254.0,640.0,300.0,640.0,370.0" stroke="black" stroke-width="2"/>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="645.0" y="274.0">0..*</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="645.0" y="291.0">+a</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="645.0" y="335.0">1..4</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="645.0" y="318.0">andrew</text>
+<polyline fill="none" marker-end="url(#none)" marker-start="url(#composition)" points="620.0,380.0,570.0,380.0,434.0,279.2477064220183" stroke="black" stroke-width="2"/>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="569.9" y="383.0">0..*</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="575.4" y="360.0">+a</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="439.0" y="299.2477064220183">1..4</text>
+<text dominant-baseline="hanging" font-family="Helvetica" font-size="14px" text-anchor="start" x="439.0" y="316.2477064220183">andrew</text>
+<polyline fill="none" marker-end="url(#inheritance_arrow)" points="692.0,455.0,692.0,670.0" stroke="black" stroke-width="2"/>
+<rect fill="#fffdd0" height="100.0" stroke="gray" width="150.0" x="580.0" y="900.0"/>
+<text dominant-baseline="central" font-family="Helvetica" font-size="14" font-weight="" text-anchor="left" x="580.0" y="915.0">This is a note, i hope it will word wrap...</text>
+</svg>
