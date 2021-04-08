@@ -19,6 +19,7 @@ import costanza.geometry.Coord
 import diagrams.base.Diagram
 import diagrams.base.Shape
 import diagrams.base.diagram
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
@@ -129,5 +130,10 @@ class Together {
     }
 
     fun makeJSON(diag: Diagram) = Json { serializersModule = module; prettyPrint = true }.encodeToString(diag)
+    fun makeDiag(calc: ITextCalculator, json: String): Diagram {
+        val diag = Json { serializersModule = module; prettyPrint = true }.decodeFromString<Diagram>(json)
+        diag.calc = calc
+        return diag
+    }
 }
 
