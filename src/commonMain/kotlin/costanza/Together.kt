@@ -42,6 +42,9 @@ val module = SerializersModule {
 class Together {
     fun makeDiagram(calc: ITextCalculator) =
             diagram(calc, "Test") {
+                circle {
+                    cx = 0.0; cy = 0.0; radius = 10.0
+                }
                 note {
                     x = 580.0; y = 900.0
                     text = "This is a note, i hope it will word wrap..."

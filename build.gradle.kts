@@ -79,14 +79,14 @@ application {
     mainClassName = "ServerKt"
 }
 
-tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack") {
+tasks.getByName<KotlinWebpack>("jsBrowserDevelopmentWebpack") {
     outputFileName = "js.js"
 }
 
 tasks.getByName<Jar>("jvmJar") {
-    dependsOn(tasks.getByName("jsBrowserProductionWebpack"))
-    val jsBrowserProductionWebpack = tasks.getByName<KotlinWebpack>("jsBrowserProductionWebpack")
-    from(File(jsBrowserProductionWebpack.destinationDirectory, jsBrowserProductionWebpack.outputFileName))
+    dependsOn(tasks.getByName("jsBrowserDevelopmentWebpack"))
+    val jsBrowserDevelopmentWebpack = tasks.getByName<KotlinWebpack>("jsBrowserDevelopmentWebpack")
+    from(File(jsBrowserDevelopmentWebpack.destinationDirectory, jsBrowserDevelopmentWebpack.outputFileName))
 }
 
 tasks.getByName<JavaExec>("run") {

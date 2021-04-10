@@ -7,10 +7,7 @@ fun main() {
 
     window.onload = {
         render(document.getElementById("root")) {
-            child(Welcome::class) {
-                attrs {
-                    svg = "Kotlin/JS"
-                }
+            child(ScreenLayout::class) {
             }
         }
     }
