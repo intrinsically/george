@@ -53,9 +53,9 @@ open class Container(): Box() {
 
     override fun determineZIndex(): Int = 0
 
-    override fun collectZOrders(orders: MutableSet<Int>) {
-        super.collectZOrders(orders)
-        shapes.forEach { it.collectZOrders(orders) }
+    override fun collectZIndices(orders: MutableSet<Int>) {
+        super.collectZIndices(orders)
+        shapes.forEach { it.collectZIndices(orders) }
     }
 
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
@@ -73,6 +73,20 @@ open class Container(): Box() {
             if (found !== null) {
                 return found
             }
+        }
+        return null
+    }
+
+    /** ask each child in turn before checking yourself */
+    override fun locateByCoords(d: Diagram, c: Coord, zIndex: Int): Shape? {
+        shapes.forEach {
+            val loc = it.locateByCoords(d, c, zIndex)
+            if (loc != null) {
+                return loc
+            }
+        }
+        if (bounds(d).contains(c) && this.determineZIndex() == zIndex) {
+            return this
         }
         return null
     }

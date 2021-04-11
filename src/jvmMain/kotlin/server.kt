@@ -11,12 +11,9 @@ import kotlinx.html.*
 
 fun HTML.index() {
     head {
-        title("Hello from KtorX!")
+        title("Costanza")
     }
     body {
-        div {
-            +"Hello from Ktor"
-        }
         div {
             id = "root"
         }

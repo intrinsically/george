@@ -19,8 +19,8 @@ class ClientTextCalculator: ITextCalculator {
     override fun calcWidth(details: FontDetails, minWidth: Double, text: String): Double {
         // add up the individual characters, if they are < 255
         val ord = details.ordinal
-        val sum = text.fold(0.0, {
-                total, char -> total + if (char.toInt() < 256) TEXT_WIDTHS[ord][char.toInt()] else 0.0 })
+        val sum = text.fold(0.0) { total, char ->
+            total + if (char.toInt() < 256) TEXT_WIDTHS[ord][char.toInt()] else 0.0 }
         return max(sum * 1.1, minWidth)
     }
 }

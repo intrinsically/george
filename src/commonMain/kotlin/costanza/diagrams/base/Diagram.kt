@@ -19,20 +19,29 @@ class Diagram: Container(), ITextCalculator {
     @Transient
     lateinit var calc: ITextCalculator
 
-    override fun determineZIndex() = 0
-
     /** simpler add */
     fun add(svg: SVG) {
         prepare(this, svg, addedElements, Coord(0,0))
-
         // draw in zIndex order
         val orders = mutableSetOf<Int>()
-        shapes.forEach {
-            it.collectZOrders(orders)
-        }
+        collectZIndices(orders)
         orders.forEach {
             add(this, svg, it)
         }
+    }
+
+    /** locate shape via coords */
+    fun locate(c: Coord): Shape? {
+        // search in reversed index order
+        val orders = mutableSetOf<Int>()
+        collectZIndices(orders)
+        orders.reversed().forEach {
+            val loc = locateByCoords(this, c, it)
+            if (loc != null) {
+                return loc
+            }
+        }
+        return null
     }
 
     /** get the bounds as a collection of the underlying bounds */

@@ -8,14 +8,17 @@ import com.github.nwillc.ksvg.RenderMode
 import com.github.nwillc.ksvg.elements.SVG
 import costanza.diagrams.art.Circle
 import costanza.diagrams.art.circle
+import costanza.diagrams.base.BasicBox
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.ITextCalculator
+import costanza.diagrams.base.Part
 import costanza.diagrams.classpalette.*
 import costanza.diagrams.infopalette.Area
 import costanza.diagrams.infopalette.Note
 import costanza.diagrams.infopalette.area
 import costanza.diagrams.infopalette.note
 import costanza.geometry.Coord
+import diagrams.base.Box
 import diagrams.base.Diagram
 import diagrams.base.Shape
 import diagrams.base.diagram
@@ -28,23 +31,24 @@ import kotlinx.serialization.modules.subclass
 
 val module = SerializersModule {
     polymorphic(Shape::class) {
-        subclass(Container::class)
+        subclass(Klass::class)
         subclass(Note::class)
         subclass(Area::class)
-        subclass(Klass::class)
         subclass(Inheritance::class)
         subclass(Dependency::class)
         subclass(Association::class)
         subclass(Circle::class)
+    }
+
+    polymorphic(Part::class) {
+        subclass(Attribute::class)
+        subclass(Operation::class)
     }
 }
 
 class Together {
     fun makeDiagram(calc: ITextCalculator) =
             diagram(calc, "Test") {
-                circle {
-                    cx = 0.0; cy = 0.0; radius = 10.0
-                }
                 note {
                     x = 580.0; y = 900.0
                     text = "This is a note, i hope it will word wrap..."
@@ -65,9 +69,6 @@ class Together {
                 }
                 inheritance("TestClass", "RenderLogic") {
                     points = listOf(Coord(330, 800))
-                }
-                circle {
-                    cx = 220.0; cy = 100.0; radius = 10.0
                 }
                 area("My Area") {
                     x = 220.0; y = 100.0
@@ -133,6 +134,7 @@ class Together {
     }
 
     fun makeJSON(diag: Diagram) = Json { serializersModule = module; prettyPrint = true }.encodeToString(diag)
+
     fun makeDiag(calc: ITextCalculator, json: String): Diagram {
         val diag = Json { serializersModule = module; prettyPrint = true }.decodeFromString<Diagram>(json)
         diag.calc = calc

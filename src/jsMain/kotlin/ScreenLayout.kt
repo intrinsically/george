@@ -1,4 +1,5 @@
 import antd.layout.*
+import kotlinext.js.js
 import kotlinx.css.*
 import kotlinx.css.properties.LineHeight
 import react.RBuilder
@@ -30,10 +31,11 @@ object LayoutStyles : StyleSheet("layout", isStatic = true) {
             color = Color.white
         }
         descendants(".ant-layout-sider") {
-            background = "#3ba0e9"
+            background = "#ffffff"
             color = Color.white
-            lineHeight = LineHeight("120px")
-            minWidth = 900.0.px
+            borderRight = "#e0e0e0"
+            borderStyle = BorderStyle.solid
+            borderWidth = 1.px
         }
     }
 }
@@ -46,9 +48,13 @@ class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
             css { +LayoutStyles.basic }
             div {
                 layout {
-                    header { +"Header" }
+                    attrs.style = js { minHeight = "100vh" }
+                    header { +"Header Y" }
                     layout {
                         sider {
+                            attrs {
+                                width = 250.px
+                            }
                             treeview {
                             }
                         }

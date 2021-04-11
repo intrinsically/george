@@ -1,13 +1,13 @@
-import antd.icon.*
-import antd.input.textArea
-import antd.tree.TreeNodeAttribute
+import antd.ReactNode
+import antd.dropdown.dropdown
+import antd.menu.menu
+import antd.menu.menuItem
+import antd.menu.subMenu
+import antd.tree.DataNode
 import antd.tree.tree
-import antd.tree.treeNode
 import costanza.app.Together
-import diagrams.base.Diagram
-import kotlinx.html.unsafe
+import kotlinext.js.jsObject
 import react.*
-import react.dom.div
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -18,58 +18,56 @@ external interface TreeProps : RProps {
 class TreeState() : RState
 
 object TreeStyles : StyleSheet("tree", isStatic = true) {
-    val container by css {}
     val basic by css {}
-    val customizedIcon by css {}
-    val basicControlled by css {}
-    val dynamic by css {}
-    val line by css {}
-    val directory by css {}
 }
 
-@JsExport
+
 class TreeView(props: TreeProps) : RComponent<TreeProps, TreeState>(props) {
+    val together = Together()
+    val calc = ClientTextCalculator()
+    val tsync = TreeSynchronizer(together.makeDiagram(calc))
+
     override fun RBuilder.render() {
-        styledDiv {
-            css { +TreeStyles.customizedIcon }
-            tree {
-                attrs {
-                    showIcon = true
-                    defaultExpandAll = true
-                    defaultSelectedKeys = arrayOf("0-0-0")
-                    switcherIcon = buildElement {
-                        downOutlined {}
+        dropdown {
+            attrs {
+                overlay = buildElement {
+                    menu {
+                        menuItem {
+                            attrs {
+                                key = "1"
+                            }
+                            +"Hello"
+                        }
+                        subMenu {
+                            attrs {
+                                key = "4"
+                                title = "Submenu"
+                            }
+                            menuItem {
+                                attrs {
+                                    key = "2"
+                                }
+                                +"One"
+                            }
+                            menuItem {
+                                attrs {
+                                    key = "3"
+                                }
+                                +"Two"
+                            }
+                        }
                     }
                 }
-                treeNode {
+                trigger = arrayOf("contextMenu")
+            }
+            styledDiv {
+                css { +TreeStyles.basic }
+                tree {
                     attrs {
-                        icon = buildElement {
-                            smileOutlined {}
-                        }
-                        title = "parent 1"
-                        key = "0-0"
-                    }
-                    treeNode {
-                        attrs {
-                            icon = buildElement {
-                                mehOutlined {}
-                            }
-                            title = "leaf"
-                            key = "0-0-0"
-                        }
-                    }
-                    treeNode {
-                        attrs {
-                            icon = fun(treeNode: TreeNodeAttribute): ReactElement {
-                                return buildElement {
-                                    if (treeNode.selected) {
-                                        frownFilled {}
-                                    } else frownOutlined {}
-                                }
-                            }
-                            title = "leaf"
-                            key = "0-0-1"
-                        }
+                        showIcon = false
+                        showLine = true
+                        draggable = true
+                        treeData = tsync.treeData
                     }
                 }
             }

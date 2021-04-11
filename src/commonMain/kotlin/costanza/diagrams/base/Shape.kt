@@ -1,6 +1,7 @@
 package diagrams.base
 
 import com.github.nwillc.ksvg.elements.SVG
+import costanza.diagrams.base.Part
 import costanza.geometry.Coord
 import costanza.geometry.Rect
 import kotlinx.serialization.Serializable
@@ -12,6 +13,9 @@ abstract class Shape {
 
     /** unique id - use if name is duplicate etc */
     var id: String? = null
+
+    /** get the shape type, allowing this to be overridden */
+    open fun type() = this::class.simpleName ?: ""
 
     /** prepare the shape */
     abstract fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord)
@@ -28,8 +32,15 @@ abstract class Shape {
     /** z index - draw from -ve first to +ve */
     abstract fun determineZIndex(): Int
 
-    /** collect zOrders */
-    open fun collectZOrders(orders: MutableSet<Int>) {
+    /** collect zIndexes */
+    open fun collectZIndices(orders: MutableSet<Int>) {
         orders.add(determineZIndex())
     }
+
+    /** the parts for this shape */
+    open fun collectParts(): MutableList<Part>? = null
+
+    /** locate a shape with coordinates */
+    open fun locateByCoords(d: Diagram, c: Coord, zIndex: Int): Shape? =
+        if (determineZIndex() == zIndex && bounds(d).contains(c)) { this } else { null }
 }
