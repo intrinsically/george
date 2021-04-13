@@ -1,7 +1,8 @@
 package costanza.reflect
 
+/** interchange is always via strings */
 interface IProperty {
-    fun name(): String
+    val name: String
     fun get(): String
-    fun put(s: String)
+    fun set(s: String)
 }
