@@ -1,6 +1,6 @@
 package costanza.diagrams.infopalette
 
-import com.github.nwillc.ksvg.elements.SVG
+import ksvg.elements.SVG
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord

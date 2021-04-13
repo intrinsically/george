@@ -1,6 +1,6 @@
 package costanza.diagrams.base
 
-import com.github.nwillc.ksvg.elements.SVG
+import ksvg.elements.SVG
 import costanza.geometry.Coord
 import diagrams.base.Box
 import diagrams.base.Diagram

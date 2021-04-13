@@ -1,12 +1,9 @@
 package costanza.diagrams.art
 
-import com.github.nwillc.ksvg.elements.SVG
+import ksvg.elements.SVG
 import costanza.diagrams.base.BasicBox
 import costanza.diagrams.base.Container
-import costanza.diagrams.classpalette.Association
-import costanza.geometry.Coord
 import costanza.geometry.Rect
-import diagrams.base.Box
 import diagrams.base.Diagram
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

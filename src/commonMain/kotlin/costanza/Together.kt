@@ -4,12 +4,9 @@
 package costanza.app
 
 
-import com.github.nwillc.ksvg.RenderMode
-import com.github.nwillc.ksvg.elements.SVG
+import ksvg.RenderMode
+import ksvg.elements.SVG
 import costanza.diagrams.art.Circle
-import costanza.diagrams.art.circle
-import costanza.diagrams.base.BasicBox
-import costanza.diagrams.base.Container
 import costanza.diagrams.base.ITextCalculator
 import costanza.diagrams.base.Part
 import costanza.diagrams.classpalette.*
@@ -18,7 +15,6 @@ import costanza.diagrams.infopalette.Note
 import costanza.diagrams.infopalette.area
 import costanza.diagrams.infopalette.note
 import costanza.geometry.Coord
-import diagrams.base.Box
 import diagrams.base.Diagram
 import diagrams.base.Shape
 import diagrams.base.diagram

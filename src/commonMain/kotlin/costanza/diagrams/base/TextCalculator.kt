@@ -1,6 +1,6 @@
 package costanza.diagrams.base
 
-import com.github.nwillc.ksvg.elements.TEXT
+import ksvg.elements.TEXT
 import kotlinx.serialization.Serializable
 
 

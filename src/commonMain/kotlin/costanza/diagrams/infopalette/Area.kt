@@ -1,18 +1,13 @@
 package costanza.diagrams.infopalette
 
-import com.github.nwillc.ksvg.elements.SVG
+import ksvg.elements.SVG
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
-import costanza.diagrams.classpalette.*
 import costanza.geometry.Coord
-import costanza.geometry.Dim
-import costanza.geometry.Rect
-import diagrams.base.Box
 import diagrams.base.Diagram
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlin.math.max
 
 @Serializable
 @SerialName("area")
