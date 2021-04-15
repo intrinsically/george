@@ -39,6 +39,7 @@ kotlin {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
                 implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0-M1")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0-M1")
             }
         }
         val commonTest by getting {

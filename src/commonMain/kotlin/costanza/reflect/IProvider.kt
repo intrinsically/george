@@ -1,11 +1,14 @@
 package costanza.reflect
 
+
 interface IProvider {
-    fun next(): String?
+    fun skip()
+    fun pop(): Char?
+    fun peek(): Char?
+    fun popInt(): Int
+    fun popDouble(): Double
+    fun popString(): String
+    fun popName(): String
+    fun popChar(char: Char)
 }
 
-class StringProvider(s: String): IProvider {
-    private val parts = s.split("~").iterator()
-
-    override fun next(): String? = if (parts.hasNext()) { parts.next() } else { null }
-}

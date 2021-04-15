@@ -3,9 +3,11 @@ package costanza.reflect
 class EntityTypeRegistry {
     private val map = mutableMapOf<String, EntityType>()
 
-    fun add(et: EntityType) {
+    fun addAll(list: List<EntityType>) = list.forEach { addAll(it) }
+
+    fun addAll(et: EntityType) {
         if (map.containsKey(et.name)) {
-            throw Exception("Entity type $et.name already registered")
+            throw Exception("Entity type $et.entityName already registered")
         }
         map[et.name] = et
     }
