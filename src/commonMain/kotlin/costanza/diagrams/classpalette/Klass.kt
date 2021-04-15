@@ -12,13 +12,14 @@ import diagrams.base.Shape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
+import utility.*
 import kotlin.math.max
 
 const val PADDING = 7.0
 
 @Serializable
 @SerialName("class")
-class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:MutableList<Part> = mutableListOf()): BasicBox() {
+class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _list()): BasicBox() {
     var stereotype: String? = null
     var width: Double = 150.0 // minimum
     var height: Double = 0.0 // minimum
@@ -41,7 +42,7 @@ class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:MutableList<Part
     }
 
     /** get the width and height details */
-    override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
+    override fun prepare(diagram: Diagram, svg: SVG, addedElements: _Set<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)
         heightN = diagram.calcHeight(fontN)
         heightS = diagram.calcHeight(fontS) + 3
