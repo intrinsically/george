@@ -14,7 +14,7 @@ class TokenProvider(var s: String): IProvider {
         var name = ""
         do {
             val p = peek()
-            if (p != null && pred(p)) {
+            if (pred(p)) {
                 name += pop()
             } else {
                 return name.ifEmpty {
@@ -26,13 +26,21 @@ class TokenProvider(var s: String): IProvider {
 
     /** read various token types */
     override fun popName() = popToken("entityName", true) { it.isLetterOrDigit() || it == '_' }
+    override fun popName(name: String): String {
+        var pop = popName()
+        if (pop != name) {
+            throw Exception("Looking for $name at ($row, $col)")
+        }
+        return pop
+    }
     override fun popInt() = popToken("integer", true) { it.isDigit() }.toInt()
     override fun popDouble() = popToken("double", true) { it.isDigit() || "+-.eE".contains(it) }.toDouble()
-    override fun popChar(char: Char) {
+    override fun popChar(char: Char): Char {
         skip()
         if (pop() != char) {
             throw Exception("Looking for $char at ($row, $col)")
         }
+        return char
     }
     override fun popString(): String {
         popChar('"')
@@ -43,19 +51,19 @@ class TokenProvider(var s: String): IProvider {
 
     /** skip any whitespace */
     override fun skip() {
-        while (peek() != null && peek()!!.isWhitespace()) {
+        while (peek().isWhitespace()) {
             pop()
         }
     }
 
-    override fun pop(): Char? {
+    override fun pop(): Char {
         if (peeked != null) {
             val ret = peeked!!
             peeked = null
             return ret
         }
         if (pos == size) {
-            return null
+            throw Exception("Got end of text")
         }
         val ret = s[pos++]
         if (ret == '\n') {
@@ -67,12 +75,11 @@ class TokenProvider(var s: String): IProvider {
         return ret
     }
 
-    override fun peek(): Char? {
+    override fun peek(): Char {
         if (peeked != null) {
-            return peeked
+            return peeked!!
         }
         peeked = pop()
-        return peeked
+        return peeked!!
     }
-
 }

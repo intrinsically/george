@@ -9,10 +9,10 @@ interface IProperty {
     /** for primitives */
     fun isDefault() = false
     fun get(): String = ""
+    fun set(prov: IProvider)
 
     /** for entities */
+    fun entityType(): String = ""
     fun entity(): IEntity? = null
-
-    /** for setting both types */
-    fun set(prov: IProvider)
+    fun set(entity: IEntity) {}
 }

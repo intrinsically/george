@@ -8,11 +8,13 @@ class EntityProperty(
     override val name: String,
     private val myEntityType: String,
     val getter: () -> IEntity?,
-    val setter: (prov: IProvider) -> Unit): IProperty {
+    val setter: (entity: IEntity) -> Unit): IProperty {
 
     override fun isEntity() = true
+    override fun entityType() = myEntityType
     override fun entity() = getter()
-    override fun set(prov: IProvider) = setter(prov)
+    override fun set(prov: IProvider) {}
+    override fun set(entity: IEntity) = setter(entity)
 }
 
 

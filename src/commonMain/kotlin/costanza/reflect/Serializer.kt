@@ -1,21 +1,27 @@
 package costanza.reflect
 
+import utility.loop
+
 /** serialize to a nicely formatted string, mimicking a kotlin dsl */
 class Serializer(val registry: EntityTypeRegistry) {
-    fun serialize(fnName: String, entity: IEntity, indentLevel: Int = 0): String {
+
+    /** serialize an entity */
+    fun serialize(entity: IEntity) = serializeEntity(entity.entityName, entity, 0)
+
+    private fun serializeEntity(fnName: String, entity: IEntity, indentLevel: Int): String {
         val bld = StringBuilder()
         var indent = indentLevel
         operator fun StringBuilder.plusAssign(str: String) { this.append(str) }
-        fun indent() = (1..indent).forEach { bld += "    " }
+        fun indent() = indent.loop { bld += "    " }
 
         // start by printing out the entityName
-        bld += entity.entityName
+        bld += fnName
         indent++
 
         // handle constructor parameters
         var first = true
         entity.properties.forEach {
-            if (it.isConstructor() && !it.isDefault()) {
+            if (it.isConstructor()) {
                 bld += if (first) { "(" } else {", "}
                 first = false
                 bld += it.get()
@@ -25,25 +31,32 @@ class Serializer(val registry: EntityTypeRegistry) {
             bld += ")"
         }
 
-        bld += " {\n"
+        // only add the block if we have actual properties
+        if (entity.properties.any { !it.isConstructor() && !it.isDefault() }) {
+            // handle standard properties
+            first = true
+            entity.properties.forEach {
+                if (first) {
+                    bld += " {\n"
+                    first = false
+                }
 
-        // handle standard properties
-        entity.properties.forEach {
-            if (!it.isConstructor()) {
-                if (it.isEntity()) {
-                    if (it.entity() != null) {
-                        indent(); bld += serialize(it.name, it.entity()!!, indent)
-                    }
-                } else {
-                    // primitive - don't bother if default value
-                    if (!it.isDefault()) {
-                        indent(); bld += "${it.name} = " + it.get() + "\n"
+                if (!it.isConstructor()) {
+                    if (it.isEntity()) {
+                        if (it.entity() != null) {
+                            indent(); bld += serializeEntity(it.name, it.entity()!!, indent)
+                        }
+                    } else {
+                        // primitive - don't bother if default value
+                        if (!it.isDefault()) {
+                            indent(); bld += "${it.name} = " + it.get() + "\n"
+                        }
                     }
                 }
             }
+            indent--
+            indent(); bld += "}"
         }
-        indent--
-        indent(); bld += "}\n"
-        return bld.toString()
+        return bld.toString() + "\n"
     }
 }

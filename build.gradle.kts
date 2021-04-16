@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.5.0-M2"
+    kotlin("multiplatform") version "1.5.0-RC"
     kotlin("plugin.serialization") version "1.4.30"
     application
 }
@@ -38,8 +38,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
-                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0-M1")
-                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0-M1")
+                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0-RC")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0-RC")
             }
         }
         val commonTest by getting {
