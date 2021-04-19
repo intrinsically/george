@@ -49,7 +49,7 @@ class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
             div {
                 layout {
                     attrs.style = js { minHeight = "100vh" }
-                    header { +"Header Y" }
+                    header { +"Header XYZ" }
                     layout {
                         sider {
                             attrs {

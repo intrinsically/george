@@ -1,12 +1,11 @@
 package costanza.reflect
 
 interface IEntityProperty {
-    val name: String
-
+    val fnName: String
     fun entityType(): String
 
     /** getting for serialization */
-    fun entity(): IEntity?
+    fun get(): IEntity?
 
     /** setting for deserialization */
     fun set(entity: IEntity) {}

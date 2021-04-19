@@ -1,7 +1,7 @@
 package costanza.reflect.typedproperties
 
 import costanza.geometry.Rect
-import costanza.reflect.IProperty
+import costanza.reflect.IPrimitiveProperty
 import costanza.reflect.IProvider
 
 class RectProperty(
@@ -9,7 +9,7 @@ class RectProperty(
     private val isConstructor: Boolean,
     private val defaultValue: Rect,
     val getter: () -> Rect,
-    val setter: (r: Rect) -> Unit): IProperty {
+    val setter: (r: Rect) -> Unit): IPrimitiveProperty {
 
     override fun isConstructor() = isConstructor
     override fun isDefault() = defaultValue == getter()

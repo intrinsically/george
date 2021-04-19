@@ -1,19 +1,17 @@
 package costanza.reflect.typedproperties
 
 import costanza.reflect.IEntity
-import costanza.reflect.IProperty
+import costanza.reflect.IEntityProperty
 import costanza.reflect.IProvider
 
 class EntityProperty(
-    override val name: String,
+    override val fnName: String,
     private val myEntityType: String,
     val getter: () -> IEntity?,
-    val setter: (entity: IEntity) -> Unit): IProperty {
+    val setter: (entity: IEntity) -> Unit): IEntityProperty {
 
-    override fun isEntity() = true
     override fun entityType() = myEntityType
-    override fun entity() = getter()
-    override fun set(prov: IProvider) {}
+    override fun get() = getter()
     override fun set(entity: IEntity) = setter(entity)
 }
 

@@ -1,4 +1,4 @@
-package utility
+package costanza.utility
 
 
 /** immutable collections */

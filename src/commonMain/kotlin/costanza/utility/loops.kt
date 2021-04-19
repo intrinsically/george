@@ -1,4 +1,4 @@
-package utility
+package costanza.utility
 
 /** loop with no index */
 fun Int.loop(block: () -> Unit) {

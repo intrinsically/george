@@ -1,4 +1,9 @@
-package costanza.reflect
+package costanza.reflect.operations
+
+import costanza.reflect.EntityTypeRegistry
+import costanza.reflect.IEntity
+import costanza.reflect.IProvider
+import costanza.reflect.TokenProvider
 
 class Deserializer(val registry: EntityTypeRegistry) {
 
@@ -43,13 +48,18 @@ class Deserializer(val registry: EntityTypeRegistry) {
                     break
                 }
                 val name = prov.popName()
-                val prop = findProperty(prov, entity, name)
-                if (prop.isEntity()) {
-                    val sub = deserializeEntity(null, prop.entityType(), prov)
-                    prop.set(sub)
-                } else {
+                val prop = findProperty(entity, name, prov)
+                if (prop != null) {
                     prov.popChar('=')
                     prop.set(prov)
+                } else {
+                    val ent = findEntity(entity, name, prov)
+                    if (ent != null) {
+                        val sub = deserializeEntity(null, ent.entityType(), prov)
+                        ent.set(sub)
+                    } else {
+                        throw Exception("Cannot find property $name")
+                    }
                 }
             } while (true)
         }
@@ -57,7 +67,6 @@ class Deserializer(val registry: EntityTypeRegistry) {
         return entity
     }
 
-    private fun findProperty(prov: IProvider, entity: IEntity, name: String) =
-        entity.properties.find { it.name == name } ?:
-            throw Exception("Cannot find property $name at ($prov.row, $prov.col)")
+    private fun findProperty(entity: IEntity, name: String, prov: IProvider) = entity.properties.find { it.name == name }
+    private fun findEntity(entity: IEntity, fnName: String, prov: IProvider) = entity.entities.find { it.fnName == fnName }
 }

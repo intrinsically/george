@@ -2,8 +2,8 @@ package costanza.reflect
 
 interface IPrimitiveProperty {
     val name: String
-    fun isConstructor()
-    fun isDefault() = false
+    fun isConstructor(): Boolean
+    fun isDefault(): Boolean
 
     /** getting for serialialization */
     fun get(): String

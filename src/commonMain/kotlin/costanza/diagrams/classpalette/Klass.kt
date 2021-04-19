@@ -12,7 +12,7 @@ import diagrams.base.Shape
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import utility.*
+import costanza.utility.*
 import kotlin.math.max
 
 const val PADDING = 7.0

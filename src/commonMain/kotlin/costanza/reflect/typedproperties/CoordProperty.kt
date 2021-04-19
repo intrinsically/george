@@ -1,7 +1,7 @@
 package costanza.reflect.typedproperties
 
 import costanza.geometry.Coord
-import costanza.reflect.IProperty
+import costanza.reflect.IPrimitiveProperty
 import costanza.reflect.IProvider
 
 class CoordProperty(
@@ -9,7 +9,7 @@ class CoordProperty(
     private val isConstructor: Boolean,
     private val defaultValue: Coord,
     val getter: () -> Coord,
-    val setter: (c: Coord) -> Unit): IProperty {
+    val setter: (c: Coord) -> Unit): IPrimitiveProperty {
 
     override fun isConstructor() = isConstructor
     override fun isDefault() = defaultValue == getter()

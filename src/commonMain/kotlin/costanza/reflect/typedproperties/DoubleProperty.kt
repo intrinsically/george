@@ -1,6 +1,6 @@
 package costanza.reflect.typedproperties
 
-import costanza.reflect.IProperty
+import costanza.reflect.IPrimitiveProperty
 import costanza.reflect.IProvider
 
 class DoubleProperty(
@@ -8,7 +8,7 @@ class DoubleProperty(
     private val isConstructor: Boolean,
     private val defaultValue: Double,
     val getter: () -> Double,
-    val setter: (s: Double) -> Unit): IProperty {
+    val setter: (s: Double) -> Unit): IPrimitiveProperty {
 
     override fun isConstructor() = isConstructor
     override fun isDefault() = defaultValue == getter()
