@@ -14,7 +14,7 @@ class TokenProvider(var s: String): IProvider {
         var name = ""
         do {
             val p = peek()
-            if (pred(p)) {
+            if (p != null && pred(p)) {
                 name += pop()
             } else {
                 return name.ifEmpty {
@@ -25,7 +25,7 @@ class TokenProvider(var s: String): IProvider {
     }
 
     /** read various token types */
-    override fun popName() = popToken("entityName", true) { it.isLetterOrDigit() || it == '_' }
+    override fun popName() = popToken("entityType", true) { it.isLetterOrDigit() || it == '_' }
     override fun popName(name: String): String {
         var pop = popName()
         if (pop != name) {
@@ -51,19 +51,19 @@ class TokenProvider(var s: String): IProvider {
 
     /** skip any whitespace */
     override fun skip() {
-        while (peek().isWhitespace()) {
+        while (peek() != null && peek()!!.isWhitespace()) {
             pop()
         }
     }
 
-    override fun pop(): Char {
+    override fun pop(): Char? {
         if (peeked != null) {
             val ret = peeked!!
             peeked = null
             return ret
         }
         if (pos == size) {
-            throw Exception("Got end of text")
+            return null
         }
         val ret = s[pos++]
         if (ret == '\n') {
@@ -75,11 +75,11 @@ class TokenProvider(var s: String): IProvider {
         return ret
     }
 
-    override fun peek(): Char {
+    override fun peek(): Char? {
         if (peeked != null) {
             return peeked!!
         }
         peeked = pop()
-        return peeked!!
+        return peeked
     }
 }

@@ -99,7 +99,7 @@ internal class AttributeTypeTest : HasSvg(true) {
 
     @Test
     fun invalidId() {
-        assertFailsWith<IllegalArgumentException> { svg.id = "a bad entityName" }
+        assertFailsWith<IllegalArgumentException> { svg.id = "a bad entityType" }
     }
 
     @Test
@@ -111,12 +111,12 @@ internal class AttributeTypeTest : HasSvg(true) {
     fun invalidHref() {
         assertFailsWith<IllegalArgumentException> {
             svg.use {
-                href = "#a bad entityName"
+                href = "#a bad entityType"
             }
         }
         assertFailsWith<IllegalArgumentException> {
             svg.use {
-                href = "entityName"
+                href = "entityType"
             }
         }
     }
@@ -166,7 +166,7 @@ internal class AttributeTypeTest : HasSvg(true) {
 //        @Test
 //        fun `return attribute of element`() {
 //            val typeAttr = AttributeProperty()
-//            every { kProperty.entityName } returns bar
+//            every { kProperty.entityType } returns bar
 //            svg.attributes[bar] = bar
 //            assertThat(typeAttr.getValue(svg, kProperty)).isEqualTo(bar)
 //        }

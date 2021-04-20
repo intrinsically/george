@@ -141,5 +141,4 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:kotlinx-serialization-core-js:1.1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.jetbrains.kotlinx:atomicfu-js:0.15.1" level="project" />
   </component>
-  <component name="TestModuleProperties" production-module="costanza-fullstack.jsMain" />
 </module>

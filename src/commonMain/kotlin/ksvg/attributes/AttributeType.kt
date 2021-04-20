@@ -62,7 +62,7 @@ enum class AttributeType {
         }
     },
     /**
-     * A relative URL by id entityName.
+     * A relative URL by id entityType.
      */
     Relative {
         override fun verify(value: String) {

@@ -7,7 +7,7 @@ class EntityTypeRegistry {
 
     fun addAll(et: EntityType) {
         if (map.containsKey(et.name)) {
-            throw Exception("Entity type $et.entityName already registered")
+            throw Exception("Entity type $et.entityType already registered")
         }
         map[et.name] = et
     }

@@ -1,25 +1,26 @@
 package costanza.reflect.operations
 
 import costanza.reflect.EntityTypeRegistry
+import costanza.reflect.IEntity
 import costanza.reflect.ITopEntity
-import costanza.utility._List
+import costanza.reflect.operations.changes.EntityChange
+import costanza.reflect.operations.changes.GroupChange
+import costanza.reflect.operations.changes.PropertyChange
 import costanza.utility._list
 
-class Change(id: String, old: String, new: String)
-class Transaction(val changes: _List<Change>)
 
-class Changer(top: ITopEntity, val registry: EntityTypeRegistry) {
-    val changes = _list<Transaction>()
-    var current = Transaction()
+class Changer(val top: ITopEntity, val registry: EntityTypeRegistry) {
+    private val changes = _list<GroupChange>()
+    private var current = GroupChange()
+    var pos = 0
 
-    fun changeProperty(id: String) {
-    }
+    fun changeProperty(entityId: String, propName: String, value: String) =
+        current.changes.add(PropertyChange(top, entityId, propName, value))
+
+    fun setEntity(entityId: String, propName: String, entity: IEntity?) =
+        current.changes.add(EntityChange(top, entityId, propName, registry, entity))
 
     fun addEntity() {
-
-    }
-
-    fun changeEntity() {
 
     }
 
@@ -31,15 +32,24 @@ class Changer(top: ITopEntity, val registry: EntityTypeRegistry) {
 
     }
 
-    fun storeTransaction() {
-
+    /** mark the transaction */
+    fun mark() {
+        // if we are in the middle, truncate
+        (pos until changes.size).forEach { changes.removeLast() }
+        changes.add(current)
+        current = GroupChange()
+        pos++
     }
 
-    fun undo() {
-
+    fun back() {
+        if (pos > 0) {
+            changes[--pos].back()
+        }
     }
 
-    fun redo() {
-
+    fun fwd() {
+        if (pos < changes.size) {
+            changes[pos++].fwd()
+        }
     }
 }

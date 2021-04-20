@@ -1,20 +1,22 @@
 package costanza.reflect.operations
 
-import costanza.reflect.EntityTypeRegistry
-import costanza.reflect.IEntity
-import costanza.reflect.IProvider
-import costanza.reflect.TokenProvider
+import costanza.reflect.*
 
-class Deserializer(val registry: EntityTypeRegistry) {
+fun findPrimitiveProperty(entity: IEntity, name: String) = entity.properties.find { it.name == name }
+fun findEntityProperty(entity: IEntity, fnName: String) = entity.entities.find { it.fnName == fnName }
 
-    fun deserialize(entityName: String, prov: TokenProvider) =
-        deserializeEntity(entityName, entityName, prov)
+class Deserializer(private val registry: EntityTypeRegistry) {
 
-    private fun deserializeEntity(fnName: String?, entityName: String, prov: TokenProvider): IEntity {
+    fun deserialize(top: ITopEntity, prov: TokenProvider) =
+        deserializeEntity(top, null, prov)
 
-        val entity = registry.create(entityName)
-        if (fnName != null) {
-            prov.popName(fnName)
+    fun deserializeEntity(top: ITopEntity, entityType: String?, prov: TokenProvider): IEntity {
+
+        val entity = if (entityType != null) {
+            registry.create(entityType)
+        } else {
+            prov.popName()
+            top
         }
 
         prov.skip()
@@ -48,14 +50,14 @@ class Deserializer(val registry: EntityTypeRegistry) {
                     break
                 }
                 val name = prov.popName()
-                val prop = findProperty(entity, name, prov)
+                val prop = findPrimitiveProperty(entity, name)
                 if (prop != null) {
                     prov.popChar('=')
                     prop.set(prov)
                 } else {
-                    val ent = findEntity(entity, name, prov)
+                    val ent = findEntityProperty(entity, name)
                     if (ent != null) {
-                        val sub = deserializeEntity(null, ent.entityType(), prov)
+                        val sub = deserializeEntity(top, ent.entityType, prov)
                         ent.set(sub)
                     } else {
                         throw Exception("Cannot find property $name")
@@ -63,10 +65,10 @@ class Deserializer(val registry: EntityTypeRegistry) {
                 }
             } while (true)
         }
+        if (entity.id == null) {
+            entity.id = top.makeId()
+        }
 
         return entity
     }
-
-    private fun findProperty(entity: IEntity, name: String, prov: IProvider) = entity.properties.find { it.name == name }
-    private fun findEntity(entity: IEntity, fnName: String, prov: IProvider) = entity.entities.find { it.fnName == fnName }
 }

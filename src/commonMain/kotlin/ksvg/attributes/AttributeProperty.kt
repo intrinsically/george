@@ -21,8 +21,8 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
- * A property delegate to allow attributes to be rendered with a different entityName and to validate content by type.
- * @param renamed The entityName to use when rendering the property.
+ * A property delegate to allow attributes to be rendered with a different entityType and to validate content by type.
+ * @param renamed The entityType to use when rendering the property.
  * @param type The attribute type to use for validation.
  */
 internal class AttributeProperty(

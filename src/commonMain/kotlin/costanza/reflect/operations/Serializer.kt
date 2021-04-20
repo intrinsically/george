@@ -1,14 +1,13 @@
 package costanza.reflect.operations
 
-import costanza.reflect.EntityTypeRegistry
 import costanza.reflect.IEntity
 import costanza.utility.loop
 
 /** serialize to a nicely formatted string, mimicking a kotlin dsl */
-class Serializer(val registry: EntityTypeRegistry) {
+class Serializer {
 
     /** serialize an entity */
-    fun serialize(entity: IEntity) = serializeEntity(entity.entityName, entity, 0)
+    fun serialize(entity: IEntity) = serializeEntity(entity.entityType, entity, 0)
 
     private fun serializeEntity(fnName: String, entity: IEntity, indentLevel: Int): String {
         val bld = StringBuilder()
@@ -18,7 +17,7 @@ class Serializer(val registry: EntityTypeRegistry) {
         }
         fun indent() = indent.loop { bld += "    " }
 
-        // start by printing out the entityName
+        // start by printing out the entityType
         bld += fnName
         indent++
 

@@ -6,13 +6,12 @@ import costanza.reflect.IProvider
 
 class EntityProperty(
     override val fnName: String,
-    private val myEntityType: String,
+    override val entityType: String,
     val getter: () -> IEntity?,
-    val setter: (entity: IEntity) -> Unit): IEntityProperty {
+    val setter: (entity: IEntity?) -> Unit): IEntityProperty {
 
-    override fun entityType() = myEntityType
     override fun get() = getter()
-    override fun set(entity: IEntity) = setter(entity)
+    override fun set(entity: IEntity?) = setter(entity)
 }
 
 
