@@ -7,10 +7,16 @@ import costanza.geometry.Rect
 import costanza.geometry.Router
 import diagrams.base.Diagram
 import costanza.diagrams.base.Line
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
 
 const val INHERITANCE_MARKER = "inheritance_arrow"
 
 class Inheritance(): Line() {
+    override fun reflectInfo(): ReflectInfo =
+        reflect("inheritance", super.reflectInfo()) {
+        }
+
     var points: List<Coord> = listOf()
     private var parentOffset = Coord(0,0)
 

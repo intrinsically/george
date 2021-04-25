@@ -9,12 +9,27 @@ import costanza.geometry.Coord
 import costanza.geometry.Rect
 import diagrams.base.Diagram
 import costanza.diagrams.base.Shape
+import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.double
+import costanza.reflect.typedproperties.optionalString
 import costanza.utility.*
 import kotlin.math.max
 
 const val PADDING = 7.0
 
 class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _list()): BasicBox() {
+
+    override fun reflectInfo(): ReflectInfo =
+        reflect("class", super.reflectInfo()) {
+            optionalString("name", true, { name }, { name = it })
+            optionalString("stereotype", false, { stereotype }, { stereotype = it })
+            double("width", false, 150.0, { width }, { width = it })
+            double("height", false, 0.0, { height }, { height = it })
+            entityList("parts", parts)
+        }
+
     var stereotype: String? = null
     var width: Double = 150.0 // minimum
     var height: Double = 0.0 // minimum

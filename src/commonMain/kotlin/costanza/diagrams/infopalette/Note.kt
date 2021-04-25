@@ -6,8 +6,19 @@ import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
 import diagrams.base.Diagram
 import costanza.diagrams.base.LINE_Z_ORDER
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.int
+import costanza.reflect.typedproperties.string
 
 class Note(var text: String = ""): Container() {
+
+    override fun reflectInfo(): ReflectInfo =
+        reflect("note", super.reflectInfo()) {
+            string("text", false, "", { text }, { text = it })
+            int("zIndex", false, LINE_Z_ORDER + 10, { zIndex }, { zIndex = it })
+        }
+
     val fillStyle: String = "#fffdd0"
     val strokeStyle: String = "gray"
     var zIndex = LINE_Z_ORDER + 10 // on top of even lines

@@ -1,5 +1,8 @@
 package constanza.reflect
 
+import costanza.Together
+import costanza.diagrams.base.FontDetails
+import costanza.diagrams.base.ITextCalculator
 import costanza.geometry.Rect
 import costanza.reflect.*
 import costanza.reflect.operations.Deserializer
@@ -37,5 +40,24 @@ class SerializationTests {
 
         // should be equal
         assertEquals(dstr, ndstr)
+    }
+
+    @Test
+    fun testDiagram() {
+        var calc = object: ITextCalculator {
+            override fun calcHeight(details: FontDetails): Double = 20.0
+            override fun calcWidth(details: FontDetails, minWidth: Double, text: String): Double = 10.0
+        }
+
+        val tog = Together()
+        val diag = tog.makeDiagram(calc)
+        val str = tog.serialize(diag)
+        println(str)
+
+        // now try to deserialize
+        val ndiag = tog.makeDiag(calc, str)
+        val nstr = tog.serialize(ndiag)
+        println(nstr)
+        assertEquals(str, nstr)
     }
 }

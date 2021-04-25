@@ -4,9 +4,21 @@ import ksvg.elements.SVG
 import costanza.diagrams.base.BasicBox
 import costanza.diagrams.base.Container
 import costanza.geometry.Rect
+import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.double
 import diagrams.base.Diagram
 
 class Circle: BasicBox() {
+
+    override fun reflectInfo(): ReflectInfo =
+        reflect("circle", super.reflectInfo()) {
+            double("cx", false, 0.0, { cx }, { cx = it })
+            double("cy", false, 0.0, { cy }, { cy = it })
+            double("raduis", false, 10.0, { radius }, { radius = it })
+        }
+
     var cx: Double = 0.0
     var cy: Double = 0.0
     var radius: Double = 10.0

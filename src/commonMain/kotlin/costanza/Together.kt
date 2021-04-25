@@ -5,9 +5,14 @@ package costanza
 
 import costanza.diagrams.base.ITextCalculator
 import costanza.diagrams.classpalette.*
+import costanza.diagrams.drawingEntityTypes
 import costanza.diagrams.infopalette.area
 import costanza.diagrams.infopalette.note
 import costanza.geometry.Coord
+import costanza.reflect.EntityTypeRegistry
+import costanza.reflect.TokenProvider
+import costanza.reflect.operations.Deserializer
+import costanza.reflect.operations.Serializer
 import diagrams.base.Diagram
 import diagrams.base.diagram
 import ksvg.RenderMode
@@ -100,12 +105,15 @@ class Together {
         return buffer.toString()
     }
 
-    fun makeJSON(diag: Diagram) = "" //Json { serializersModule = module; prettyPrint = true }.encodeToString(diag)
+    fun serialize(diag: Diagram) = Serializer().serialize(diag)
 
-    fun makeDiag(calc: ITextCalculator, json: String): Diagram = Diagram()// {
-//        val diag = Json { serializersModule = module; prettyPrint = true }.decodeFromString<Diagram>(json)
-//        diag.calc = calc
-//        return diag
-//    }
+    fun makeDiag(calc: ITextCalculator, serial: String): Diagram {
+        var diag = diagram(calc, "diagram") {}
+        var reg = EntityTypeRegistry()
+        reg.addAll(drawingEntityTypes)
+        var deser = Deserializer(reg)
+        deser.deserialize(diag, TokenProvider(serial))
+        return diag
+    }
 }
 

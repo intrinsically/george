@@ -8,8 +8,16 @@ import costanza.diagrams.base.Shape
 import costanza.geometry.Coord
 import costanza.geometry.Dim
 import costanza.geometry.Rect
+import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.double
 
 class Diagram: Container(), ITextCalculator {
+    override fun reflectInfo(): ReflectInfo =
+        reflect("diagram", super.reflectInfo()) {
+        }
+    
     var debug: Boolean = false
     val addedElements = mutableSetOf<String>()
     lateinit var calc: ITextCalculator

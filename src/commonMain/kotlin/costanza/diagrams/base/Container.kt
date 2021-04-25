@@ -4,11 +4,22 @@ import ksvg.elements.SVG
 import costanza.geometry.Coord
 import costanza.geometry.Dim
 import costanza.geometry.Rect
+import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.double
 import diagrams.base.Box
 import diagrams.base.Diagram
 
 open class Container(): Box() {
-
+    override fun reflectInfo(): ReflectInfo =
+        reflect("container", super.reflectInfo()) {
+            double("x", false, 0.0, { x }, { x = it })
+            double("y", false, 0.0, { y }, { y = it })
+            double("width", false, 0.0, { width }, { width = it })
+            double("height", false, 0.0, { height }, { height = it })
+            entityList("shapes", shapes)
+        }
     var x: Double = 0.0
     var y: Double = 0.0
     var width: Double = 0.0

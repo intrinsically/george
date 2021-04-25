@@ -26,7 +26,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         val calc = ClientTextCalculator()
         diagram = together.makeDiagram(calc)
         state = DiagramState(together.makeSVG(diagram), 0)
-        val json = together.makeJSON(diagram)
+        val json = together.serialize(diagram)
         println(json)
         console.log(diagram)
     }

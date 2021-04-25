@@ -9,6 +9,12 @@ import costanza.geometry.Rect
 import costanza.geometry.Router
 import diagrams.base.Diagram
 import costanza.diagrams.base.Line
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.bool
+import costanza.reflect.typedproperties.double
+import costanza.reflect.typedproperties.optionalString
+import costanza.reflect.typedproperties.string
 
 enum class CompositionType(val marker: String) {
     NONE("none"),
@@ -17,7 +23,21 @@ enum class CompositionType(val marker: String) {
 }
 
 class Association(): Line() {
-    var points: List<Coord> = listOf()
+    override fun reflectInfo(): ReflectInfo =
+        reflect("association", super.reflectInfo()) {
+            optionalString("label", false, { label }, { label = it })
+            string("composition", false, CompositionType.NONE.name, { composition.name }, { composition = CompositionType.valueOf(it) })
+            bool("arrow", false, { arrow }, { arrow = it })
+            optionalString("startLabel", false, { startLabel }, { startLabel = it })
+            optionalString("startMult", false, { startMult }, { startMult = it })
+            double("startXOffset", false, 0.0, { startXOffset }, { startXOffset = it })
+            double("startYOffset", false, 0.0, { startYOffset }, { startYOffset = it })
+            optionalString("endLabel", false, { endLabel }, { endLabel = it })
+            optionalString("endMult", false, { endMult }, { endMult = it })
+            double("endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
+            double("endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
+        }
+
     var label: String? = null
     var composition: CompositionType = CompositionType.NONE
     var arrow: Boolean = false
@@ -29,6 +49,8 @@ class Association(): Line() {
     var endMult: String? = null
     var endXOffset: Double = 0.0
     var endYOffset: Double = 0.0
+    var points: List<Coord> = listOf()
+
     private var parentOffset = Coord(0,0)
 
     constructor(from: String, to: String) : this() {

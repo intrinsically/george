@@ -4,9 +4,19 @@ import ksvg.elements.SVG
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.int
+import costanza.reflect.typedproperties.optionalString
 import diagrams.base.Diagram
 
 class Area(): Container() {
+    override fun reflectInfo(): ReflectInfo =
+        reflect("area", super.reflectInfo()) {
+            optionalString("name", true, { name }, { name = it })
+            int("zIndex", false, 0, { zIndex }, { zIndex = it })
+        }
+
     var zIndex = 0
 
     override fun determineZIndex() = zIndex

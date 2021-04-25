@@ -2,10 +2,17 @@ package costanza.diagrams.base
 
 import ksvg.elements.SVG
 import costanza.geometry.Coord
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.int
 import diagrams.base.Box
 import diagrams.base.Diagram
 
 abstract class BasicBox: Box() {
+    override fun reflectInfo(): ReflectInfo =
+        reflect("basicbox", super.reflectInfo()) {
+            int("zIndex", false, 0, { zIndex }, { zIndex = it })
+        }
     var parentOffset = Coord(0,0)
     var zIndex = 0
 

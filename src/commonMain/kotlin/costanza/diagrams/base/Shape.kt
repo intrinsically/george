@@ -7,8 +7,13 @@ import costanza.reflect.IReflect
 import costanza.reflect.ReflectInfo
 import costanza.reflect.reflect
 import diagrams.base.Diagram
+import costanza.reflect.typedproperties.*
 
-abstract class Shape {
+abstract class Shape: IReflect {
+    override fun reflectInfo(): ReflectInfo =
+        reflect("shape") {
+            optionalString("id", false, { id }, { id = it })
+        }
 
     /** use name if item clearly is named on the screen. e.g. service name */
     var name: String? = null
