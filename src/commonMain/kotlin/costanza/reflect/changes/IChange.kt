@@ -1,4 +1,4 @@
-package costanza.reflect.operations.changes
+package costanza.reflect.changes
 
 interface IChange {
     fun back()

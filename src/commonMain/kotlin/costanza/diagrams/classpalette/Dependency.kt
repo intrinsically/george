@@ -8,20 +8,24 @@ import costanza.geometry.Router
 import diagrams.base.Diagram
 import costanza.diagrams.base.Line
 import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.optionalString
+import costanza.utility._List
+import costanza.utility._list
 
 class Dependency(): Line() {
     override fun reflectInfo(): ReflectInfo =
         reflect("dependency", super.reflectInfo()) {
             optionalString("label", false, { label }, { label = it })
+            entityList(points)
         }
 
     private val END_TYPE = "dependency_arrow"
     private var parentOffset = Coord(0,0)
 
     var label: String? = null
-    var points: List<Coord> = listOf()
+    var points: _List<Coord> = _list()
 
     constructor(from: String, to: String) : this() {
         this.from = from

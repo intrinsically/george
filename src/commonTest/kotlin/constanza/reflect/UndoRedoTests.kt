@@ -2,8 +2,8 @@ package constanza.reflect
 
 import costanza.reflect.EntityTypeRegistry
 import costanza.reflect.operations.Changer
-import costanza.reflect.operations.changes.EntityChange
-import costanza.reflect.operations.changes.PropertyChange
+import costanza.reflect.changes.EntityChange
+import costanza.reflect.changes.PropertyChange
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

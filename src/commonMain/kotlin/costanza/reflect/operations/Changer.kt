@@ -2,7 +2,7 @@ package costanza.reflect.operations
 
 import costanza.reflect.EntityTypeRegistry
 import costanza.reflect.IReflect
-import costanza.reflect.operations.changes.IChange
+import costanza.reflect.changes.IChange
 import costanza.utility._List
 import costanza.utility._list
 import costanza.utility.loop

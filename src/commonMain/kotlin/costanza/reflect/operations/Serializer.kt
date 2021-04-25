@@ -42,16 +42,18 @@ class Serializer {
                 indent(); bld += "${it.name} = ${it.get()}\n"
             }
             entities.filter { it.get() != null }.forEach {
-                indent();
+                indent()
                 bld += it.propName + ":"
                 val elem = it.get()!!
                 bld += serializeEntity(elem.reflectInfo().entityType, elem, indent)
             }
             entityLists.forEach {
                 it.list.size.iloop { index ->
+                    indent()
                     val elem = it.list[index]
-                    indent();
-                    bld += it.propName + ":"
+                    if (it.propName != null) {
+                        bld += it.propName + ":"
+                    }
                     bld += serializeEntity(elem.reflectInfo().entityType, elem, indent)
                 }
             }

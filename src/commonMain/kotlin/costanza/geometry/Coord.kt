@@ -1,9 +1,20 @@
 package costanza.geometry
 
+import costanza.reflect.IReflect
+import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
+import costanza.reflect.reflect
+import costanza.reflect.typedproperties.double
 import kotlin.math.sqrt
 
-data class Coord(val x: Double, val y: Double) {
+data class Coord(var x: Double, var y: Double): IReflect {
     constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
+
+    override fun reflectInfo(): ReflectInfo =
+        reflect("coord") {
+            double("x", false, 0.0, { x }, { x = it })
+            double("y", false, 0.0, { y }, { y = it })
+        }
 
     /** adding a coord and a dimension */
     operator fun plus(d: Dim): Coord = Coord(x + d.width, y + d.height)

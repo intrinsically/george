@@ -30,7 +30,7 @@ class Note: IReflect {
         rect("location", false, Rect(0, 0, 0, 0), { location }, { location = it })
         entity("inside", { inside }, { inside = it as Inside? })
         entity("another", { another }, { another = it as Inside? })
-        entityList("person", people)
+        entityList(people)
     }
 }
 

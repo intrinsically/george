@@ -10,7 +10,7 @@ fun findPrimitiveProperty(entity: IReflect, name: String) =
 fun findEntityProperty(entity: IReflect, fnName: String) =
     entity.reflectInfo().entities.find { it.propName == fnName }
 
-fun findEntityListProperty(entity: IReflect, fnName: String) =
+fun findEntityListProperty(entity: IReflect, fnName: String?) =
     entity.reflectInfo().entityLists.find { it.propName == fnName }
 
 class Deserializer(val registry: EntityTypeRegistry) {
@@ -76,7 +76,12 @@ class Deserializer(val registry: EntityTypeRegistry) {
                         val sub = deserializeEntity(top, prov.popName(), prov)
                         entls.list.add(sub)
                     }
-                    else -> throw Exception("Cannot find property $name")
+                    else -> {
+                        // possibly a polymorphic entity
+                        var poly = findEntityListProperty(entity, null) ?: throw Exception("Cannot find property $name")
+                        val sub = deserializeEntity(top, name, prov)
+                        poly.list.add(sub)
+                    }
                 }
             } while (true)
         }

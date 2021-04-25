@@ -18,7 +18,8 @@ open class Container(): Box() {
             double("y", false, 0.0, { y }, { y = it })
             double("width", false, 0.0, { width }, { width = it })
             double("height", false, 0.0, { height }, { height = it })
-            entityList("shapes", shapes)
+            /** polymorphic */
+            entityList(shapes)
         }
     var x: Double = 0.0
     var y: Double = 0.0

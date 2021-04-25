@@ -1,4 +1,4 @@
-package costanza.reflect.operations.changes
+package costanza.reflect.changes
 
 import costanza.reflect.IReflect
 import costanza.reflect.operations.findEntityProperty

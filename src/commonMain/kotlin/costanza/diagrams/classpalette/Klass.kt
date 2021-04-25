@@ -27,7 +27,7 @@ class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _l
             optionalString("stereotype", false, { stereotype }, { stereotype = it })
             double("width", false, 150.0, { width }, { width = it })
             double("height", false, 0.0, { height }, { height = it })
-            entityList("parts", parts)
+            entityList(parts)
         }
 
     var stereotype: String? = null

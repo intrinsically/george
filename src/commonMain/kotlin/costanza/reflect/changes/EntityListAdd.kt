@@ -1,21 +1,20 @@
-package costanza.reflect.operations.changes
+package costanza.reflect.changes
 
 import costanza.reflect.IReflect
 import costanza.reflect.operations.findEntityListProperty
 
-class EntityListDelete(
+class EntityListAdd(
     val entity: IReflect,
     val propName: String,
-    val index: Int,
+    val value: IReflect
 ) : IChange {
     fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
-    val child = prop().list[index]
 
     override fun back() {
-        prop().list.add(index, entity)
+        prop().list.removeLast()
     }
 
     override fun fwd() {
-        prop().list.removeAt(index)
+        prop().list.add(entity)
     }
 }

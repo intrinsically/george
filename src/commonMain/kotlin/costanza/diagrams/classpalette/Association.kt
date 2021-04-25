@@ -10,11 +10,14 @@ import costanza.geometry.Router
 import diagrams.base.Diagram
 import costanza.diagrams.base.Line
 import costanza.reflect.ReflectInfo
+import costanza.reflect.entityList
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.bool
 import costanza.reflect.typedproperties.double
 import costanza.reflect.typedproperties.optionalString
 import costanza.reflect.typedproperties.string
+import costanza.utility._List
+import costanza.utility._list
 
 enum class CompositionType(val marker: String) {
     NONE("none"),
@@ -36,6 +39,7 @@ class Association(): Line() {
             optionalString("endMult", false, { endMult }, { endMult = it })
             double("endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
             double("endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
+            entityList(points)
         }
 
     var label: String? = null
@@ -49,7 +53,7 @@ class Association(): Line() {
     var endMult: String? = null
     var endXOffset: Double = 0.0
     var endYOffset: Double = 0.0
-    var points: List<Coord> = listOf()
+    var points: _List<Coord> = _list()
 
     private var parentOffset = Coord(0,0)
 
