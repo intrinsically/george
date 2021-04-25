@@ -4,13 +4,10 @@ import ksvg.elements.SVG
 import costanza.geometry.Coord
 import costanza.geometry.Rect
 import diagrams.base.Diagram
-import kotlinx.serialization.Serializable
 
-@Serializable
 open class LabeledBox(var x: Double = 0.0, var y: Double = 0.0, var width: Double = 0.0, var height: Double = 0.0): BasicBox() {
     private var textHeight = 0.0
     private var textWidth = 0.0
-    private val PADDING = 5.0
 
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)

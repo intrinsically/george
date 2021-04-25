@@ -1,10 +1,7 @@
 package costanza.diagrams.base
 
 import ksvg.elements.TEXT
-import kotlinx.serialization.Serializable
 
-
-@Serializable
 enum class FontDetails(val face: String, val size: Int, val bold: Boolean) {
     NAME("Helvetica", 18, true),
     SUB("Helvetica", 15, false),

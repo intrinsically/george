@@ -1,11 +1,8 @@
-package diagrams.base
-
-import kotlinx.serialization.Serializable
+package costanza.diagrams.base
 
 /** draw lines last */
 const val LINE_Z_ORDER = 10
 
-@Serializable
 abstract class Line(): Shape() {
     var from: String = ""
     var to: String = ""

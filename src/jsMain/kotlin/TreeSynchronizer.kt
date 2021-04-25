@@ -1,9 +1,8 @@
 import antd.ReactNode
 import antd.tree.DataNode
 import costanza.diagrams.base.Container
-import costanza.diagrams.base.Part
 import diagrams.base.Diagram
-import diagrams.base.Shape
+import costanza.diagrams.base.Shape
 import kotlinext.js.jsObject
 
 

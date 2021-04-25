@@ -63,7 +63,7 @@ class Router(val a: Rect, val b: Rect, points: List<Coord> = listOf(), parentOff
         route()
         var rect: Rect? = null
         route!!.forEach {
-            var curr = Rect(it, Dim(0,0))
+            val curr = Rect(it, Dim(0,0))
             if (rect !== null) rect = rect!! + curr else rect = curr
         }
         return rect ?: Rect(0,0,0,0)

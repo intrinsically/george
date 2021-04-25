@@ -7,5 +7,9 @@ fun Int.loop(block: () -> Unit) {
 
 /** loop with index */
 fun Int.iloop(block: (index: Int) -> Unit) {
-    (1..this).forEach { block(it) }
+    (0 until this).forEach { block(it) }
+}
+
+fun IntRange.loop(block: () -> Unit) {
+    this.forEach { _ -> block.apply {  } }
 }

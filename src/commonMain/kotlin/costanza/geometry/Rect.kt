@@ -1,7 +1,5 @@
 package costanza.geometry
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlin.math.max
 import kotlin.math.min
 

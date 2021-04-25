@@ -8,11 +8,7 @@ import costanza.geometry.Dim
 import costanza.geometry.Rect
 import costanza.geometry.Router
 import diagrams.base.Diagram
-import diagrams.base.Line
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
-
+import costanza.diagrams.base.Line
 
 enum class CompositionType(val marker: String) {
     NONE("none"),
@@ -20,8 +16,6 @@ enum class CompositionType(val marker: String) {
     COMPOSITION("composition")
 }
 
-@Serializable
-@SerialName("association")
 class Association(): Line() {
     var points: List<Coord> = listOf()
     var label: String? = null
@@ -35,7 +29,6 @@ class Association(): Line() {
     var endMult: String? = null
     var endXOffset: Double = 0.0
     var endYOffset: Double = 0.0
-    @Transient
     private var parentOffset = Coord(0,0)
 
     constructor(from: String, to: String) : this() {
@@ -87,7 +80,7 @@ class Association(): Line() {
         if (str !== null) {
             val textWidth = diagram.calcWidth(FontDetails.LABEL, 0.0, str)
             val textHeight = diagram.calcHeight(FontDetails.LABEL)
-            var pt = if (start) {
+            val pt = if (start) {
                 router.startText(textHeight, textWidth, true, linesAway)
             } else {
                 router.endText(textHeight, textWidth, true, linesAway)
@@ -108,7 +101,7 @@ class Association(): Line() {
                 body = str
                 x = "${pt.x}"
                 y = "${pt.y}"
-                fontFamily = "${FontDetails.LABEL.face}"
+                fontFamily = FontDetails.LABEL.face
                 fontSize = "${FontDetails.LABEL.size}px"
                 attributes["text-anchor"] = "start"
                 attributes["dominant-baseline"] = "hanging"

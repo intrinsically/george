@@ -1,41 +1,33 @@
 package costanza.reflect.operations
 
 import costanza.reflect.EntityTypeRegistry
-import costanza.reflect.IEntity
-import costanza.reflect.ITopEntity
-import costanza.reflect.operations.changes.EntityChange
-import costanza.reflect.operations.changes.GroupChange
-import costanza.reflect.operations.changes.PropertyChange
+import costanza.reflect.IReflect
+import costanza.reflect.operations.changes.IChange
+import costanza.utility._List
 import costanza.utility._list
+import costanza.utility.loop
 
 
-class Changer(val top: ITopEntity, val registry: EntityTypeRegistry) {
+class Changer(val top: IReflect, private val registry: EntityTypeRegistry) {
     private val changes = _list<GroupChange>()
     private var current = GroupChange()
     var pos = 0
 
-    fun changeProperty(entityId: String, propName: String, value: String) =
-        current.changes.add(PropertyChange(top, entityId, propName, value))
-
-    fun setEntity(entityId: String, propName: String, entity: IEntity?) =
-        current.changes.add(EntityChange(top, entityId, propName, registry, entity))
-
-    fun addEntity() {
-
+    /** group a set of changes */
+    class GroupChange(val changes:_List<IChange> = _list()) {
+        fun back() = changes.reversed().forEach { it.back() }
+        fun fwd() = changes.forEach { it.fwd() }
     }
 
-    fun reorderEntity() {
-
-    }
-
-    fun deleteEntity() {
-
+    fun makeChange(change: IChange) {
+        current.changes.add(change)
+        change.fwd()
     }
 
     /** mark the transaction */
     fun mark() {
         // if we are in the middle, truncate
-        (pos until changes.size).forEach { changes.removeLast() }
+        (pos until changes.size).loop { changes.removeLast() }
         changes.add(current)
         current = GroupChange()
         pos++

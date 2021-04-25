@@ -27,7 +27,7 @@ class TokenProvider(var s: String): IProvider {
     /** read various token types */
     override fun popName() = popToken("entityType", true) { it.isLetterOrDigit() || it == '_' }
     override fun popName(name: String): String {
-        var pop = popName()
+        val pop = popName()
         if (pop != name) {
             throw Exception("Looking for $name at ($row, $col)")
         }

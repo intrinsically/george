@@ -1,12 +1,9 @@
-import antd.ReactNode
 import antd.dropdown.dropdown
 import antd.menu.menu
 import antd.menu.menuItem
 import antd.menu.subMenu
-import antd.tree.DataNode
 import antd.tree.tree
-import costanza.app.Together
-import kotlinext.js.jsObject
+import costanza.Together
 import react.*
 import styled.StyleSheet
 import styled.css

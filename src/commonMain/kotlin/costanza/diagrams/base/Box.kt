@@ -1,6 +1,5 @@
 package diagrams.base
 
-import kotlinx.serialization.Serializable
+import costanza.diagrams.base.Shape
 
-@Serializable
 abstract class Box: Shape()

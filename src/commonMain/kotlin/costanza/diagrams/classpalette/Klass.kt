@@ -8,33 +8,23 @@ import costanza.diagrams.base.Part
 import costanza.geometry.Coord
 import costanza.geometry.Rect
 import diagrams.base.Diagram
-import diagrams.base.Shape
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
+import costanza.diagrams.base.Shape
 import costanza.utility.*
 import kotlin.math.max
 
 const val PADDING = 7.0
 
-@Serializable
-@SerialName("class")
 class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _list()): BasicBox() {
     var stereotype: String? = null
     var width: Double = 150.0 // minimum
     var height: Double = 0.0 // minimum
 
     /** font details for the different parts */
-    @Transient
     private val fontN = FontDetails.NAME
-    @Transient
     private val fontS = FontDetails.SUB
     /** set during prepare */
-    @Transient
     private var heightN: Double = 0.0
-    @Transient
     private var heightS: Double = 0.0
-    @Transient
     private var widthM: Double = 0.0
 
     override fun type(): String {

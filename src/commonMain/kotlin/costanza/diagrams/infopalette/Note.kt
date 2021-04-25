@@ -5,13 +5,8 @@ import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
 import diagrams.base.Diagram
-import diagrams.base.LINE_Z_ORDER
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
+import costanza.diagrams.base.LINE_Z_ORDER
 
-@Serializable
-@SerialName("note")
 class Note(var text: String = ""): Container() {
     val fillStyle: String = "#fffdd0"
     val strokeStyle: String = "gray"
@@ -48,7 +43,6 @@ class Note(var text: String = ""): Container() {
         super.add(diagram, svg, zIndex)
     }
 
-    @Transient
     private var textHeight: Double = 0.0
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)

@@ -6,16 +6,10 @@ import costanza.geometry.Coord
 import costanza.geometry.Rect
 import costanza.geometry.Router
 import diagrams.base.Diagram
-import diagrams.base.Line
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
+import costanza.diagrams.base.Line
 
-@Serializable
-@SerialName("dependency")
 class Dependency(): Line() {
     private val END_TYPE = "dependency_arrow"
-    @Transient
     private var parentOffset = Coord(0,0)
 
     var points: List<Coord> = listOf()
@@ -60,7 +54,7 @@ class Dependency(): Line() {
 fun Container.dependency(from: String, to: String, block: (Dependency.() -> Unit)? = null): Dependency {
     val dep = Dependency(from, to)
     shapes.add(dep)
-    if (block !== null) {
+    if (block != null) {
         dep.apply(block)
     }
     return dep

@@ -1,13 +1,15 @@
-package diagrams.base
+package costanza.diagrams.base
 
 import ksvg.elements.SVG
-import costanza.diagrams.base.Part
 import costanza.geometry.Coord
 import costanza.geometry.Rect
-import kotlinx.serialization.Serializable
+import costanza.reflect.IReflect
+import costanza.reflect.ReflectInfo
+import costanza.reflect.reflect
+import diagrams.base.Diagram
 
-@Serializable
 abstract class Shape {
+
     /** use name if item clearly is named on the screen. e.g. service name */
     var name: String? = null
 

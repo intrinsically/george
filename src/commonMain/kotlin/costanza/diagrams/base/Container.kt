@@ -6,11 +6,7 @@ import costanza.geometry.Dim
 import costanza.geometry.Rect
 import diagrams.base.Box
 import diagrams.base.Diagram
-import diagrams.base.Shape
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
-@Serializable
 open class Container(): Box() {
 
     var x: Double = 0.0
@@ -20,7 +16,6 @@ open class Container(): Box() {
 
     val shapes: MutableList<Shape> = mutableListOf()
     protected val PADDING = 5.0
-    @Transient
     protected var parentOffset = Coord(0,0)
 
     override fun bounds(diagram: Diagram): Rect {

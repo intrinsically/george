@@ -1,22 +1,23 @@
 package costanza.reflect.typedproperties
 
 import costanza.geometry.Rect
-import costanza.reflect.IPrimitiveProperty
 import costanza.reflect.IProvider
+import costanza.reflect.PrimitiveProperty
+import costanza.reflect.ReflectInfo
 
 class RectProperty(
-    override val name: String,
-    private val isConstructor: Boolean,
-    private val defaultValue: Rect,
+    name: String, isConstructor: Boolean, val defaultValue: Rect,
     val getter: () -> Rect,
-    val setter: (r: Rect) -> Unit): IPrimitiveProperty {
+    val setter: (s: Rect) -> Unit
+) : PrimitiveProperty(name, isConstructor) {
 
-    override fun isConstructor() = isConstructor
     override fun isDefault() = defaultValue == getter()
+
     override fun get(): String {
         val r = getter()
         return "(${r.x}, ${r.y}, ${r.width}, ${r.height})"
     }
+
     override fun set(prov: IProvider) {
         prov.popChar('(')
         val x = prov.popDouble()
@@ -30,3 +31,5 @@ class RectProperty(
         setter(Rect(x, y, width, height))
     }
 }
+fun ReflectInfo.rect(name: String, isConstructor: Boolean, defaultValue: Rect, getter: () -> Rect, setter: (s: Rect) -> Unit)
+        = properties.add(RectProperty(name, isConstructor, defaultValue, getter, setter))

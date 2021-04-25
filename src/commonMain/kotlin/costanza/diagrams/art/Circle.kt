@@ -5,11 +5,7 @@ import costanza.diagrams.base.BasicBox
 import costanza.diagrams.base.Container
 import costanza.geometry.Rect
 import diagrams.base.Diagram
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-@Serializable
-@SerialName("circle")
 class Circle: BasicBox() {
     var cx: Double = 0.0
     var cy: Double = 0.0

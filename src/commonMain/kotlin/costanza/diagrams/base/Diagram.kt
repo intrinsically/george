@@ -4,19 +4,14 @@ import ksvg.elements.SVG
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.diagrams.base.ITextCalculator
+import costanza.diagrams.base.Shape
 import costanza.geometry.Coord
 import costanza.geometry.Dim
 import costanza.geometry.Rect
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
-
-@Serializable
 class Diagram: Container(), ITextCalculator {
     var debug: Boolean = false
-    @Transient
     val addedElements = mutableSetOf<String>()
-    @Transient
     lateinit var calc: ITextCalculator
 
     /** simpler add */

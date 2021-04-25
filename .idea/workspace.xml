@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="adde0d05-4395-4d32-9b11-32e3827e26e8" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityListProperty.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityProperty.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/IReflect.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/EntityListAdd.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/EntityListDelete.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/EntityListMove.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.commonMain.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.commonTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.jsMain.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.jsTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.jvmMain.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/costanza-fullstack.jvmTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/Together.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/Together.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/art/Circle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/art/Circle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/BasicBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/BasicBox.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Box.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Box.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Container.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Diagram.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Diagram.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/ImageBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/ImageBox.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/LabeledBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/LabeledBox.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Line.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Line.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Part.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Part.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Shape.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Shape.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/TextCalculator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/TextCalculator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Association.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Association.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Attribute.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Attribute.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Dependency.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Dependency.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Inheritance.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Inheritance.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Klass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Klass.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Operation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Operation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Area.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Area.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Note.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Note.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Coord.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Coord.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Dim.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Dim.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Rect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Rect.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Router.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/geometry/Router.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityType.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityType.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/IEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/IEntityProperty.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/IPrimitiveProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/PrimitiveProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/ITopEntity.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/TokenProvider.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/TokenProvider.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Changer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Changer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Deserializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Deserializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Serializer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/Serializer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/EntityChange.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/EntityChange.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/PropertyChange.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/PropertyChange.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/operations/changes/Transaction.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/CoordProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/CoordProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/DoubleProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/DoubleProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/EntityProperty.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/IntProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/IntProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/RectProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/RectProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/StringProperty.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/typedproperties/StringProperty.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/utility/loops.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/utility/loops.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/SerializationTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/SerializationTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/UndoRedoTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/UndoRedoTests.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/TreeSynchronizer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/TreeSynchronizer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/TreeView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/TreeView.kt" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="KotlinMultiplatform" konanHome="$USER_HOME$/.konan/kotlin-native-prebuilt-macos-1.5-rc1-41">
+    <allAvailableExecutables />
+  </component>
+  <component name="ProjectId" id="1reFsQ2n6cIRZ1QKGCYllE5Tnad" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+  </component>
+  <component name="RunManager" selected="Gradle.SerializationTests.testNote">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SerializationTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;constanza.reflect.SerializationTests&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cleanJvmTest" />
+            <option value="jvmTest" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="SerializationTests.testNote" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;constanza.reflect.SerializationTests.testNote&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cleanJvmTest" />
+            <option value="jvmTest" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="UndoRedoTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--tests &quot;constanza.reflect.UndoRedoTests&quot;" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="cleanJvmTest" />
+            <option value="jvmTest" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.SerializationTests.testNote" />
+        <item itemvalue="Gradle.SerializationTests" />
+        <item itemvalue="Gradle.UndoRedoTests" />
+        <item itemvalue="Gradle.SerializationTests.testNote" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="adde0d05-4395-4d32-9b11-32e3827e26e8" name="Default Changelist" comment="" />
+      <created>1619328861201</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619328861201</updated>
+      <workItem from="1619328866585" duration="8321000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

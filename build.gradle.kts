@@ -37,8 +37,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
-                implementation("org.jetbrains.kotlin:kotlin-reflect:1.5.0-RC")
                 implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.0-RC")
             }
         }

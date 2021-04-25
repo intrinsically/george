@@ -5,12 +5,7 @@ import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
 import diagrams.base.Diagram
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 
-@Serializable
-@SerialName("area")
 class Area(): Container() {
     var zIndex = 0
 
@@ -49,7 +44,6 @@ class Area(): Container() {
         super.add(diagram, svg, zIndex)
     }
 
-    @Transient
     private var textHeight: Double = 0.0
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)

@@ -6,18 +6,12 @@ import costanza.geometry.Coord
 import costanza.geometry.Rect
 import costanza.geometry.Router
 import diagrams.base.Diagram
-import diagrams.base.Line
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
+import costanza.diagrams.base.Line
 
 const val INHERITANCE_MARKER = "inheritance_arrow"
 
-@Serializable
-@SerialName("inheritance")
 class Inheritance(): Line() {
     var points: List<Coord> = listOf()
-    @Transient
     private var parentOffset = Coord(0,0)
 
     constructor(from: String, to: String) : this() {

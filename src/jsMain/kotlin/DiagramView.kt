@@ -1,5 +1,5 @@
 import antd.dropdown.dropdown
-import costanza.app.Together
+import costanza.Together
 import diagrams.base.Diagram
 import kotlinx.html.unsafe
 import react.*
