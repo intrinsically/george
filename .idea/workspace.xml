@@ -5,29 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="adde0d05-4395-4d32-9b11-32e3827e26e8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/Together.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/Together.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/art/Circle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/art/Circle.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/BasicBox.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/BasicBox.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Container.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Container.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Diagram.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Diagram.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Line.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Line.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Part.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Part.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Shape.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/base/Shape.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Association.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Association.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Attribute.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Attribute.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Dependency.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Dependency.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Inheritance.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Inheritance.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Klass.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Klass.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Operation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/classpalette/Operation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Area.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Area.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Note.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/diagrams/infopalette/Note.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityTypeRegistry.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/EntityTypeRegistry.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/ReflectInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonMain/kotlin/costanza/reflect/ReflectInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/SerializationTests.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/commonTest/kotlin/constanza/reflect/SerializationTests.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +187,7 @@
       <option name="presentableId" value="Default" />
       <updated>1619328861201</updated>
       <workItem from="1619328866585" duration="13247000" />
-      <workItem from="1619342331204" duration="787000" />
+      <workItem from="1619342331204" duration="1051000" />
     </task>
     <servers />
   </component>

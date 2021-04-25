@@ -17,7 +17,7 @@ class Diagram: Container(), ITextCalculator {
     override fun reflectInfo(): ReflectInfo =
         reflect("diagram", super.reflectInfo()) {
         }
-    
+
     var debug: Boolean = false
     val addedElements = mutableSetOf<String>()
     lateinit var calc: ITextCalculator
