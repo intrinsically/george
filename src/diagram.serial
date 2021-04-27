@@ -1,54 +1,58 @@
 diagram {
-    shapes:note {
-        x = 580.0
+    note {
+        x = 585.0
         y = 900.0
         width = 150.0
         height = 100.0
         text = "This is a note, i hope it will word wrap..."
     }
-    shapes:area("Area 1") {
+    area("Area 1") {
         x = 100.0
         y = 900.0
         width = 100.0
         height = 100.0
-        shapes:area("Area 2") {
+        area("Area 2") {
             x = 20.0
             y = 50.0
             width = 300.0
             height = 100.0
-            shapes:class("TestClass") {
-                parts:attribute("+a: Int")
-                parts:attribute("+name: String")
-                parts:operation("printIt(): void")
-                parts:operation("hashCode(): long")
+            class("TestClass") {
+                attribute("+a: Int")
+                attribute("+name: String")
+                operation("printIt(): void")
+                operation("hashCode(): long")
             }
         }
     }
-    shapes:inheritance("TestClass", "RenderLogic")
-    shapes:area("My Area") {
+    inheritance("TestClass", "RenderLogic") {
+        coord {
+            x = 330.0
+            y = 800.0
+        }
+    }
+    area("My Area") {
         x = 220.0
         y = 100.0
         width = 650.0
         height = 450.0
-        shapes:class("WidgetFactory") {
-            parts:attribute("+a: Int")
-            parts:attribute("+name: String")
-            parts:operation("printIt(): void")
-            parts:operation("hashCode(): long")
+        class("WidgetFactory") {
+            attribute("+a: Int")
+            attribute("+name: String")
+            operation("printIt(): void")
+            operation("hashCode(): long")
         }
-        shapes:class("ApplicationManager") {
+        class("ApplicationManager") {
             stereotype = "data-class"
-            parts:attribute("+a: Int")
-            parts:attribute("+name: String")
+            attribute("+a: Int")
+            attribute("+name: String")
         }
-        shapes:class("RenderLogic") {
+        class("RenderLogic")
+        class("DisplayLogic") {
+            operation("printIt(): void")
+            operation("hashCode(): long")
         }
-        shapes:class("DisplayLogic") {
-            parts:operation("printIt(): void")
-            parts:operation("hashCode(): long")
-        }
-        shapes:inheritance("DisplayLogic", "ApplicationManager")
-        shapes:association("ApplicationManager", "DisplayLogic") {
+        inheritance("DisplayLogic", "ApplicationManager")
+        association("ApplicationManager", "DisplayLogic") {
             label = "association"
             composition = "AGGREGATION"
             arrow = true
@@ -56,19 +60,27 @@ diagram {
             startMult = "0..*"
             endLabel = "andrew"
             endMult = "1..4"
+            coord {
+                x = 420.0
+                y = 200.0
+            }
         }
-        shapes:association("DisplayLogic", "WidgetFactory") {
+        association("DisplayLogic", "WidgetFactory") {
             label = "association"
             composition = "COMPOSITION"
             startLabel = "+a"
             startMult = "0..*"
             endLabel = "andrew"
             endMult = "1..4"
+            coord {
+                x = 350.0
+                y = 280.0
+            }
         }
     }
-    shapes:class("Outside") {
-        parts:operation("printIt(): void")
-        parts:operation("hashCode(): long")
+    class("Outside") {
+        operation("printIt(): void")
+        operation("hashCode(): long")
     }
-    shapes:inheritance("DisplayLogic", "Outside")
+    inheritance("DisplayLogic", "Outside")
 }

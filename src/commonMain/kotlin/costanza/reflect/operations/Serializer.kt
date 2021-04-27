@@ -33,8 +33,8 @@ class Serializer {
 
         // only add the block if we have actual properties
         val prims = entity.reflectInfo().properties.filter { !it.isConstructor && !it.isDefault() }
-        val entities = entity.reflectInfo().entities
-        val entityLists = entity.reflectInfo().entityLists
+        val entities = entity.reflectInfo().entities.filter { it.get() != null }
+        val entityLists = entity.reflectInfo().entityLists.filter { it.list.isNotEmpty() }
         if (prims.isNotEmpty() || entities.isNotEmpty() || entityLists.isNotEmpty()) {
             // handle properties
             bld += " {\n"
