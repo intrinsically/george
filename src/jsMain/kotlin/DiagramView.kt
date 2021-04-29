@@ -7,8 +7,33 @@ import react.dom.div
 import antd.menu.*
 import costanza.geometry.Coord
 import kotlinx.browser.document
+import kotlinx.css.*
+import kotlinx.css.properties.LineHeight
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
+import styled.StyleSheet
+import styled.css
+import styled.styledDiv
+
+
+object DiagramLayoutStyles : StyleSheet("layout", isStatic = true) {
+    val overlay by css {
+        descendants {
+            cursor = Cursor.crosshair
+            position = Position.fixed; /* Sit on top of the page content */
+            display = Display.block; /* Hidden by default */
+            width = 100.pc; /* Full width (cover the whole page) */
+            height = 100.pc; /* Full height (cover the whole page) */
+            top = 0.px
+            left = 0.px
+            right = 0.px
+            bottom = 0.px
+            backgroundColor = Color("#00a000"); /* Black background with opacity */
+            zIndex = 2
+        }
+    }
+}
+
 
 external interface DiagramProps : RProps {
 }
@@ -99,6 +124,9 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                 }
                 trigger = arrayOf("contextMenu")
             }
+//            styledDiv {
+//                css { +DiagramLayoutStyles.overlay }
+//            }
             div(classes = "background") {
                 attrs {
                     unsafe {

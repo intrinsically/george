@@ -2,11 +2,13 @@ import antd.layout.*
 import kotlinext.js.js
 import kotlinx.css.*
 import kotlinx.css.properties.LineHeight
+import kotlinx.html.style
 import react.RBuilder
 import react.RComponent
 import react.RProps
 import react.RState
 import react.dom.div
+import react.dom.style
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -15,6 +17,8 @@ object LayoutStyles : StyleSheet("layout", isStatic = true) {
     val basic by css {
         descendants(".ant-layout") {
             textAlign = TextAlign.left
+            height = 100.vh
+            width = 100.vw
         }
         descendants(".ant-layout-header") {
             background = "#7dbcea"
@@ -38,6 +42,12 @@ object LayoutStyles : StyleSheet("layout", isStatic = true) {
             borderWidth = 1.px
         }
     }
+    val overlay by css {
+        descendants {
+            cursor = Cursor.crosshair
+            overflow = Overflow.scroll
+        }
+    }
 }
 
 
@@ -48,7 +58,6 @@ class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
             css { +LayoutStyles.basic }
             div {
                 layout {
-                    attrs.style = js { minHeight = "100vh" }
                     header { +"Header XYZ" }
                     layout {
                         sider {
@@ -59,7 +68,10 @@ class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
                             }
                         }
                         content {
-                            diagramview {
+                            styledDiv {
+                                css { +LayoutStyles.overlay }
+                                diagramview {
+                                }
                             }
                         }
                     }
