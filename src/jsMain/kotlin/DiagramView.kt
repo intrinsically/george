@@ -1,28 +1,33 @@
 import antd.dropdown.dropdown
+import antd.form.FormInstance
 import antd.layout.content
-import antd.menu.menu
-import antd.menu.menuItem
-import antd.menu.subMenu
 import costanza.Together
-import costanza.geometry.Coord
 import diagrams.base.Diagram
-import kotlinx.browser.window
-import kotlinx.html.js.onClickFunction
-import kotlinx.html.js.onContextMenuFunction
-import kotlinx.html.onClick
 import kotlinx.html.unsafe
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
 import react.*
 import react.dom.div
+import antd.menu.*
+import costanza.geometry.Coord
+import kotlinext.js.js
+import kotlinx.browser.document
+import kotlinx.browser.window
+import kotlinx.css.*
+import kotlinx.css.properties.LineHeight
+import kotlinx.html.DIV
+import kotlinx.html.classes
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.MouseEvent
+import react.dom.findDOMNode
+import styled.StyleSheet
 import styled.css
 import styled.styledDiv
+import styled.styledSpan
 
 
 external interface DiagramProps : RProps {
 }
 
-class DiagramState(val svg: String, val time: Int, val scrollLeft: Double, val scrollRight: Double) : RState
+class DiagramState(val svg: String, val time: Int) : RState
 
 @JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
@@ -34,34 +39,67 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     init {
         val calc = ClientTextCalculator()
         diagram = together.makeDiagram(calc)
-        state = DiagramState(together.makeSVG(diagram), 0, 100.0, 100.0)
+        state = DiagramState(together.makeSVG(diagram), 0)
         val json = together.serialize(diagram)
     }
 
-    private fun clickHandler(e: Event) {
+    private fun click(e: Event) {
+        e.preventDefault()
         if (e is MouseEvent && e.button == 0.toShort()) {
-            println("Clicked")
+            x = e.offsetX
+            y = e.offsetY
         }
     }
 
-    private fun contextMenuHandler(e: Event) {
+    var dragX = 0
+    var dragY = 0
+    private fun mouseDown(e: Event) {
+        if (e is MouseEvent && e.button == 1.toShort()) {
+            x = e.offsetX
+            y = e.offsetY
+        }
+    }
+
+    private fun mouseMove(e: Event) {
+        if (e is MouseEvent && e.button == 1.toShort()) {
+            x = e.offsetX
+            y = e.offsetY
+
+        }
+    }
+
+    private fun mouseUp(e: Event) {
+        if (e is MouseEvent && e.button == 1.toShort()) {
+        }
+    }
+
+    private fun contextMenu(e: Event) {
         if (e is MouseEvent) {
             x = e.offsetX
             y = e.offsetY
             // make the menu rebuild
-            setState(DiagramState(state.svg, state.time + 1, x, y))
-            println("Scroll modified")
+            setState(DiagramState(state.svg, state.time + 1))
         }
+    }
+
+    override fun componentDidMount() {
+        document.addEventListener("click", ::click)
+        document.addEventListener("contextmenu", ::contextMenu)
+        document.addEventListener("mousedown", ::mouseDown)
+        document.addEventListener("mousemove", ::mouseMove)
+        document.addEventListener("mouseup", ::mouseUp)
+    }
+
+    override fun componentWillUnmount() {
+        document.removeEventListener("click", ::click)
+        document.removeEventListener("contextMenu", ::contextMenu)
+        document.removeEventListener("mousedown", ::mouseDown)
+        document.removeEventListener("mousemove", ::mouseMove)
+        document.removeEventListener("mouseup", ::mouseUp)
     }
 
     override fun RBuilder.render() {
         content {
-            val a: dynamic = this
-            a.scrollLeft = state.scrollLeft
-            a.scrollRight = state.scrollRight
-            +a.scrollLeft
-            println("Inside render")
-
             dropdown {
                 attrs {
                     overlay = buildElement {
@@ -70,7 +108,6 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                 attrs {
                                     key = "1"
                                 }
-
                                 // work out the shape under the mouse
                                 val shape = diagram.locate(Coord(x, y))
                                 val title = if (shape == null) {
@@ -105,9 +142,6 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     trigger = arrayOf("contextMenu")
 
                     div {
-                        attrs.onClick = "click"
-                        attrs.onClickFunction = ::clickHandler
-                        attrs.onContextMenuFunction = ::contextMenuHandler
                         div("overlay") {
                             styledDiv {
                                 css { +ScreenLayoutStyles.overlay }

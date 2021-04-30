@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="76de92b4-aa2c-4109-92d1-4a8fc4d99e67" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/ClientTextCalculator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/ClientTextCalculator.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/DiagramView.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/jsMain/kotlin/ScreenLayout.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/jsMain/kotlin/ScreenLayout.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,7 +227,7 @@
       <workItem from="1619368616908" duration="4795000" />
       <workItem from="1619710105870" duration="195000" />
       <workItem from="1619747940270" duration="18215000" />
-      <workItem from="1619766358271" duration="3589000" />
+      <workItem from="1619766358271" duration="6848000" />
     </task>
     <servers />
   </component>
