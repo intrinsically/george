@@ -1,24 +1,22 @@
 import antd.layout.*
-import kotlinext.js.js
+import kotlinx.browser.document
+import kotlinx.browser.window
 import kotlinx.css.*
-import kotlinx.css.properties.LineHeight
-import kotlinx.html.style
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import org.w3c.dom.Screen
+import org.w3c.dom.events.Event
+import org.w3c.dom.events.MouseEvent
+import react.*
 import react.dom.div
 import react.dom.style
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
 
-object LayoutStyles : StyleSheet("layout", isStatic = true) {
+object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
     val basic by css {
         descendants(".ant-layout") {
             textAlign = TextAlign.left
             height = 100.vh
-            width = 100.vw
         }
         descendants(".ant-layout-header") {
             background = "#7dbcea"
@@ -26,20 +24,33 @@ object LayoutStyles : StyleSheet("layout", isStatic = true) {
         }
         descendants(".ant-layout-content") {
             minHeight = 120.px
-            background = rgba(255, 255, 255, 1.0).toString()
-            color = Color.white
-            lineHeight = LineHeight("120px")
+            position = Position.relative
+            overflow = Overflow.hidden
+            width = 100.pc
+            background = "white"
+            cursor = Cursor.grab
+        }
+        descendants(".ant-layout-content .overlay") {
+            cursor = Cursor.crosshair
+            position = Position.absolute
+            display = Display.block
+            height = 100.pc
+            width = 100000.px
+            background = rgba(0,0,0,0.0).toString()
+            zIndex = 2
         }
         descendants(".ant-layout-footer") {
             background = "#7dbcea"
             color = Color.white
         }
         descendants(".ant-layout-sider") {
-            background = "#ffffff"
-            color = Color.white
-            borderRight = "#e0e0e0"
-            borderStyle = BorderStyle.solid
-            borderWidth = 1.px
+            background = "#f8f8f8"
+            descendants(".ant-tree") {
+                background = "#00000000"
+            }
+            descendants(".ant-tree-switcher") {
+                background = "#00000000"
+            }
         }
     }
     val overlay by css {
@@ -50,15 +61,21 @@ object LayoutStyles : StyleSheet("layout", isStatic = true) {
     }
 }
 
+data class ScreenLayoutState(var scrollTop: Int = 0, var scrollLeft: Int = 0): RState
+
 
 @JsExport
-class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
+class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props) {
+    init {
+        state = ScreenLayoutState()
+    }
+
     override fun RBuilder.render() {
         styledDiv {
-            css { +LayoutStyles.basic }
+            css { +ScreenLayoutStyles.basic }
             div {
                 layout {
-                    header { +"Header XYZ" }
+                    header { +"Header" }
                     layout {
                         sider {
                             attrs {
@@ -67,12 +84,7 @@ class ScreenLayout(props: RProps) : RComponent<RProps, RState>(props) {
                             treeview {
                             }
                         }
-                        content {
-                            styledDiv {
-                                css { +LayoutStyles.overlay }
-                                diagramview {
-                                }
-                            }
+                        diagramview {
                         }
                     }
                     footer { +"Footer" }

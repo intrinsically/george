@@ -20,7 +20,7 @@ class ClientTextCalculator: ITextCalculator {
         // add up the individual characters, if they are < 255
         val ord = details.ordinal
         val sum = text.fold(0.0) { total, char ->
-            total + if (char.toInt() < 256) TEXT_WIDTHS[ord][char.toInt()] else 0.0 }
+            total + if (char.code < 256) TEXT_WIDTHS[ord][char.code] else 0.0 }
         return max(sum * 1.1, minWidth)
     }
 }
