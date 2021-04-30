@@ -17,6 +17,7 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
         descendants(".ant-layout") {
             textAlign = TextAlign.left
             height = 100.vh
+            overflow = Overflow.hidden
         }
         descendants(".ant-layout-header") {
             background = "#7dbcea"
@@ -45,6 +46,7 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
         }
         descendants(".ant-layout-sider") {
             background = "#f8f8f8"
+            zIndex = 4
             descendants(".ant-tree") {
                 background = "#00000000"
             }

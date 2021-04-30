@@ -1,38 +1,35 @@
 import antd.dropdown.dropdown
-import antd.form.FormInstance
 import antd.layout.content
+import antd.menu.menu
+import antd.menu.menuItem
+import antd.menu.subMenu
 import costanza.Together
-import diagrams.base.Diagram
-import kotlinx.html.unsafe
-import react.*
-import react.dom.div
-import antd.menu.*
 import costanza.geometry.Coord
-import kotlinext.js.js
+import diagrams.base.Diagram
 import kotlinx.browser.document
-import kotlinx.browser.window
-import kotlinx.css.*
-import kotlinx.css.properties.LineHeight
-import kotlinx.html.DIV
-import kotlinx.html.classes
+import kotlinx.css.margin
+import kotlinx.html.unsafe
 import org.w3c.dom.events.Event
 import org.w3c.dom.events.MouseEvent
-import react.dom.findDOMNode
-import styled.StyleSheet
+import react.*
+import react.dom.div
 import styled.css
 import styled.styledDiv
-import styled.styledSpan
 
 
 external interface DiagramProps : RProps {
 }
 
-class DiagramState(val svg: String, val time: Int) : RState
+class DiagramState(val svg: String, val time: Int, val x: Double = 0.0, val y: Double = 0.0) : RState
 
 @JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
     val together = Together()
     val diagram: Diagram
+    var marginX = 0.0
+    var marginY = 0.0
+    var startX = 0.0
+    var startY = 0.0
     var x = 0.0
     var y = 0.0
 
@@ -44,27 +41,27 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     }
 
     private fun click(e: Event) {
-        e.preventDefault()
-        if (e is MouseEvent && e.button == 0.toShort()) {
-            x = e.offsetX
-            y = e.offsetY
-        }
+//        e.preventDefault()
+//        if (e is MouseEvent && e.button == 0.toShort()) {
+//        }
     }
 
     var dragX = 0
     var dragY = 0
     private fun mouseDown(e: Event) {
+        console.log(e)
         if (e is MouseEvent && e.button == 1.toShort()) {
-            x = e.offsetX
-            y = e.offsetY
+            marginX = state.x
+            marginY = state.y
+            startX = e.clientX.toDouble()
+            startY = e.clientY.toDouble()
         }
     }
 
+    var n = 0
     private fun mouseMove(e: Event) {
         if (e is MouseEvent && e.button == 1.toShort()) {
-            x = e.offsetX
-            y = e.offsetY
-
+            setState(DiagramState(state.svg, state.time, e.clientX - startX + marginX, e.clientY - startY + marginY))
         }
     }
 
@@ -78,7 +75,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             x = e.offsetX
             y = e.offsetY
             // make the menu rebuild
-            setState(DiagramState(state.svg, state.time + 1))
+            setState(DiagramState(state.svg, state.time + 1, state.x, state.y))
         }
     }
 
@@ -147,9 +144,16 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                 css { +ScreenLayoutStyles.overlay }
                             }
                         }
-                        div(classes = "background") {
-                            attrs.unsafe {
-                                +state.svg
+                        styledDiv {
+                            css {
+                                val ix = state.x
+                                val iy = state.y
+                                margin = "${iy}px 0 0 ${ix}px"
+                            }
+                            div(classes = "background") {
+                                attrs.unsafe {
+                                        +state.svg
+                                }
                             }
                         }
                     }
