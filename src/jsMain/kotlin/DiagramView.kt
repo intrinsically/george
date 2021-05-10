@@ -6,11 +6,9 @@ import antd.menu.subMenu
 import costanza.Together
 import costanza.geometry.Coord
 import diagrams.base.Diagram
-import kotlinx.browser.document
 import kotlinx.css.margin
 import kotlinx.html.unsafe
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
+import org.w3c.dom.HTMLDivElement
 import react.*
 import react.dom.div
 import styled.css
@@ -32,6 +30,9 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     var startY = 0.0
     var x = 0.0
     var y = 0.0
+    var dragX = 0
+    var dragY = 0
+    var n = 0
 
     init {
         val calc = ClientTextCalculator()
@@ -40,63 +41,39 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         val json = together.serialize(diagram)
     }
 
-    private fun click(e: Event) {
-//        e.preventDefault()
-//        if (e is MouseEvent && e.button == 0.toShort()) {
-//        }
-    }
-
-    var dragX = 0
-    var dragY = 0
-    private fun mouseDown(e: Event) {
-        console.log(e)
-        if (e is MouseEvent && e.button == 1.toShort()) {
-            marginX = state.x
-            marginY = state.y
-            startX = e.clientX.toDouble()
-            startY = e.clientY.toDouble()
-        }
-    }
-
-    var n = 0
-    private fun mouseMove(e: Event) {
-        if (e is MouseEvent && e.button == 1.toShort()) {
-            setState(DiagramState(state.svg, state.time, e.clientX - startX + marginX, e.clientY - startY + marginY))
-        }
-    }
-
-    private fun mouseUp(e: Event) {
-        if (e is MouseEvent && e.button == 1.toShort()) {
-        }
-    }
-
-    private fun contextMenu(e: Event) {
-        if (e is MouseEvent) {
-            x = e.offsetX
-            y = e.offsetY
-            // make the menu rebuild
-            setState(DiagramState(state.svg, state.time + 1, state.x, state.y))
-        }
-    }
-
-    override fun componentDidMount() {
-        document.addEventListener("click", ::click)
-        document.addEventListener("contextmenu", ::contextMenu)
-        document.addEventListener("mousedown", ::mouseDown)
-        document.addEventListener("mousemove", ::mouseMove)
-        document.addEventListener("mouseup", ::mouseUp)
-    }
-
-    override fun componentWillUnmount() {
-        document.removeEventListener("click", ::click)
-        document.removeEventListener("contextMenu", ::contextMenu)
-        document.removeEventListener("mousedown", ::mouseDown)
-        document.removeEventListener("mousemove", ::mouseMove)
-        document.removeEventListener("mouseup", ::mouseUp)
-    }
-
     override fun RBuilder.render() {
         content {
+            attrs {
+                onMouseDown = { e: antd.MouseEvent<HTMLDivElement> ->
+                    if (e.buttons == 1) {
+                        marginX = state.x
+                        marginY = state.y
+                        startX = e.clientX.toDouble()
+                        startY = e.clientY.toDouble()
+                    }
+                }
+                onMouseMove = { e: antd.MouseEvent<HTMLDivElement> ->
+                    if (e.buttons == 1) {
+                        setState(
+                            DiagramState(
+                                state.svg,
+                                state.time,
+                                e.clientX.toDouble() - startX + marginX,
+                                e.clientY.toDouble() - startY + marginY
+                            )
+                        )
+                    }
+                }
+                onContextMenu = { e: antd.MouseEvent<HTMLDivElement> ->
+                    val n = e.nativeEvent
+                    x = n.offsetX
+                    y = n.offsetY
+                    console.log(e)
+                    // make the menu rebuild
+                    setState(DiagramState(state.svg, state.time + 1, state.x, state.y))
+                }
+            }
+
             dropdown {
                 attrs {
                     overlay = buildElement {
@@ -141,6 +118,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     div {
                         div("overlay") {
                             styledDiv {
+                                this
                                 css { +ScreenLayoutStyles.overlay }
                             }
                         }
@@ -152,7 +130,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             }
                             div(classes = "background") {
                                 attrs.unsafe {
-                                        +state.svg
+                                    +state.svg
                                 }
                             }
                         }
