@@ -13,6 +13,7 @@ import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import react.*
 import react.dom.div
+import react.dom.jsStyle
 import react.dom.style
 import styled.css
 import styled.styledDiv
@@ -148,24 +149,20 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
 
                     div {
                         div("overlay") {
-                            styledDiv {
-                                css { margin = "${state.y}px 0 0 ${state.x}px" }
-                                attrs.unsafe {
-                                    +state.svg
-                                }
+                            attrs {
+                                jsStyle { margin = "${state.y}px 0 0 ${state.x}px" }
+                                unsafe { +state.svg }
                             }
                         }
                         div("overlay") {
-                            styledDiv {
-                                css { margin = "${state.y}px 0 0 ${state.x}px" }
-                                attrs.unsafe {
-                                    +state.svg2
-                                }
+                            attrs {
+                                jsStyle { margin = "${state.y}px 0 0 ${state.x}px" }
+                                unsafe { +state.svg2 }
                             }
                         }
                         div("overlay") {
-                            attrs.unsafe {
-                                +state.svg3
+                            attrs {
+                                unsafe { +state.svg3 }
                             }
                         }
                     }
