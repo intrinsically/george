@@ -1,5 +1,6 @@
 package costanza
 
+import costanza.diagrams.art.circle
 import costanza.diagrams.base.ITextCalculator
 import costanza.diagrams.classpalette.*
 import costanza.diagrams.drawingEntityTypes
@@ -17,6 +18,42 @@ import ksvg.RenderMode
 import ksvg.elements.SVG
 
 class Together {
+    fun makeDiagram2(calc: ITextCalculator) =
+        diagram(calc, "Test") {
+            val width = 164
+            val height = 84
+            circle {
+                cx = 600.0
+                cy = 670.0
+                radius = 7.0
+            }
+            circle {
+                cx = 600.0 + width
+                cy = 670.0
+                radius = 7.0
+            }
+            circle {
+                cx = 600.0 + width
+                cy = 670.0 + height
+                radius = 7.0
+            }
+            circle {
+                cx = 600.0
+                cy = 670.0 + height
+                radius = 7.0
+            }
+        }
+
+    fun makeDiagram3(calc: ITextCalculator) =
+        diagram(calc, "Test") {
+            area {
+                x = 1220.0; y = 1350.0; width = 200.0; height = 100.0
+            }
+            area {
+                x = 1220.0 + 20; y = 1350.0 + 20; width = 200.0 - 40; height = 100.0 - 40
+            }
+        }
+
     fun makeDiagram(calc: ITextCalculator) =
         diagram(calc, "Test") {
             note {
@@ -97,8 +134,9 @@ class Together {
         val svg = SVG()
         diag.add(svg)
         val buffer = StringBuilder()
-        svg.width = "${diag.bounds(diag).width + 100.0}"
-        svg.height = "${diag.bounds(diag).height + 100.0}"
+        val bounds = diag.bounds(diag)
+        svg.width = "${bounds.x2}"
+        svg.height = "${bounds.y2}"
         svg.render(buffer, RenderMode.INLINE)
         return buffer.toString()
     }

@@ -6,11 +6,14 @@ import antd.menu.subMenu
 import costanza.Together
 import costanza.geometry.Coord
 import diagrams.base.Diagram
+import kotlinext.js.js
 import kotlinx.css.margin
+import kotlinx.css.style
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import react.*
 import react.dom.div
+import react.dom.style
 import styled.css
 import styled.styledDiv
 
@@ -18,48 +21,77 @@ import styled.styledDiv
 external interface DiagramProps : RProps {
 }
 
-class DiagramState(val svg: String, val time: Int, val x: Double = 0.0, val y: Double = 0.0) : RState
+class DiagramState(val svg: String, val svg2: String, val svg3: String, val time: Int, val x: Double = 0.0, val y: Double = 0.0, val cursor: String = "crosshair") : RState
 
 @JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
     val together = Together()
     val diagram: Diagram
+    val diagram2: Diagram
+    val diagram3: Diagram
     var marginX = 0.0
     var marginY = 0.0
     var startX = 0.0
     var startY = 0.0
     var x = 0.0
     var y = 0.0
-    var dragX = 0
-    var dragY = 0
-    var n = 0
 
     init {
         val calc = ClientTextCalculator()
         diagram = together.makeDiagram(calc)
-        state = DiagramState(together.makeSVG(diagram), 0)
-        val json = together.serialize(diagram)
+        diagram2 = together.makeDiagram2(calc)
+        diagram3 = together.makeDiagram3(calc)
+        state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3), 0)
     }
 
     override fun RBuilder.render() {
         content {
+            attrs.style = js { cursor = "${state.cursor}" }
             attrs {
                 onMouseDown = { e: antd.MouseEvent<HTMLDivElement> ->
-                    if (e.buttons == 1) {
+                    if (e.buttons == 4) {
                         marginX = state.x
                         marginY = state.y
                         startX = e.clientX.toDouble()
                         startY = e.clientY.toDouble()
-                    }
-                }
-                onMouseMove = { e: antd.MouseEvent<HTMLDivElement> ->
-                    if (e.buttons == 1) {
                         setState(
                             DiagramState(
                                 state.svg,
+                                state.svg2,
+                                state.svg3,
                                 state.time,
                                 e.clientX.toDouble() - startX + marginX,
-                                e.clientY.toDouble() - startY + marginY
+                                e.clientY.toDouble() - startY + marginY,
+                                "grab"
+                            )
+                        )
+
+                    }
+                }
+                onMouseUp = { e: antd.MouseEvent<HTMLDivElement> ->
+                    setState(
+                        DiagramState(
+                            state.svg,
+                            state.svg2,
+                            state.svg3,
+                            state.time,
+                            state.x,
+                            state.y,
+                            "crosshair"
+                        )
+                    )
+                }
+                onMouseMove = { e: antd.MouseEvent<HTMLDivElement> ->
+                    if (e.buttons == 4) {
+                        setState(
+                            DiagramState(
+                                state.svg,
+                                state.svg2,
+                                state.svg3,
+                                state.time,
+                                e.clientX.toDouble() - startX + marginX,
+                                e.clientY.toDouble() - startY + marginY,
+                                "grabbing"
                             )
                         )
                     }
@@ -68,9 +100,8 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     val n = e.nativeEvent
                     x = n.offsetX
                     y = n.offsetY
-                    console.log(e)
                     // make the menu rebuild
-                    setState(DiagramState(state.svg, state.time + 1, state.x, state.y))
+                    setState(DiagramState(state.svg, state.svg2, state.svg3, state.time + 1, state.x, state.y))
                 }
             }
 
@@ -118,20 +149,23 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     div {
                         div("overlay") {
                             styledDiv {
-                                this
-                                css { +ScreenLayoutStyles.overlay }
-                            }
-                        }
-                        styledDiv {
-                            css {
-                                val ix = state.x
-                                val iy = state.y
-                                margin = "${iy}px 0 0 ${ix}px"
-                            }
-                            div(classes = "background") {
+                                css { margin = "${state.y}px 0 0 ${state.x}px" }
                                 attrs.unsafe {
                                     +state.svg
                                 }
+                            }
+                        }
+                        div("overlay") {
+                            styledDiv {
+                                css { margin = "${state.y}px 0 0 ${state.x}px" }
+                                attrs.unsafe {
+                                    +state.svg2
+                                }
+                            }
+                        }
+                        div("overlay") {
+                            attrs.unsafe {
+                                +state.svg3
                             }
                         }
                     }

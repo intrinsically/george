@@ -29,10 +29,8 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
             overflow = Overflow.hidden
             width = 100.pc
             background = "white"
-            cursor = Cursor.grab
         }
         descendants(".ant-layout-content .overlay") {
-            cursor = Cursor.crosshair
             position = Position.absolute
             display = Display.block
             height = 100.pc
@@ -53,12 +51,6 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
             descendants(".ant-tree-switcher") {
                 background = "#00000000"
             }
-        }
-    }
-    val overlay by css {
-        descendants {
-            cursor = Cursor.crosshair
-            overflow = Overflow.scroll
         }
     }
 }

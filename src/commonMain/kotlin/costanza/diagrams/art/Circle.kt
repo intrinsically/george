@@ -32,8 +32,8 @@ class Circle: BasicBox() {
         val x = cx; val y = cy
         svg.circle {
             cx = "${x + parentOffset.x}"; cy = "${y + parentOffset.y}"; this.r = "$radius"
-            stroke = "red"
-            fill = "white"
+            stroke = "grey"
+            fill = "orange"
         }
     }
 }
