@@ -1,28 +1,38 @@
+import antd.button.button
 import antd.dropdown.dropdown
+import antd.icon.highlightOutlined
 import antd.layout.content
 import antd.menu.menu
 import antd.menu.menuItem
 import antd.menu.subMenu
 import costanza.Together
 import costanza.geometry.Coord
+import costanza.utility.iloop
 import diagrams.base.Diagram
 import kotlinext.js.js
-import kotlinx.css.margin
-import kotlinx.css.style
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import react.*
 import react.dom.div
 import react.dom.jsStyle
-import react.dom.style
-import styled.css
-import styled.styledDiv
+import kotlin.math.cos
+import kotlin.math.sin
+import antd.tooltip.*
+
 
 
 external interface DiagramProps : RProps {
 }
 
-class DiagramState(val svg: String, val svg2: String, val svg3: String, val time: Int, val x: Double = 0.0, val y: Double = 0.0, val cursor: String = "crosshair") : RState
+class DiagramState(
+    var svg: String,
+    var svg2: String,
+    var svg3: String,
+    var time: Int = 0,
+    var visible: Boolean = false,
+    var x: Double = 0.0,
+    var y: Double = 0.0,
+    var cursor: String = "crosshair") : RState
 
 @JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
@@ -42,7 +52,13 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         diagram = together.makeDiagram(calc)
         diagram2 = together.makeDiagram2(calc)
         diagram3 = together.makeDiagram3(calc)
-        state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3), 0)
+        state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
+    }
+
+    fun <T> markMouse(e: antd.MouseEvent<T>) {
+        val n = e.nativeEvent
+        x = n.offsetX
+        y = n.offsetY
     }
 
     override fun RBuilder.render() {
@@ -50,119 +66,126 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             attrs.style = js { cursor = "${state.cursor}" }
             attrs {
                 onMouseDown = { e: antd.MouseEvent<HTMLDivElement> ->
+                    markMouse(e)
                     if (e.buttons == 4) {
-                        marginX = state.x
-                        marginY = state.y
-                        startX = e.clientX.toDouble()
-                        startY = e.clientY.toDouble()
-                        setState(
-                            DiagramState(
-                                state.svg,
-                                state.svg2,
-                                state.svg3,
-                                state.time,
-                                e.clientX.toDouble() - startX + marginX,
-                                e.clientY.toDouble() - startY + marginY,
-                                "grab"
-                            )
-                        )
-
+                        if (e.shiftKey) {
+                            marginX = state.x
+                            marginY = state.y
+                            startX = e.clientX.toDouble()
+                            startY = e.clientY.toDouble()
+                            setState {
+                                x = e.clientX.toDouble() - startX + marginX
+                                y = e.clientY.toDouble() - startY + marginY
+                                cursor = "grab"
+                            }
+                        } else {
+                            setState { visible = !visible }
+                        }
                     }
                 }
-                onMouseUp = { e: antd.MouseEvent<HTMLDivElement> ->
-                    setState(
-                        DiagramState(
-                            state.svg,
-                            state.svg2,
-                            state.svg3,
-                            state.time,
-                            state.x,
-                            state.y,
-                            "crosshair"
-                        )
-                    )
+                onMouseUp = {
+                    setState {  cursor = "crosshair" }
                 }
                 onMouseMove = { e: antd.MouseEvent<HTMLDivElement> ->
-                    if (e.buttons == 4) {
-                        setState(
-                            DiagramState(
-                                state.svg,
-                                state.svg2,
-                                state.svg3,
-                                state.time,
-                                e.clientX.toDouble() - startX + marginX,
-                                e.clientY.toDouble() - startY + marginY,
-                                "grabbing"
-                            )
-                        )
+                    markMouse(e)
+                    if (e.buttons == 4 && e.shiftKey) {
+                        setState {
+                            x = e.clientX.toDouble() - startX + marginX
+                            y = e.clientY.toDouble() - startY + marginY
+                            cursor = "grabbing"
+                        }
                     }
                 }
                 onContextMenu = { e: antd.MouseEvent<HTMLDivElement> ->
-                    val n = e.nativeEvent
-                    x = n.offsetX
-                    y = n.offsetY
-                    // make the menu rebuild
-                    setState(DiagramState(state.svg, state.svg2, state.svg3, state.time + 1, state.x, state.y))
+                    markMouse(e)
+                    setState { time++ }
                 }
+
             }
 
-            dropdown {
-                attrs {
-                    overlay = buildElement {
-                        menu {
-                            menuItem {
-                                attrs {
-                                    key = "1"
-                                }
-                                // work out the shape under the mouse
-                                val shape = diagram.locate(Coord(x, y))
-                                val title = if (shape == null) {
-                                    "??"
-                                } else {
-                                    shape.type() + " / " + (shape.name ?: "??")
-                                }
-                                +("Hello $x, $y -- $title")
-                            }
-                            subMenu {
-                                attrs {
-                                    key = "4"
-                                    title = "Submenu"
-                                }
+            div {
+                dropdown {
+                    attrs {
+                        overlay = buildElement {
+                            menu {
                                 menuItem {
                                     attrs {
-                                        key = "2"
+                                        key = "1"
                                     }
-                                    +"One"
+                                    // work out the shape under the mouse
+                                    val shape = diagram.locate(Coord(x, y))
+                                    val title = if (shape == null) {
+                                        "??"
+                                    } else {
+                                        shape.type() + " / " + (shape.name ?: "??")
+                                    }
+                                    +("Hello $x, $y -- $title")
                                 }
-                                if (state.time % 2 == 0) {
+                                subMenu {
+                                    attrs {
+                                        key = "4"
+                                        title = "Submenu"
+                                    }
                                     menuItem {
                                         attrs {
-                                            key = "3"
+                                            key = "2"
                                         }
-                                        +"Two"
+                                        +"One"
+                                    }
+                                    if (state.time % 2 == 0) {
+                                        menuItem {
+                                            attrs {
+                                                key = "3"
+                                            }
+                                            +"Two"
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
-                    trigger = arrayOf("contextMenu")
+                        trigger = arrayOf("contextMenu")
 
-                    div {
-                        div("overlay") {
-                            attrs {
-                                jsStyle { margin = "${state.y}px 0 0 ${state.x}px" }
-                                unsafe { +state.svg }
+                        div {
+                            div("overlay") {
+                                attrs {
+                                    jsStyle { top = state.y; left = state.x }
+                                    unsafe { +state.svg }
+                                }
                             }
-                        }
-                        div("overlay") {
-                            attrs {
-                                jsStyle { margin = "${state.y}px 0 0 ${state.x}px" }
-                                unsafe { +state.svg2 }
+                            div("overlay") {
+                                attrs {
+                                    jsStyle { top = state.y; left = state.x }
+                                    unsafe { +state.svg2 }
+                                }
                             }
-                        }
-                        div("overlay") {
-                            attrs {
-                                unsafe { +state.svg3 }
+                            div("overlay") {
+                                attrs {
+                                    unsafe { +state.svg3 }
+                                }
+                            }
+                            if (state.visible) {
+                                10.iloop { index ->
+                                    div("overlay") {
+                                        val theta = kotlin.math.PI * 2 / 10 * index
+                                        val ty = y + state.y + sin(theta) * 60
+                                        val tx = x + state.x + cos(theta) * 60
+                                        attrs.jsStyle {
+                                            top = ty - 10; left = tx - 20
+                                        }
+
+                                        tooltip {
+                                            attrs.title = "Class $index"
+                                            button {
+                                                attrs {
+                                                    shape = "circle"
+                                                    icon = buildElement {
+                                                        highlightOutlined {}
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
