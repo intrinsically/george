@@ -6,6 +6,7 @@ import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
 import diagrams.base.Diagram
 import costanza.diagrams.base.LINE_Z_ORDER
+import costanza.geometry.Dim
 import costanza.reflect.ReflectInfo
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.int
@@ -25,7 +26,7 @@ class Note(var text: String = ""): Container() {
     override fun determineZIndex() = zIndex
 
     init {
-        width = 150.0 ; height = 100.0
+        dim = Dim(150, 100)
     }
 
     override fun add(diagram: Diagram, svg: SVG, zIndex: Int) {

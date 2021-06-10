@@ -7,6 +7,8 @@ import costanza.geometry.Rect
 import costanza.reflect.ReflectInfo
 import costanza.reflect.entityList
 import costanza.reflect.reflect
+import costanza.reflect.typedproperties.coord
+import costanza.reflect.typedproperties.dim
 import costanza.reflect.typedproperties.double
 import diagrams.base.Box
 import diagrams.base.Diagram
@@ -14,17 +16,13 @@ import diagrams.base.Diagram
 open class Container(): Box() {
     override fun reflectInfo(): ReflectInfo =
         reflect("container", super.reflectInfo()) {
-            double("x", false, 0.0, { x }, { x = it })
-            double("y", false, 0.0, { y }, { y = it })
-            double("width", false, 0.0, { width }, { width = it })
-            double("height", false, 0.0, { height }, { height = it })
+            coord("loc", false, Coord(0,0), { loc }, { loc = it })
+            dim("dim", false, Dim(0,0), { dim }, { dim = it })
             /** polymorphic */
             entityList(shapes)
         }
-    var x: Double = 0.0
-    var y: Double = 0.0
-    var width: Double = 0.0
-    var height: Double = 0.0
+    var loc: Coord = Coord(0,0)
+    var dim: Dim = Dim(0,0)
 
     val shapes: MutableList<Shape> = mutableListOf()
     protected val PADDING = 5.0
@@ -34,10 +32,10 @@ open class Container(): Box() {
         // children already include the parent offset
         val childs = boundsOfChildren(diagram)
         if (childs === null) {
-            return Rect(x, y, width, height)
+            return Rect(loc, dim)
         }
-        return Rect(Coord(x, y), Coord(childs.x2 - parentOffset.x, childs.y2 - parentOffset.y))
-                .enforceMinDimensions(Dim(width, height))
+        return Rect(loc, Coord(childs.x2 - parentOffset.x, childs.y2 - parentOffset.y))
+                .enforceMinDimensions(dim)
                 .pad(Dim(0,0), Dim(PADDING*2, PADDING*2)) + parentOffset
     }
 
@@ -67,7 +65,7 @@ open class Container(): Box() {
 
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
         this.parentOffset = parentOffset
-        val offset = parentOffset + Dim(x, y)
+        val offset = parentOffset + Dim(loc.x, loc.y)
         shapes.forEach {
             it.prepare(diagram, svg, addedElements, offset)
         }

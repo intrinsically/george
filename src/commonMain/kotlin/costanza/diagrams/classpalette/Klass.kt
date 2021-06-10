@@ -1,39 +1,42 @@
 package costanza.diagrams.classpalette
 
-import ksvg.elements.SVG
-import costanza.diagrams.base.BasicBox
-import costanza.diagrams.base.Container
-import costanza.diagrams.base.FontDetails
-import costanza.diagrams.base.Part
+import costanza.diagrams.base.*
 import costanza.geometry.Coord
+import costanza.geometry.Dim
 import costanza.geometry.Rect
-import diagrams.base.Diagram
-import costanza.diagrams.base.Shape
 import costanza.reflect.ReflectInfo
 import costanza.reflect.entityList
 import costanza.reflect.reflect
-import costanza.reflect.typedproperties.double
+import costanza.reflect.typedproperties.coord
+import costanza.reflect.typedproperties.dim
 import costanza.reflect.typedproperties.optionalString
-import costanza.utility.*
+import costanza.reflect.typedproperties.rect
+import costanza.utility._List
+import costanza.utility._Set
+import costanza.utility._list
+import diagrams.base.Diagram
+import ksvg.elements.SVG
+import kotlin.collections.MutableList
+import kotlin.collections.filterIsInstance
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
+import kotlin.collections.set
 import kotlin.math.max
 
 const val PADDING = 7.0
 
-class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _list()): BasicBox() {
+class Klass(var loc: Coord = Coord(0,0), var dim: Dim = Dim(150,0), var parts:_List<Part> = _list()): BasicBox() {
 
     override fun reflectInfo(): ReflectInfo =
         reflect("class", super.reflectInfo()) {
             optionalString("name", true, { name }, { name = it })
             optionalString("stereotype", false, { stereotype }, { stereotype = it })
-            double("width", false, 150.0, { width }, { width = it })
-            double("height", false, 0.0, { height }, { height = it })
+            coord("loc", false, Coord(0,0), { loc }, { loc = it })
+            dim("dim", false, Dim(150,0), { dim }, { dim = it })
             entityList(parts)
         }
 
     var stereotype: String? = null
-    var width: Double = 150.0 // minimum
-    var height: Double = 0.0 // minimum
-
     /** font details for the different parts */
     private val fontN = FontDetails.NAME
     private val fontS = FontDetails.SUB
@@ -51,7 +54,7 @@ class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _l
         super.prepare(diagram, svg, addedElements, parentOffset)
         heightN = diagram.calcHeight(fontN)
         heightS = diagram.calcHeight(fontS) + 3
-        widthM = diagram.calcWidth(fontN, width, name ?: "")
+        widthM = diagram.calcWidth(fontN, dim.width, name ?: "")
         widthM = diagram.calcWidth(fontS, widthM, stereotype ?: "")
         parts.forEach {
             widthM = diagram.calcWidth(fontS, widthM, it.details ?: "")
@@ -92,7 +95,7 @@ class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _l
                 } else {
                     0.0
                 }
-        return Rect(x, y, widthM, max(actual, height)) + parentOffset
+        return Rect(loc.x, loc.y, widthM, max(actual, dim.height)) + parentOffset
     }
 
     operator fun String.unaryPlus() {
@@ -188,7 +191,7 @@ class Klass(var x: Double = 0.0, var y: Double = 0.0, var parts:_List<Part> = _l
         }
     }
 
-    override fun collectParts(): MutableList<Part>? = parts
+    override fun collectParts(): MutableList<Part> = parts
 }
 
 

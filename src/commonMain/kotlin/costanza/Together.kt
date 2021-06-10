@@ -7,6 +7,8 @@ import costanza.diagrams.drawingEntityTypes
 import costanza.diagrams.infopalette.area
 import costanza.diagrams.infopalette.note
 import costanza.geometry.Coord
+import costanza.geometry.Dim
+import costanza.geometry.Rect
 import costanza.reflect.EntityTypeRegistry
 import costanza.reflect.TokenProvider
 import costanza.reflect.operations.Deserializer
@@ -47,26 +49,30 @@ class Together {
     fun makeDiagram3(calc: ITextCalculator) =
         diagram(calc, "Test") {
             area {
-                x = 1220.0; y = 1350.0; width = 200.0; height = 100.0
+                loc = Coord(1220, 1350)
+                dim = Dim(200, 100)
             }
             area {
-                x = 1220.0 + 20; y = 1350.0 + 20; width = 200.0 - 40; height = 100.0 - 40
+                loc = Coord(1220 + 20, 1350 + 20)
+                dim = Dim(200 - 40, 100 - 40)
             }
         }
 
     fun makeDiagram(calc: ITextCalculator) =
         diagram(calc, "Test") {
             note {
-                x = 585.0; y = 900.0
+                loc = Coord(585, 900)
                 text = "This is a note, i hope it will word wrap..."
             }
             area("Area 1") {
-                x = 100.0; y = 900.0; width = 100.0; height = 100.0
+                loc = Coord(100, 900)
+                dim = Dim(100, 100)
                 area("Area 2") {
-                    x = 20.0; y = 50.0; width = 300.0; height = 100.0
+                    loc = Coord(20, 50)
+                    dim = Dim(300, 100)
 
                     klass("TestClass") {
-                        x = 50.0; y = 50.0
+                        loc = Coord(50,50)
                         attribute("+a: Int")
                         attribute("+name: String")
                         operation("printIt(): void")
@@ -78,26 +84,26 @@ class Together {
                 points = _list(Coord(330, 800))
             }
             area("My Area") {
-                x = 220.0; y = 100.0
-                width = 650.0; height = 450.0
+                loc = Coord(220, 100)
+                dim = Dim(650, 450)
                 klass("WidgetFactory") {
-                    x = 50.0; y = 50.0
+                    loc = Coord(50,50)
                     attribute("+a: Int")
                     attribute("+name: String")
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
                 klass("ApplicationManager") {
-                    x = 400.0; y = 50.0
+                    loc = Coord(400,50)
                     stereotype = "data-class"
                     attribute("+a: Int")
                     attribute("+name: String")
                 }
                 klass("RenderLogic") {
-                    x = 50.0; y = 250.0
+                    loc = Coord(50,250)
                 }
                 klass("DisplayLogic") {
-                    x = 400.0; y = 270.0
+                    loc = Coord(400,270)
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
@@ -123,7 +129,7 @@ class Together {
                 }
             }
             klass("Outside") {
-                x = 600.0; y = 670.0
+                loc = Coord(600,670)
                 operation("printIt(): void")
                 operation("hashCode(): long")
             }

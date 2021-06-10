@@ -1,22 +1,17 @@
 diagram {
     note {
-        x = 585.0
-        y = 900.0
-        width = 150.0
-        height = 100.0
+        loc = (585.0, 900.0)
+        dim = (150.0, 100.0)
         text = "This is a note, i hope it will word wrap..."
     }
     area("Area 1") {
-        x = 100.0
-        y = 900.0
-        width = 100.0
-        height = 100.0
+        loc = (100.0, 900.0)
+        dim = (100.0, 100.0)
         area("Area 2") {
-            x = 20.0
-            y = 50.0
-            width = 300.0
-            height = 100.0
+            loc = (20.0, 50.0)
+            dim = (300.0, 100.0)
             class("TestClass") {
+                loc = (50.0, 50.0)
                 attribute("+a: Int")
                 attribute("+name: String")
                 operation("printIt(): void")
@@ -31,11 +26,10 @@ diagram {
         }
     }
     area("My Area") {
-        x = 220.0
-        y = 100.0
-        width = 650.0
-        height = 450.0
+        loc = (220.0, 100.0)
+        dim = (650.0, 450.0)
         class("WidgetFactory") {
+            loc = (50.0, 50.0)
             attribute("+a: Int")
             attribute("+name: String")
             operation("printIt(): void")
@@ -43,11 +37,15 @@ diagram {
         }
         class("ApplicationManager") {
             stereotype = "data-class"
+            loc = (400.0, 50.0)
             attribute("+a: Int")
             attribute("+name: String")
         }
-        class("RenderLogic")
+        class("RenderLogic") {
+            loc = (50.0, 250.0)
+        }
         class("DisplayLogic") {
+            loc = (400.0, 270.0)
             operation("printIt(): void")
             operation("hashCode(): long")
         }
@@ -79,6 +77,7 @@ diagram {
         }
     }
     class("Outside") {
+        loc = (600.0, 670.0)
         operation("printIt(): void")
         operation("hashCode(): long")
     }
