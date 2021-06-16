@@ -7,7 +7,7 @@ import costanza.geometry.Coord
 import costanza.geometry.Dim
 import costanza.geometry.Rect
 import costanza.geometry.Router
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 import costanza.diagrams.base.Line
 import costanza.reflect.ReflectInfo
 import costanza.reflect.entityList

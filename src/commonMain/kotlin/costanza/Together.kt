@@ -8,14 +8,13 @@ import costanza.diagrams.infopalette.area
 import costanza.diagrams.infopalette.note
 import costanza.geometry.Coord
 import costanza.geometry.Dim
-import costanza.geometry.Rect
 import costanza.reflect.EntityTypeRegistry
 import costanza.reflect.TokenProvider
 import costanza.reflect.operations.Deserializer
 import costanza.reflect.operations.Serializer
 import costanza.utility._list
-import diagrams.base.Diagram
-import diagrams.base.diagram
+import costanza.diagrams.base.Diagram
+import costanza.diagrams.base.diagram
 import ksvg.RenderMode
 import ksvg.elements.SVG
 

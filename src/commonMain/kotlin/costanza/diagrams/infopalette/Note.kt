@@ -4,7 +4,7 @@ import ksvg.elements.SVG
 import costanza.diagrams.base.Container
 import costanza.diagrams.base.FontDetails
 import costanza.geometry.Coord
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 import costanza.diagrams.base.LINE_Z_ORDER
 import costanza.geometry.Dim
 import costanza.reflect.ReflectInfo

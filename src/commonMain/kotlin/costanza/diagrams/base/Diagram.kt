@@ -1,17 +1,11 @@
-package diagrams.base
+package costanza.diagrams.base
 
 import ksvg.elements.SVG
-import costanza.diagrams.base.Container
-import costanza.diagrams.base.FontDetails
-import costanza.diagrams.base.ITextCalculator
-import costanza.diagrams.base.Shape
 import costanza.geometry.Coord
 import costanza.geometry.Dim
 import costanza.geometry.Rect
 import costanza.reflect.ReflectInfo
-import costanza.reflect.entityList
 import costanza.reflect.reflect
-import costanza.reflect.typedproperties.double
 
 class Diagram: Container(), ITextCalculator {
     override fun reflectInfo(): ReflectInfo =

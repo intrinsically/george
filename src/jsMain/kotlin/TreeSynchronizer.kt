@@ -1,7 +1,7 @@
 import antd.ReactNode
 import antd.tree.DataNode
 import costanza.diagrams.base.Container
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 import costanza.diagrams.base.Shape
 import kotlinext.js.jsObject
 

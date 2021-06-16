@@ -3,7 +3,6 @@ package costanza.diagrams.base
 import ksvg.elements.SVG
 import costanza.geometry.Coord
 import costanza.geometry.Rect
-import diagrams.base.Diagram
 
 open class LabeledBox(var x: Double = 0.0, var y: Double = 0.0, var width: Double = 0.0, var height: Double = 0.0): BasicBox() {
     private var textHeight = 0.0

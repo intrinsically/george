@@ -1,5 +1,3 @@
-package diagrams.base
-
-import costanza.diagrams.base.Shape
+package costanza.diagrams.base
 
 abstract class Box: Shape()

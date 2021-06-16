@@ -6,7 +6,6 @@ import costanza.geometry.Rect
 import costanza.reflect.IReflect
 import costanza.reflect.ReflectInfo
 import costanza.reflect.reflect
-import diagrams.base.Diagram
 import costanza.reflect.typedproperties.*
 
 abstract class Shape: IReflect {

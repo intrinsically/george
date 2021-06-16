@@ -8,7 +8,7 @@ import antd.menu.subMenu
 import costanza.Together
 import costanza.geometry.Coord
 import costanza.utility.iloop
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 import kotlinext.js.js
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement

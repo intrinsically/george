@@ -8,7 +8,7 @@ import costanza.reflect.ReflectInfo
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.int
 import costanza.reflect.typedproperties.optionalString
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 
 class Area(): Container() {
     override fun reflectInfo(): ReflectInfo =

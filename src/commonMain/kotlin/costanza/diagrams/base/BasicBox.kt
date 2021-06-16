@@ -5,8 +5,6 @@ import costanza.geometry.Coord
 import costanza.reflect.ReflectInfo
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.int
-import diagrams.base.Box
-import diagrams.base.Diagram
 
 abstract class BasicBox: Box() {
     override fun reflectInfo(): ReflectInfo =

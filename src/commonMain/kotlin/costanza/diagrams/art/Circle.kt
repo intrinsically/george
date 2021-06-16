@@ -5,10 +5,9 @@ import costanza.diagrams.base.BasicBox
 import costanza.diagrams.base.Container
 import costanza.geometry.Rect
 import costanza.reflect.ReflectInfo
-import costanza.reflect.entityList
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.double
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 
 class Circle: BasicBox() {
 

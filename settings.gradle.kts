@@ -1,3 +1,3 @@
 
-rootProject.name = "costanza-fullstack"
+rootProject.name = "george"
 

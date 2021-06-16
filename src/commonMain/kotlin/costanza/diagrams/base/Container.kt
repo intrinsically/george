@@ -9,9 +9,6 @@ import costanza.reflect.entityList
 import costanza.reflect.reflect
 import costanza.reflect.typedproperties.coord
 import costanza.reflect.typedproperties.dim
-import costanza.reflect.typedproperties.double
-import diagrams.base.Box
-import diagrams.base.Diagram
 
 open class Container(): Box() {
     override fun reflectInfo(): ReflectInfo =

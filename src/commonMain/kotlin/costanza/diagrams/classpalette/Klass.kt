@@ -10,11 +10,10 @@ import costanza.reflect.reflect
 import costanza.reflect.typedproperties.coord
 import costanza.reflect.typedproperties.dim
 import costanza.reflect.typedproperties.optionalString
-import costanza.reflect.typedproperties.rect
 import costanza.utility._List
 import costanza.utility._Set
 import costanza.utility._list
-import diagrams.base.Diagram
+import costanza.diagrams.base.Diagram
 import ksvg.elements.SVG
 import kotlin.collections.MutableList
 import kotlin.collections.filterIsInstance
