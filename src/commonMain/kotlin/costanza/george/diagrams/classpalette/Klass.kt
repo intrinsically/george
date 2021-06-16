@@ -24,14 +24,12 @@ import kotlin.math.max
 
 const val PADDING = 7.0
 
-class Klass(var loc: Coord = Coord(0,0), var dim: Dim = Dim(150,0), var parts:_List<Part> = _list()): BasicBox() {
+class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part> = _list()): BasicBox(loc, dim) {
 
     override fun reflectInfo(): ReflectInfo =
         reflect("class", super.reflectInfo()) {
             optionalString("name", true, { name }, { name = it })
             optionalString("stereotype", false, { stereotype }, { stereotype = it })
-            coord("loc", false, Coord(0,0), { loc }, { loc = it })
-            dim("dim", false, Dim(150,0), { dim }, { dim = it })
             entityList(parts)
         }
 

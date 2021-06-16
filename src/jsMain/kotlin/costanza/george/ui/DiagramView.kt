@@ -63,7 +63,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
 
     override fun RBuilder.render() {
         content {
-            attrs.style = js { cursor = "${state.cursor}" }
+//            attrs.style = js { cursor = "${state.cursor}" }
             attrs {
                 onMouseDown = { e: antd.MouseEvent<HTMLDivElement> ->
                     markMouse(e)

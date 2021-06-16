@@ -1,13 +1,16 @@
+import antd.button.button
+import antd.collapse.collapse
+import antd.collapse.collapsePanel
+import antd.icon.poweroffOutlined
+import antd.icon.searchOutlined
+import antd.input.search
 import antd.layout.*
-import kotlinx.browser.document
-import kotlinx.browser.window
+import antd.tooltip.tooltip
+import costanza.george.ui.palette.Palette
+import costanza.george.ui.palette.defaultPalettes
 import kotlinx.css.*
-import org.w3c.dom.Screen
-import org.w3c.dom.events.Event
-import org.w3c.dom.events.MouseEvent
 import react.*
 import react.dom.div
-import react.dom.style
 import styled.StyleSheet
 import styled.css
 import styled.styledDiv
@@ -28,6 +31,7 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
             position = Position.relative
             overflow = Overflow.hidden
             width = 100.pc
+            height = 100.pc
             background = "white"
         }
         descendants(".ant-layout-content .overlay") {
@@ -35,7 +39,7 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
             display = Display.block
             height = 100.pc
             width = 100000.px
-            background = rgba(0,0,0,0.0).toString()
+            background = rgba(0, 0, 0, 0.0).toString()
             zIndex = 2
         }
         descendants(".ant-layout-footer") {
@@ -55,7 +59,7 @@ object ScreenLayoutStyles : StyleSheet("layout", isStatic = true) {
     }
 }
 
-data class ScreenLayoutState(var scrollTop: Int = 0, var scrollLeft: Int = 0): RState
+data class ScreenLayoutState(var scrollTop: Int = 0, var scrollLeft: Int = 0, var cursor: String = "normal") : RState
 
 
 @JsExport
@@ -71,6 +75,14 @@ class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props)
                 layout {
                     header { +"Header" }
                     layout {
+                        attrs.style = kotlinext.js.js { cursor = "${state.cursor}" }
+                        sider {
+                            addPalettes(defaultPalettes)
+                        }
+                        content {
+                            diagramview {
+                            }
+                        }
                         sider {
                             attrs {
                                 width = 250.px
@@ -78,12 +90,42 @@ class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props)
                             treeview {
                             }
                         }
-                        diagramview {
-                        }
                     }
-                    footer { +"Footer" }
+                        //                    footer { +"Footer" }
                 }
             }
         }
     }
+
+    private fun RBuilder.addPalettes(palettes: List<Palette>) {
+        collapse {
+            attrs {
+                bordered = false
+                defaultActiveKey = "0"
+            }
+            palettes.forEachIndexed { index, palette ->
+                collapsePanel {
+                    attrs {
+                        header = palette.name
+                        key = "$index"
+                    }
+                    palette.makers.forEach {
+                        if (it.boxMaker != null) {
+                            makeButton(it.icon, it.name)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun RBuilder.makeButton(elementIcon: RBuilder.() -> Unit, name: String) =
+        button {
+            attrs {
+                type = "text"
+                icon = buildElement(elementIcon)
+                +name
+                this.onClick = { setState { cursor = "crosshair" } }
+            }
+        }
 }

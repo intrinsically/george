@@ -2,11 +2,12 @@ package costanza.george.diagrams.base
 
 import ksvg.elements.SVG
 import costanza.george.geometry.Coord
+import costanza.george.geometry.Dim
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.int
 
-abstract class BasicBox: Box() {
+abstract class BasicBox(loc: Coord = Coord(0,0), dim: Dim = Dim(0,0)): Box(loc, dim) {
     override fun reflectInfo(): ReflectInfo =
         reflect("basicbox", super.reflectInfo()) {
             int("zIndex", false, 0, { zIndex }, { zIndex = it })

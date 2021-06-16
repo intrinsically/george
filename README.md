@@ -11,3 +11,4 @@ A tool for creating architectural diagrams & showing evolution over time, tracki
 George is the baseline open source product for collaborative, meaningful diagrams + editing.
 Jerry adds diagram management, timeline + evolution.
 
+![Product Family](./docs/seinfeld%20dolls.png)

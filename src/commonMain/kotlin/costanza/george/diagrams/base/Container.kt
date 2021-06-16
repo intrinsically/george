@@ -13,13 +13,8 @@ import costanza.george.reflect.typedproperties.dim
 open class Container(): Box() {
     override fun reflectInfo(): ReflectInfo =
         reflect("container", super.reflectInfo()) {
-            coord("loc", false, Coord(0,0), { loc }, { loc = it })
-            dim("dim", false, Dim(0,0), { dim }, { dim = it })
-            /** polymorphic */
             entityList(shapes)
         }
-    var loc: Coord = Coord(0,0)
-    var dim: Dim = Dim(0,0)
 
     val shapes: MutableList<Shape> = mutableListOf()
     protected val PADDING = 5.0
