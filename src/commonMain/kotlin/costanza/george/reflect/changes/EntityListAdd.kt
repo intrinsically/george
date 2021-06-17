@@ -5,7 +5,7 @@ import costanza.george.reflect.operations.findEntityListProperty
 
 class EntityListAdd(
     val entity: IReflect,
-    val propName: String,
+    val propName: String?,
     val value: IReflect
 ) : IChange {
     fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
@@ -15,6 +15,6 @@ class EntityListAdd(
     }
 
     override fun fwd() {
-        prop().list.add(entity)
+        prop().list.add(value)
     }
 }

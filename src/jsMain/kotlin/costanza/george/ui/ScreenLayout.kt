@@ -1,13 +1,16 @@
 import antd.button.button
 import antd.collapse.collapse
 import antd.collapse.collapsePanel
-import antd.icon.poweroffOutlined
-import antd.icon.searchOutlined
-import antd.input.search
-import antd.layout.*
-import antd.tooltip.tooltip
+import antd.layout.content
+import antd.layout.header
+import antd.layout.layout
+import antd.layout.sider
+import costanza.george.diagrams.classpalette.Klass
+import costanza.george.geometry.Dim
+import costanza.george.ui.commands.CreateBoxTool
 import costanza.george.ui.palette.Palette
-import costanza.george.ui.palette.defaultPalettes
+import costanza.george.ui.palette.servicePalette
+import costanza.george.utility.list
 import kotlinx.css.*
 import react.*
 import react.dom.div
@@ -73,25 +76,21 @@ class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props)
             css { +ScreenLayoutStyles.basic }
             div {
                 layout {
-                    header { +"Header" }
+                    header { +"Costanza - pretending to be an architect" }
                     layout {
                         attrs.style = kotlinext.js.js { cursor = "${state.cursor}" }
                         sider {
-                            addPalettes(defaultPalettes)
+                            addPalettes(list(servicePalette))
                         }
                         content {
                             diagramview {
+                                tool = CreateBoxTool({ loc -> Klass(loc, Dim(150,0)) })
                             }
                         }
                         sider {
-                            attrs {
-                                width = 250.px
-                            }
-                            treeview {
-                            }
+                            treeview {}
                         }
                     }
-                        //                    footer { +"Footer" }
                 }
             }
         }

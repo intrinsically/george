@@ -2,14 +2,16 @@ import antd.button.button
 import antd.dropdown.dropdown
 import antd.icon.highlightOutlined
 import antd.layout.content
-import antd.menu.menu
-import antd.menu.menuItem
-import antd.menu.subMenu
+import antd.menu.*
+import antd.tooltip.*
 import costanza.george.diagrams.Together
-import costanza.george.geometry.Coord
-import costanza.george.utility.iloop
 import costanza.george.diagrams.base.Diagram
-import kotlinext.js.js
+import costanza.george.diagrams.drawingEntityTypes
+import costanza.george.geometry.Coord
+import costanza.george.reflect.EntityTypeRegistry
+import costanza.george.reflect.operations.Changer
+import costanza.george.ui.commands.ITool
+import costanza.george.utility.iloop
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import react.*
@@ -17,11 +19,10 @@ import react.dom.div
 import react.dom.jsStyle
 import kotlin.math.cos
 import kotlin.math.sin
-import antd.tooltip.*
-
 
 
 external interface DiagramProps : RProps {
+    var tool: ITool
 }
 
 class DiagramState(
@@ -50,6 +51,9 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     init {
         val calc = ClientTextCalculator()
         diagram = together.makeDiagram(calc)
+        val reg = EntityTypeRegistry()
+        reg.addAll(drawingEntityTypes)
+        diagram.changer = Changer(diagram, reg)
         diagram2 = together.makeDiagram2(calc)
         diagram3 = together.makeDiagram3(calc)
         state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
@@ -61,32 +65,46 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         y = n.offsetY
     }
 
+    private var ignore = false
     override fun RBuilder.render() {
         content {
 //            attrs.style = js { cursor = "${state.cursor}" }
             attrs {
-                onMouseDown = { e: antd.MouseEvent<HTMLDivElement> ->
-                    markMouse(e)
-                    if (e.buttons == 4) {
-                        if (e.shiftKey) {
-                            marginX = state.x
-                            marginY = state.y
-                            startX = e.clientX.toDouble()
-                            startY = e.clientY.toDouble()
-                            setState {
-                                x = e.clientX.toDouble() - startX + marginX
-                                y = e.clientY.toDouble() - startY + marginY
-                                cursor = "grab"
+                onMouseDown = { e ->
+                    if (ignore) {
+                        ignore = false
+                    } else {
+                        markMouse(e)
+                        println("buttons = ${e.buttons}")
+                        if (e.buttons == 2) {
+                            ignore = true
+                        }
+                        if (e.buttons == 4) {
+                            if (e.shiftKey) {
+                                marginX = state.x
+                                marginY = state.y
+                                startX = e.clientX.toDouble()
+                                startY = e.clientY.toDouble()
+                                setState {
+                                    x = e.clientX.toDouble() - startX + marginX
+                                    y = e.clientY.toDouble() - startY + marginY
+                                    cursor = "grab"
+                                }
+                            } else {
+                                setState { visible = !visible }
                             }
-                        } else {
-                            setState { visible = !visible }
+                        } else if (e.buttons == 1) {
+                            println("Creating")
+                            props.tool.diagram = diagram
+                            props.tool.click(Coord(x, y))
+                            setState { svg = together.makeSVG(diagram) }
                         }
                     }
                 }
                 onMouseUp = {
                     setState {  cursor = "crosshair" }
                 }
-                onMouseMove = { e: antd.MouseEvent<HTMLDivElement> ->
+                onMouseMove = { e ->
                     markMouse(e)
                     if (e.buttons == 4 && e.shiftKey) {
                         setState {
@@ -100,7 +118,6 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     markMouse(e)
                     setState { time++ }
                 }
-
             }
 
             div {
@@ -108,6 +125,16 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                     attrs {
                         overlay = buildElement {
                             menu {
+                                attrs.onClick = { inf: MenuInfo ->
+                                    if (inf.key == "undo") {
+                                        diagram.changer?.back()
+                                        setState { svg = together.makeSVG(diagram) }
+                                    }
+                                    if (inf.key == "redo") {
+                                        diagram.changer?.fwd()
+                                        setState { svg = together.makeSVG(diagram) }
+                                    }
+                                }
                                 menuItem {
                                     attrs {
                                         key = "1"
@@ -121,6 +148,18 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                     }
                                     +("Hello $x, $y -- $title")
                                 }
+                                menuItem {
+                                    attrs {
+                                        key = "undo"
+                                    }
+                                    +"Undo"
+                                }
+                                menuItem {
+                                    attrs {
+                                        key = "redo"
+                                    }
+                                    +"Redo"
+                                }
                                 subMenu {
                                     attrs {
                                         key = "4"
@@ -128,17 +167,9 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                     }
                                     menuItem {
                                         attrs {
-                                            key = "2"
+                                            key = "5"
                                         }
-                                        +"One"
-                                    }
-                                    if (state.time % 2 == 0) {
-                                        menuItem {
-                                            attrs {
-                                                key = "3"
-                                            }
-                                            +"Two"
-                                        }
+                                        +"Hello"
                                     }
                                 }
                             }
