@@ -9,7 +9,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class UndoRedoTests {
-
     @Test
     fun testPropertyChange() {
         val note = makeNote()
