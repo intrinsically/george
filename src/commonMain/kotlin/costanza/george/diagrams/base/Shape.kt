@@ -3,12 +3,12 @@ package costanza.george.diagrams.base
 import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Rect
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.*
 
-abstract class Shape: IReflect {
+abstract class Shape: IObject {
     override fun reflectInfo(): ReflectInfo =
         reflect("shape") {
             optionalString("id", false, { id }, { id = it })

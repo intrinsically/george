@@ -1,24 +1,24 @@
 package costanza.george.reflect.operations
 
-import costanza.george.reflect.EntityTypeRegistry
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.IObject
 import costanza.george.reflect.TokenProvider
 
-fun findPrimitiveProperty(entity: IReflect, name: String) =
+fun findPrimitiveProperty(entity: IObject, name: String) =
     entity.reflectInfo().properties.find { it.name == name }
 
-fun findEntityProperty(entity: IReflect, fnName: String) =
-    entity.reflectInfo().entities.find { it.name == fnName }
+fun findObjectProperty(entity: IObject, fnName: String) =
+    entity.reflectInfo().objects.find { it.name == fnName }
 
-fun findEntityListProperty(entity: IReflect, fnName: String?) =
-    entity.reflectInfo().entityLists.find { it.name == fnName }
+fun findEntityListProperty(entity: IObject, fnName: String?) =
+    entity.reflectInfo().objectLists.find { it.name == fnName }
 
-class Deserializer(val registry: EntityTypeRegistry) {
+class Deserializer(val registry: ObjectTypeRegistry) {
 
-    fun deserialize(top: IReflect, prov: TokenProvider) =
+    fun deserialize(top: IObject, prov: TokenProvider) =
         deserializeEntity(top, null, prov)
 
-    fun deserializeEntity(top: IReflect, entityType: String?, prov: TokenProvider): IReflect {
+    fun deserializeEntity(top: IObject, entityType: String?, prov: TokenProvider): IObject {
 
         val entity = if (entityType != null) {
             registry.create(entityType)
@@ -59,7 +59,7 @@ class Deserializer(val registry: EntityTypeRegistry) {
                 }
                 val name = prov.popName()
                 val prop = findPrimitiveProperty(entity, name)
-                val ent = findEntityProperty(entity, name)
+                val ent = findObjectProperty(entity, name)
                 val entls = findEntityListProperty(entity, name)
                 when {
                     prop != null -> {

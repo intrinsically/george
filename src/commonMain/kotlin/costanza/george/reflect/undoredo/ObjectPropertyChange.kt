@@ -1,11 +1,11 @@
 package costanza.george.reflect.undoredo
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.findPrimitiveProperty
 
-class PropertyChange(
-    val entity: IReflect,
+class ObjectPropertyChange(
+    val entity: IObject,
     propName: String,
     val value: String
 ) : IChange {

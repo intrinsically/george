@@ -1,6 +1,6 @@
 package costanza.george.reflect.operations
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.utility.iloop
 import costanza.george.utility.loop
 
@@ -8,9 +8,9 @@ import costanza.george.utility.loop
 class Serializer {
 
     /** serialize an entity */
-    fun serialize(entity: IReflect) = serializeEntity(entity.reflectInfo().entityType, entity, 0)
+    fun serialize(entity: IObject) = serializeEntity(entity.reflectInfo().entityType, entity, 0)
 
-    private fun serializeEntity(fnName: String, entity: IReflect, indentLevel: Int): String {
+    private fun serializeEntity(fnName: String, entity: IObject, indentLevel: Int): String {
         val bld = StringBuilder()
         var indent = indentLevel
         operator fun StringBuilder.plusAssign(str: String) {
@@ -33,8 +33,8 @@ class Serializer {
 
         // only add the block if we have actual properties
         val prims = entity.reflectInfo().properties.filter { !it.isConstructor && !it.isDefault() }
-        val entities = entity.reflectInfo().entities.filter { it.get() != null }
-        val entityLists = entity.reflectInfo().entityLists.filter { it.list.isNotEmpty() }
+        val entities = entity.reflectInfo().objects.filter { it.get() != null }
+        val entityLists = entity.reflectInfo().objectLists.filter { it.list.isNotEmpty() }
         if (prims.isNotEmpty() || entities.isNotEmpty() || entityLists.isNotEmpty()) {
             // handle properties
             bld += " {\n"

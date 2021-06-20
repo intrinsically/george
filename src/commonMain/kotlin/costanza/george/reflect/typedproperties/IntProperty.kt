@@ -6,11 +6,17 @@ import costanza.george.reflect.PrimitiveProperty
 import costanza.george.reflect.ReflectInfo
 
 class IntProperty(
-    name: String, isConstructor: Boolean,
+    ri: ReflectInfo,
+    name: String,
+    isConstructor: Boolean,
     val defaultValue: Int,
-    val getter: () -> Int,
-    val setter: (s: Int) -> Unit
+    var getter: () -> Int,
+    var setter: (s: Int) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
+
+    init {
+        ri.properties += this
+    }
 
     override fun isDefault() = defaultValue == getter()
     override fun get() = getter().toString()
@@ -18,4 +24,4 @@ class IntProperty(
 }
 
 fun ReflectInfo.int(name: String, isConstructor: Boolean, defaultValue: Int, getter: () -> Int, setter: (s: Int) -> Unit)
-        = properties.add(IntProperty(name, isConstructor, defaultValue, getter, setter))
+        = properties.add(IntProperty(this, name, isConstructor, defaultValue, getter, setter))

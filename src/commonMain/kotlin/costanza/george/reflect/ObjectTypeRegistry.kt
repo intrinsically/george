@@ -1,11 +1,11 @@
 package costanza.george.reflect
 
-class EntityTypeRegistry {
-    private val map = mutableMapOf<String, EntityType>()
+class ObjectTypeRegistry {
+    private val map = mutableMapOf<String, ObjectType>()
 
-    fun addAll(list: List<EntityType>) = list.forEach { add(it) }
+    fun addAll(list: List<ObjectType>) = list.forEach { add(it) }
 
-    fun add(et: EntityType) {
+    fun add(et: ObjectType) {
         if (map.containsKey(et.name)) {
             throw Exception("Entity type $et.entityType already registered")
         }

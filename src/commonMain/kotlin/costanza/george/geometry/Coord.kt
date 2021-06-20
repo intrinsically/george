@@ -1,13 +1,12 @@
 package costanza.george.geometry
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.entityList
 import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.double
 import kotlin.math.sqrt
 
-data class Coord(var x: Double, var y: Double): IReflect {
+data class Coord(var x: Double, var y: Double): IObject {
     constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
 
     override fun reflectInfo(): ReflectInfo =

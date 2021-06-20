@@ -1,10 +1,10 @@
 package costanza.george.reflect.undoredo
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.operations.findEntityListProperty
 
-class EntityOrderAdjust(
-    val entity: IReflect,
+class ObjectOrderAdjust(
+    val entity: IObject,
     val propName: String,
     val from: Int,
     val to: Int

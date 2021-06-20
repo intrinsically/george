@@ -8,7 +8,7 @@ import costanza.george.diagrams.Together
 import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.drawingEntityTypes
 import costanza.george.geometry.Coord
-import costanza.george.reflect.EntityTypeRegistry
+import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.ui.commands.ITool
 import costanza.george.utility.iloop
@@ -51,7 +51,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     init {
         val calc = ClientTextCalculator()
         diagram = together.makeDiagram(calc)
-        val reg = EntityTypeRegistry()
+        val reg = ObjectTypeRegistry()
         reg.addAll(drawingEntityTypes)
         diagram.changer = Changer(diagram, reg)
         diagram2 = together.makeDiagram2(calc)

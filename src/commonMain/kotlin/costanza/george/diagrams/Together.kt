@@ -3,12 +3,11 @@ package costanza.george.diagrams
 import costanza.george.diagrams.art.circle
 import costanza.george.diagrams.base.ITextCalculator
 import costanza.george.diagrams.classpalette.*
-import costanza.george.diagrams.drawingEntityTypes
 import costanza.george.diagrams.infopalette.area
 import costanza.george.diagrams.infopalette.note
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
-import costanza.george.reflect.EntityTypeRegistry
+import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
@@ -150,7 +149,7 @@ class Together {
 
     fun makeDiag(calc: ITextCalculator, serial: String): Diagram {
         val diag = diagram(calc, "diagram") {}
-        val reg = EntityTypeRegistry()
+        val reg = ObjectTypeRegistry()
         reg.addAll(drawingEntityTypes)
         val deser = Deserializer(reg)
         deser.deserialize(diag, TokenProvider(serial))

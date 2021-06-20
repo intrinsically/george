@@ -5,12 +5,12 @@ import costanza.george.utility._list
 
 open class ReflectInfo(val entityType: String) {
     val properties: _List<PrimitiveProperty> = _list()
-    val entities: _List<EntityProperty> = _list()
-    val entityLists: _List<EntityListProperty<IReflect>> = _list()
+    val objects: _List<ObjectProperty> = _list()
+    val objectLists: _List<ObjectListProperty<IObject>> = _list()
 }
 
 /** dsl */
-fun reflect(entityType: String, parent: ReflectInfo? = null, block: ReflectInfo.() -> Unit): ReflectInfo {
+fun reflect(objectType: String, parent: ReflectInfo? = null, block: ReflectInfo.() -> Unit): ReflectInfo {
 
     fun <T> addAtStart(a: _List<T>, b: _List<T>) {
         val c = _list<T>()
@@ -20,12 +20,12 @@ fun reflect(entityType: String, parent: ReflectInfo? = null, block: ReflectInfo.
         a.addAll(c)
     }
 
-    val info = ReflectInfo(entityType)
+    val info = ReflectInfo(objectType)
     info.apply(block)
     if (parent != null) {
         addAtStart(info.properties, parent.properties)
-        addAtStart(info.entities, parent.entities)
-        addAtStart(info.entityLists, parent.entityLists)
+        addAtStart(info.objects, parent.objects)
+        addAtStart(info.objectLists, parent.objectLists)
     }
     return info
 }

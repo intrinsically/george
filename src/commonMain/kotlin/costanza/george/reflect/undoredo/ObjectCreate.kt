@@ -1,12 +1,12 @@
 package costanza.george.reflect.undoredo
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.operations.findEntityListProperty
 
-class EntityCreate(
-    val entity: IReflect,
+class ObjectCreate(
+    val entity: IObject,
     val propName: String?,
-    val value: IReflect
+    val value: IObject
 ) : IChange {
     fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
 

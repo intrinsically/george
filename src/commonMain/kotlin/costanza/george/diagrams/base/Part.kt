@@ -1,12 +1,12 @@
 package costanza.george.diagrams.base
 
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.IObject
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.optionalString
 
 
-abstract class Part: IReflect {
+abstract class Part: IObject {
     override fun reflectInfo(): ReflectInfo =
         reflect("part") {
             optionalString("details", true, { details }, { details = it })

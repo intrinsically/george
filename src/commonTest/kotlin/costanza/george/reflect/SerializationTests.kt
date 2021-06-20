@@ -3,7 +3,7 @@ package constanza.george.reflect
 import costanza.george.diagrams.Together
 import costanza.george.diagrams.base.FontDetails
 import costanza.george.diagrams.base.ITextCalculator
-import costanza.george.reflect.EntityTypeRegistry
+import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
@@ -15,7 +15,7 @@ class SerializationTests {
     @Test
     fun testNote() {
         val note = makeNote()
-        val registry = EntityTypeRegistry()
+        val registry = ObjectTypeRegistry()
         registry.addAll(entityTypes)
         val serial = Serializer()
         val str = serial.serialize(note)

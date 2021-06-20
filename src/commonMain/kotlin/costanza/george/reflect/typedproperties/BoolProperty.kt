@@ -5,11 +5,16 @@ import costanza.george.reflect.PrimitiveProperty
 import costanza.george.reflect.ReflectInfo
 
 class BoolProperty(
+    ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val getter: () -> Boolean,
-    val setter: (s: Boolean) -> Unit
+    var getter: () -> Boolean,
+    var setter: (s: Boolean) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
+
+    init {
+        ri.properties += this
+    }
 
     override fun isDefault() = !getter()
     override fun get() = getter().toString()
@@ -26,4 +31,4 @@ class BoolProperty(
 }
 
 fun ReflectInfo.bool(name: String, isConstructor: Boolean, getter: () -> Boolean, setter: (s: Boolean) -> Unit)
-        = properties.add(BoolProperty(name, isConstructor, getter, setter))
+        = BoolProperty(this, name, isConstructor, getter, setter)

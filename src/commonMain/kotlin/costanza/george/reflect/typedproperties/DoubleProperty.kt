@@ -6,11 +6,17 @@ import costanza.george.reflect.PrimitiveProperty
 import costanza.george.reflect.ReflectInfo
 
 class DoubleProperty(
-    name: String, isConstructor: Boolean,
+    ri: ReflectInfo,
+    name: String,
+    isConstructor: Boolean,
     val defaultValue: Double,
-    val getter: () -> Double,
-    val setter: (s: Double) -> Unit
+    var getter: () -> Double,
+    var setter: (s: Double) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
+
+    init {
+        ri.properties += this
+    }
 
     override fun isDefault() = defaultValue == getter()
     override fun get() = getter().toString()
@@ -18,4 +24,4 @@ class DoubleProperty(
 }
 
 fun ReflectInfo.double(name: String, isConstructor: Boolean, defaultValue: Double, getter: () -> Double, setter: (s: Double) -> Unit)
-        = properties.add(DoubleProperty(name, isConstructor, defaultValue, getter, setter))
+        = DoubleProperty(this, name, isConstructor, defaultValue, getter, setter)

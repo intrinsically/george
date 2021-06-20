@@ -1,13 +1,13 @@
 package costanza.george.reflect.undoredo
 
-import costanza.george.reflect.EntityTypeRegistry
-import costanza.george.reflect.IReflect
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.IObject
 import costanza.george.utility._List
 import costanza.george.utility._list
 import costanza.george.utility.loop
 
 
-class Changer(val top: IReflect, private val registry: EntityTypeRegistry) {
+class Changer(val top: IObject, private val registry: ObjectTypeRegistry) {
     private val changes = _list<GroupChange>()
     private var current = GroupChange()
     var pos = 0

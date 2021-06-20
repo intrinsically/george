@@ -6,10 +6,17 @@ import costanza.george.reflect.PrimitiveProperty
 import costanza.george.reflect.ReflectInfo
 
 class RectProperty(
-    name: String, isConstructor: Boolean, val defaultValue: Rect,
-    val getter: () -> Rect,
-    val setter: (s: Rect) -> Unit
+    ri: ReflectInfo,
+    name: String,
+    isConstructor: Boolean,
+    val defaultValue: Rect,
+    var getter: () -> Rect,
+    var setter: (s: Rect) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
+
+    init {
+        ri.properties += this
+    }
 
     override fun isDefault() = defaultValue == getter()
 
@@ -32,4 +39,4 @@ class RectProperty(
     }
 }
 fun ReflectInfo.rect(name: String, isConstructor: Boolean, defaultValue: Rect, getter: () -> Rect, setter: (s: Rect) -> Unit)
-        = properties.add(RectProperty(name, isConstructor, defaultValue, getter, setter))
+        = RectProperty(this, name, isConstructor, defaultValue, getter, setter)

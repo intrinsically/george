@@ -5,10 +5,17 @@ import costanza.george.geometry.Rect
 import costanza.george.reflect.*
 
 class CoordProperty(
-    name: String, isConstructor: Boolean, val defaultValue: Coord,
-    val getter: () -> Coord,
-    val setter: (s: Coord) -> Unit
+    ri: ReflectInfo,
+    name: String,
+    isConstructor: Boolean,
+    val defaultValue: Coord,
+    var getter: () -> Coord,
+    var setter: (s: Coord) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
+
+    init {
+        ri.properties += this
+    }
 
     override fun isDefault() = defaultValue == getter()
 
@@ -28,4 +35,4 @@ class CoordProperty(
 }
 
 fun ReflectInfo.coord(name: String, isConstructor: Boolean, defaultValue: Coord, getter: () -> Coord, setter: (s:Coord) -> Unit)
-     = properties.add(CoordProperty(name, isConstructor, defaultValue, getter, setter))
+     = CoordProperty(this, name, isConstructor, defaultValue, getter, setter)

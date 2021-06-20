@@ -9,14 +9,14 @@ import costanza.george.utility.list
 
 
 var entityTypes = list(
-    EntityType("note") { Note() },
-    EntityType("inside") { Inside() },
-    EntityType("person") { Person() },
-    EntityType("alien") { Alien() },
-    EntityType("evolved") { EvolvedAlien() },
+    ObjectType("note") { Note() },
+    ObjectType("inside") { Inside() },
+    ObjectType("person") { Person() },
+    ObjectType("alien") { Alien() },
+    ObjectType("evolved") { EvolvedAlien() },
 )
 
-class Note: IReflect {
+class Note: IObject {
     var name = ""
     var details = ""
     var location = Rect(0,0,0,0)
@@ -34,7 +34,7 @@ class Note: IReflect {
     }
 }
 
-class Inside: IReflect {
+class Inside: IObject {
     var age = 0
     var height = 0.0
 
@@ -44,7 +44,7 @@ class Inside: IReflect {
     }
 }
 
-open class Person(): IReflect {
+open class Person(): IObject {
     constructor(_name: String, _address: String) : this() {
         name = _name
         address = _address
