@@ -1,9 +1,9 @@
-package costanza.george.reflect.changes
+package costanza.george.reflect.undoredo
 
 import costanza.george.reflect.IReflect
 import costanza.george.reflect.operations.findEntityListProperty
 
-class EntityListMove(
+class EntityOrderAdjust(
     val entity: IReflect,
     val propName: String,
     val from: Int,
@@ -12,9 +12,9 @@ class EntityListMove(
     fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
 
         /** going back is same as going fwd ;-P */
-        override fun back() = fwd()
+        override fun undo() = redo()
 
-        override fun fwd() {
+        override fun redo() {
             val ls = prop().list
             val obj = ls[from]
             ls[from] = ls[to]

@@ -2,6 +2,7 @@ package costanza.george.ecs
 
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
+import costanza.george.reflect.typedproperties.BoolProperty
 import costanza.george.reflect.typedproperties.coord
 import costanza.george.reflect.typedproperties.dim
 import costanza.george.reflect.typedproperties.double
@@ -9,35 +10,47 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-class CBounds(entity: Entity, var loc: Coord, var dim: Dim, prefix: String = ""): Component(entity) {
+typealias CSetCoord = (c: Coord) -> Coord
+val CSetCoordDefault: CSetCoord = { c: Coord -> c }
+
+class CBounds(
+    entity: Entity,
+    var loc: Coord,
+    var dim: Dim,
+    prefix: String = "",
+    setLoc: CSetCoord = CSetCoordDefault,
+    setDim: ((d: Dim) -> Dim) = { d: Dim -> d }
+) : Component(entity) {
     init {
-        coord(prefix + "loc", false, Coord(0,0), { loc }, { loc = it })
-        dim(prefix + "dim", false, Dim(0,0), { dim }, { dim = it })
+        coord(prefix + "loc", false, Coord(0, 0), { loc }, { loc = setLoc(it) })
+        dim(prefix + "dim", false, Dim(0, 0), { dim }, { dim = setDim(it) })
     }
 }
 
-class CBoundsCircle(entity: Entity, var loc: Coord, var radius: Double, prefix: String = ""): Component(entity) {
-    init{
-        coord(prefix + "loc", false, Coord(0,0), { loc }, { loc = it })
+class CBoundsCircle(entity: Entity, var loc: Coord, var radius: Double, prefix: String = "") : Component(entity) {
+    init {
+        coord(prefix + "loc", false, Coord(0, 0), { loc }, { loc = it })
         double(prefix + "radius", false, 10.0, { radius }, { radius = it })
     }
 }
 
-class CBoundsSquare(entity: Entity, var loc: Coord, var side: Double, prefix: String = ""): Component(entity) {
+class CBoundsSquare(entity: Entity, var loc: Coord, var side: Double, prefix: String = "") : Component(entity) {
     init {
-        coord(prefix + "loc", false, Coord(0,0), { loc }, { loc = it })
+        coord(prefix + "loc", false, Coord(0, 0), { loc }, { loc = it })
         double(prefix + "side", false, 10.0, { side }, { side = it })
     }
 }
 
-class TestEntity: Entity() {
-    val bounds = CBounds(this, Coord(0,0), Dim(10,10))
-    val square = CBoundsSquare(this, Coord(0,0), 23.0)
+class TestEntity : Entity() {
+    val bounds = CBounds(this, Coord(0, 0), Dim(10, 10))
+    val square = CBoundsSquare(this, Coord(0, 0), 23.0)
+    var loc = false
+    val locx_ = BoolProperty("loc", false, {loc}, {loc = it})
 }
 
-class TestEntity2: Entity() {
-    val bounds = CBounds(this, Coord(0,0), Dim(10,10))
-    val square = CBoundsSquare(this, Coord(0,0), 23.0, "x")
+class TestEntity2 : Entity() {
+    val bounds = CBounds(this, Coord(0, 0), Dim(10, 10))
+    val square = CBoundsSquare(this, Coord(0, 0), 23.0, "x")
 }
 
 class ECSTests {
@@ -64,12 +77,12 @@ class ECSTests {
     }
 
     fun testIt(entity: Entity) {
-        val bounds:CBounds? = entity.get()
-        val square:CBoundsSquare? = entity.get()
-        val circle:CBoundsCircle? = entity.get()
+        val bounds: CBounds? = entity.component()
+        val square: CBoundsSquare? = entity.component()
+        val circle: CBoundsCircle? = entity.component()
 
         // have we got the right components
-        assertEquals(Dim(10,10), bounds!!.dim)
+        assertEquals(Dim(10, 10), bounds!!.dim)
         assertEquals(23.0, square!!.side)
         assertNull(circle)
 

@@ -3,7 +3,7 @@ package costanza.george.reflect
 import costanza.george.utility._List
 
 class EntityListProperty<T: IReflect>(
-    val propName: String?,
+    val name: String?,
     val list: _List<T>
 )
 

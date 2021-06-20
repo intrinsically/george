@@ -1,9 +1,9 @@
-package costanza.george.reflect.changes
+package costanza.george.reflect.undoredo
 
 import costanza.george.reflect.IReflect
 import costanza.george.reflect.operations.findEntityListProperty
 
-class EntityListDelete(
+class EntityDelete(
     val entity: IReflect,
     val propName: String,
     val index: Int,
@@ -11,11 +11,11 @@ class EntityListDelete(
     fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
     val child = prop().list[index]
 
-    override fun back() {
+    override fun undo() {
         prop().list.add(index, entity)
     }
 
-    override fun fwd() {
+    override fun redo() {
         prop().list.removeAt(index)
     }
 }

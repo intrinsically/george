@@ -9,7 +9,7 @@ import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.drawingEntityTypes
 import costanza.george.geometry.Coord
 import costanza.george.reflect.EntityTypeRegistry
-import costanza.george.reflect.operations.Changer
+import costanza.george.reflect.undoredo.Changer
 import costanza.george.ui.commands.ITool
 import costanza.george.utility.iloop
 import kotlinx.html.unsafe
@@ -127,11 +127,11 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             menu {
                                 attrs.onClick = { inf: MenuInfo ->
                                     if (inf.key == "undo") {
-                                        diagram.changer?.back()
+                                        diagram.changer?.undo()
                                         setState { svg = together.makeSVG(diagram) }
                                     }
                                     if (inf.key == "redo") {
-                                        diagram.changer?.fwd()
+                                        diagram.changer?.redo()
                                         setState { svg = together.makeSVG(diagram) }
                                     }
                                 }

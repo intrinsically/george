@@ -5,7 +5,7 @@ import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
 import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.operations.Changer
+import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.reflect
 
 class Diagram: Container(), ITextCalculator {

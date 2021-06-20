@@ -1,4 +1,4 @@
-package costanza.george.reflect.changes
+package costanza.george.reflect.undoredo
 
 import costanza.george.reflect.IReflect
 import costanza.george.reflect.TokenProvider
@@ -12,11 +12,11 @@ class PropertyChange(
     val prop = findPrimitiveProperty(entity, propName) ?: throw Exception("Cannot find property $propName")
     val old = prop.get()
 
-    override fun back() {
+    override fun undo() {
         prop.set(TokenProvider(old))
     }
 
-    override fun fwd() {
+    override fun redo() {
         prop.set(TokenProvider(value))
     }
 }

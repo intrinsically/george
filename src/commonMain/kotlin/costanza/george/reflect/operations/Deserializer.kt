@@ -8,10 +8,10 @@ fun findPrimitiveProperty(entity: IReflect, name: String) =
     entity.reflectInfo().properties.find { it.name == name }
 
 fun findEntityProperty(entity: IReflect, fnName: String) =
-    entity.reflectInfo().entities.find { it.propName == fnName }
+    entity.reflectInfo().entities.find { it.name == fnName }
 
 fun findEntityListProperty(entity: IReflect, fnName: String?) =
-    entity.reflectInfo().entityLists.find { it.propName == fnName }
+    entity.reflectInfo().entityLists.find { it.name == fnName }
 
 class Deserializer(val registry: EntityTypeRegistry) {
 

@@ -1,7 +1,7 @@
 package costanza.george.reflect
 
 class EntityProperty(
-    val propName: String,
+    val name: String,
     val get: () -> IReflect?,
     val set: (entity: IReflect?) -> Unit
 )
