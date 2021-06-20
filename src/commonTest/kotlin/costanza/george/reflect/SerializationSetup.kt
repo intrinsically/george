@@ -1,4 +1,4 @@
-package constanza.reflect
+package constanza.george.reflect
 
 import costanza.george.geometry.Rect
 import costanza.george.reflect.*

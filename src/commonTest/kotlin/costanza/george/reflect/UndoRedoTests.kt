@@ -1,4 +1,4 @@
-package constanza.reflect
+package constanza.george.reflect
 
 import costanza.george.reflect.EntityTypeRegistry
 import costanza.george.reflect.undoredo.Changer

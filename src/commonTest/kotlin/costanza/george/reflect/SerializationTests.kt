@@ -1,17 +1,14 @@
-package constanza.reflect
+package constanza.george.reflect
 
 import costanza.george.diagrams.Together
 import costanza.george.diagrams.base.FontDetails
 import costanza.george.diagrams.base.ITextCalculator
-import costanza.george.geometry.Rect
-import costanza.george.reflect.*
+import costanza.george.reflect.EntityTypeRegistry
+import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
-import costanza.george.reflect.typedproperties.*
-import costanza.george.utility.list
 import kotlin.test.Test
 import kotlin.test.assertEquals
-
 
 
 class SerializationTests {
