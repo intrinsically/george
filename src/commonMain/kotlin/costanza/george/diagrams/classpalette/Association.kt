@@ -27,29 +27,29 @@ class Association(): Line() {
     override fun entityType() = "association"
 
     var label: String? = null
-    var prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
+    val prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
     var composition: CompositionType = CompositionType.NONE
-    var prop_composition = StringProperty(this, "composition", false, CompositionType.NONE.name, { composition.name }, { composition = CompositionType.valueOf(it) })
+    val prop_composition = StringProperty(this, "composition", false, CompositionType.NONE.name, { composition.name }, { composition = CompositionType.valueOf(it) })
     var arrow: Boolean = false
-    var prop_arrow = BoolProperty(this, "arrow", false, { arrow }, { arrow = it })
+    val prop_arrow = BoolProperty(this, "arrow", false, { arrow }, { arrow = it })
     var startLabel: String? = null
-    var prop_startLabel = OptionalStringProperty(this, "startLabel", false, null, { startLabel }, { startLabel = it })
+    val prop_startLabel = OptionalStringProperty(this, "startLabel", false, null, { startLabel }, { startLabel = it })
     var startMult: String? = null
-    var prop_startMult = OptionalStringProperty(this, "startMult", false, null, { startMult }, { startMult = it })
+    val prop_startMult = OptionalStringProperty(this, "startMult", false, null, { startMult }, { startMult = it })
     var startXOffset: Double = 0.0
-    var prop_startXOffset = DoubleProperty(this, "startXOffset", false, 0.0, { startXOffset }, { startXOffset = it })
+    val prop_startXOffset = DoubleProperty(this, "startXOffset", false, 0.0, { startXOffset }, { startXOffset = it })
     var startYOffset: Double = 0.0
-    var prop_startYOffset = DoubleProperty(this, "startYOffset", false, 0.0, { startYOffset }, { startYOffset = it })
+    val prop_startYOffset = DoubleProperty(this, "startYOffset", false, 0.0, { startYOffset }, { startYOffset = it })
     var endLabel: String? = null
-    var prop_endLabel = OptionalStringProperty(this, "endLabel", false, null, { endLabel }, { endLabel = it })
+    val prop_endLabel = OptionalStringProperty(this, "endLabel", false, null, { endLabel }, { endLabel = it })
     var endMult: String? = null
-    var prop_endMult = OptionalStringProperty(this, "endMult", false, null, { endMult }, { endMult = it })
+    val prop_endMult = OptionalStringProperty(this, "endMult", false, null, { endMult }, { endMult = it })
     var endXOffset: Double = 0.0
-    var prop_endXOffset = DoubleProperty(this, "endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
+    val prop_endXOffset = DoubleProperty(this, "endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
     var endYOffset: Double = 0.0
-    var prop_endYOffset = DoubleProperty(this, "endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
-    var points: _List<Coord> = _list()
-    var prop_points = ObjectListProperty(this, null, points)
+    val prop_endYOffset = DoubleProperty(this, "endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
+    val points: _List<Coord> = _list()
+    val prop_points = ObjectListProperty(this, null, points)
 
     private var parentOffset = Coord(0,0)
 

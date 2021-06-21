@@ -6,14 +6,14 @@ import costanza.george.utility._list
 import costanza.george.utility._map
 
 abstract class Entity: ReflectInfo(""), IObject {
-    var components = _map<String, Component>()
-    var behaviors = _map<String, IBehavior>()
+    val components = _map<String, Component>()
+    val behaviors = _map<String, IBehavior>()
     fun add(component: Component) = components.put(component::class.simpleName!!, component)
     fun add(behavior: IBehavior) = behaviors.put(behavior::class.simpleName!!, behavior)
     override fun reflectInfo() = this
-
     /** override with entity type */
     abstract fun entityType(): String
+
     init {
         objectType = entityType()
     }

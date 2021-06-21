@@ -54,7 +54,7 @@ class TreeSynchronizer(val diagram: Diagram) {
         val childs = mutableListOf<DataNode>()
 
         shape.collectParts()?.forEach {
-            childs.add(tnode(title(it.type(), it.details), key++))
+            childs.add(tnode(title(it.objectType, it.details), key++))
         }
         node.children = childs.toTypedArray()
     }

@@ -4,6 +4,7 @@ import costanza.george.diagrams.base.*
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
+import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.typedproperties.OptionalStringProperty
 import costanza.george.utility._List
 import costanza.george.utility._Set
@@ -19,6 +20,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
 
     var stereotype: String? = null
     var prop_stereotype = OptionalStringProperty(this, "stereotype", false, null, { stereotype }, { stereotype = it })
+    var prop_parts = ObjectListProperty(this, null, parts)
     /** font details for the different parts */
     private val fontN = FontDetails.NAME
     private val fontS = FontDetails.SUB
@@ -35,7 +37,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
         widthM = diagram.calcWidth(fontN, bounds.dim.width, name ?: "")
         widthM = diagram.calcWidth(fontS, widthM, stereotype ?: "")
         parts.forEach {
-            widthM = diagram.calcWidth(fontS, widthM, it.details ?: "")
+            widthM = diagram.calcWidth(fontS, widthM, it.details)
         }
         widthM += PADDING * 2
     }
@@ -131,7 +133,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
         }
         attrs.forEach {
             svg.text {
-                body = it.details ?: ""
+                body = it.details
                 x = "${bounds.x + PADDING}"
                 y = "${newY + heightS * 0.5}"
                 fontFamily = "helvetica"

@@ -87,7 +87,7 @@ class EvolvedAlien(): Alien() {
     }
 
     init {
-        objectType = "evolvedalien"
+        objectType = "evolved"
     }
 
     var height = 0.0

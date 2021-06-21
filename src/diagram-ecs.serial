@@ -1,0 +1,91 @@
+diagram("Test") {
+    note {
+        loc = (585.0, 900.0)
+        dim = (150.0, 100.0)
+        text = "This is a note, i hope it will word wrap..."
+    }
+    area("Area 1") {
+        loc = (100.0, 900.0)
+        dim = (100.0, 100.0)
+        area("Area 2") {
+            loc = (20.0, 50.0)
+            dim = (300.0, 100.0)
+            class("TestClass") {
+                loc = (50.0, 50.0)
+                dim = (150.0, 0.0)
+                attribute("+a: Int")
+                attribute("+name: String")
+                operation("printIt(): void")
+                operation("hashCode(): long")
+            }
+        }
+    }
+    inheritance {
+        from = "TestClass"
+        to = "RenderLogic"
+    }
+    area("My Area") {
+        loc = (220.0, 100.0)
+        dim = (650.0, 450.0)
+        class("WidgetFactory") {
+            loc = (50.0, 50.0)
+            dim = (150.0, 0.0)
+            attribute("+a: Int")
+            attribute("+name: String")
+            operation("printIt(): void")
+            operation("hashCode(): long")
+        }
+        class("ApplicationManager") {
+            loc = (400.0, 50.0)
+            dim = (150.0, 0.0)
+            stereotype = "data-class"
+            attribute("+a: Int")
+            attribute("+name: String")
+        }
+        class("RenderLogic") {
+            loc = (50.0, 250.0)
+            dim = (150.0, 0.0)
+        }
+        class("DisplayLogic") {
+            loc = (400.0, 270.0)
+            dim = (150.0, 0.0)
+            operation("printIt(): void")
+            operation("hashCode(): long")
+        }
+        inheritance {
+            from = "DisplayLogic"
+            to = "ApplicationManager"
+        }
+        association {
+            from = "ApplicationManager"
+            to = "DisplayLogic"
+            label = "association"
+            composition = "AGGREGATION"
+            arrow = true
+            startLabel = "+a"
+            startMult = "0..*"
+            endLabel = "andrew"
+            endMult = "1..4"
+        }
+        association {
+            from = "DisplayLogic"
+            to = "WidgetFactory"
+            label = "association"
+            composition = "COMPOSITION"
+            startLabel = "+a"
+            startMult = "0..*"
+            endLabel = "andrew"
+            endMult = "1..4"
+        }
+    }
+    class("Outside") {
+        loc = (600.0, 670.0)
+        dim = (150.0, 0.0)
+        operation("printIt(): void")
+        operation("hashCode(): long")
+    }
+    inheritance {
+        from = "DisplayLogic"
+        to = "Outside"
+    }
+}
