@@ -22,6 +22,3 @@ class IntProperty(
     override fun get() = getter().toString()
     override fun set(prov: IProvider) = setter(prov.popInt())
 }
-
-fun ReflectInfo.int(name: String, isConstructor: Boolean, defaultValue: Int, getter: () -> Int, setter: (s: Int) -> Unit)
-        = properties.add(IntProperty(this, name, isConstructor, defaultValue, getter, setter))

@@ -1,6 +1,7 @@
 package costanza.george.reflect.operations
 
 import costanza.george.reflect.IObject
+import costanza.george.reflect.PrimitiveProperty
 import costanza.george.utility.iloop
 import costanza.george.utility.loop
 
@@ -23,11 +24,18 @@ class Serializer {
         bld += fnName
         indent++
 
-        // handle constructor parameters
-        val cons = entity.reflectInfo().properties.filter { it.isConstructor }.joinToString {
-            it.get()
+        // handle constructor parameters - but omit trailing nulls
+        val cons = entity.reflectInfo().properties.filter { it.isConstructor }
+        var lastNonNull = -1
+        cons.forEachIndexed { pos, prop ->
+            if (prop.get() != "null") {
+                lastNonNull = pos
+            }
         }
-        if (cons.isNotBlank()) {
+        if (lastNonNull != -1) {
+            // we have some constructor parameters
+            val use = cons.subList(0, lastNonNull + 1)
+            val cons = use.joinToString { it.get() }
             bld += "($cons)"
         }
 

@@ -30,7 +30,7 @@ class InheritingEntity : BaseEntity() {
 
     val circle = CBoundsCircle(this, Coord(12, 12), 10.0, "circle-")
     var address: String = "here"
-    val prop_address = string("address", false, "", { address }, { address = it })
+    val prop_address = StringProperty(this, "address", false, "", { address }, { address = it })
 }
 
 class ECSTests {

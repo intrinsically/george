@@ -29,6 +29,3 @@ class BoolProperty(
         }
     }
 }
-
-fun ReflectInfo.bool(name: String, isConstructor: Boolean, getter: () -> Boolean, setter: (s: Boolean) -> Unit)
-        = BoolProperty(this, name, isConstructor, getter, setter)

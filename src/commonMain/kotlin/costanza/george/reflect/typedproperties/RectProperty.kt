@@ -38,5 +38,3 @@ class RectProperty(
         setter(Rect(x, y, width, height))
     }
 }
-fun ReflectInfo.rect(name: String, isConstructor: Boolean, defaultValue: Rect, getter: () -> Rect, setter: (s: Rect) -> Unit)
-        = RectProperty(this, name, isConstructor, defaultValue, getter, setter)

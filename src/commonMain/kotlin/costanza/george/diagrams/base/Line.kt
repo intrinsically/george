@@ -1,11 +1,7 @@
 package costanza.george.diagrams.base
 
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.IntProperty
 import costanza.george.reflect.typedproperties.StringProperty
-import costanza.george.reflect.typedproperties.int
-import costanza.george.reflect.typedproperties.string
 
 /** draw lines last */
 const val LINE_Z_ORDER = 10

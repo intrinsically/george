@@ -16,7 +16,9 @@ var entityTypes = list(
     ObjectType("evolved") { EvolvedAlien() },
 )
 
-class Note: IObject {
+class Note: IObject, ReflectInfo("note") {
+    override fun reflectInfo(): ReflectInfo = this
+
     var name = ""
     var details = ""
     var location = Rect(0,0,0,0)
@@ -24,56 +26,59 @@ class Note: IObject {
     var another: Inside? = null
     var people: _List<Person> = _list()
 
-    override fun reflectInfo() = reflect("note") {
-        string("name", true, "", { name }, { name = it })
-        string("details", false, "", { details }, { details = it })
-        rect("location", false, Rect(0, 0, 0, 0), { location }, { location = it })
-        entity("inside", { inside }, { inside = it as Inside? })
-        entity("another", { another }, { another = it as Inside? })
-        entityList(people)
+    init {
+        StringProperty(this, "name", true, "", { name }, { name = it })
+        StringProperty(this, "details", false, "", { details }, { details = it })
+        RectProperty(this, "location", false, Rect(0, 0, 0, 0), { location }, { location = it })
+        ObjectProperty(this, "inside", { inside }, { inside = it as Inside? })
+        ObjectProperty(this, "another", { another }, { another = it as Inside? })
+        ObjectListProperty(this, null, people)
     }
 }
 
-class Inside: IObject {
+class Inside: IObject, ReflectInfo("inside") {
+    override fun reflectInfo(): ReflectInfo = this
+
     var age = 0
+    val prop_age = IntProperty(this, "age", true, 0, { age }, { age = it })
     var height = 0.0
-
-    override fun reflectInfo() = reflect("inside") {
-        int("age", true, 0, { age }, { age = it })
-        double("height", false, 0.0, { height }, { height = it })
-    }
+    var prop_height = DoubleProperty(this, "height", false, 0.0, { height }, { height = it })
 }
 
-open class Person(): IObject {
+open class Person(): IObject, ReflectInfo("person") {
+    override fun reflectInfo(): ReflectInfo = this
+
     constructor(_name: String, _address: String) : this() {
         name = _name
         address = _address
     }
 
     var name = ""
+    var prop_name = StringProperty(this, "name", true, "", { name }, { name = it })
     var address = ""
-
-    override fun reflectInfo() = reflect("person") {
-        string("name", true, "", { name }, { name = it })
-        string("address", false, "", { address }, { address = it })
-    }
+    var prop_address = StringProperty(this, "address", false, "", { address }, { address = it })
 }
 
 open class Alien(): Person() {
+    override fun reflectInfo(): ReflectInfo = this
+
     constructor(_name: String, _address: String, _age: Int): this() {
         name = _name
         address = _address
         age = _age
     }
 
-    var age = 0
-
-    override fun reflectInfo() = reflect("alien", super.reflectInfo()) {
-        int("age", true, 0, { age }, { age = it })
+    init {
+        objectType = "alien"
     }
+
+    var age = 0
+    var prop_age = IntProperty(this, "age", true, 0, { age }, { age = it })
 }
 
 class EvolvedAlien(): Alien() {
+    override fun reflectInfo(): ReflectInfo = this
+
     constructor(_name: String, _address: String, _age: Int, _height: Double): this() {
         name = _name
         address = _address
@@ -81,11 +86,12 @@ class EvolvedAlien(): Alien() {
         height = _height
     }
 
-    var height = 0.0
-
-    override fun reflectInfo() = reflect("evolved", super.reflectInfo()) {
-        double("height", true, 0.0, { height }, { height = it })
+    init {
+        objectType = "evolvedalien"
     }
+
+    var height = 0.0
+    var prop_height = DoubleProperty(this, "height", true, 0.0, { height }, { height = it })
 }
 
 

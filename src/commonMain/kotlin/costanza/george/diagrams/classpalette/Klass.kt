@@ -4,22 +4,11 @@ import costanza.george.diagrams.base.*
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.entityList
-import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.coord
-import costanza.george.reflect.typedproperties.dim
-import costanza.george.reflect.typedproperties.optionalString
+import costanza.george.reflect.typedproperties.OptionalStringProperty
 import costanza.george.utility._List
 import costanza.george.utility._Set
 import costanza.george.utility._list
-import costanza.george.diagrams.base.Diagram
-import costanza.george.reflect.typedproperties.OptionalStringProperty
 import ksvg.elements.SVG
-import kotlin.collections.MutableList
-import kotlin.collections.filterIsInstance
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
 import kotlin.collections.set
 import kotlin.math.max
 
@@ -29,7 +18,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
     override fun entityType() = "class"
 
     var stereotype: String? = null
-    var prop_stereotype = OptionalStringProperty(this, "stereotype", true, null, { stereotype }, { stereotype = it })
+    var prop_stereotype = OptionalStringProperty(this, "stereotype", false, null, { stereotype }, { stereotype = it })
     /** font details for the different parts */
     private val fontN = FontDetails.NAME
     private val fontS = FontDetails.SUB

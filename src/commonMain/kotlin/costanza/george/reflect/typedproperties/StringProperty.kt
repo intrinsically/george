@@ -21,6 +21,3 @@ class StringProperty(
     override fun get() = "\"${getter()}\""
     override fun set(prov: IProvider) = setter(prov.popString())
 }
-
-fun ReflectInfo.string(name: String, isConstructor: Boolean, defaultValue: String, getter: () -> String, setter: (s: String) -> Unit)
-        = StringProperty(this, name, isConstructor, defaultValue, getter, setter)

@@ -34,6 +34,3 @@ class DimProperty(
         setter(Dim(width, height))
     }
 }
-
-fun ReflectInfo.dim(name: String, isConstructor: Boolean, defaultValue: Dim, getter: () -> Dim, setter: (s:Dim) -> Unit)
-        = DimProperty(this, name, isConstructor, defaultValue, getter, setter)

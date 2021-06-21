@@ -1,18 +1,14 @@
 package costanza.george.diagrams.infopalette
 
-import ksvg.elements.SVG
 import costanza.george.diagrams.base.Container
-import costanza.george.diagrams.base.FontDetails
-import costanza.george.geometry.Coord
 import costanza.george.diagrams.base.Diagram
+import costanza.george.diagrams.base.FontDetails
 import costanza.george.diagrams.base.LINE_Z_ORDER
+import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.IntProperty
 import costanza.george.reflect.typedproperties.StringProperty
-import costanza.george.reflect.typedproperties.int
-import costanza.george.reflect.typedproperties.string
+import ksvg.elements.SVG
 
 class Note(var text: String = ""): Container() {
     override fun entityType() = "note"

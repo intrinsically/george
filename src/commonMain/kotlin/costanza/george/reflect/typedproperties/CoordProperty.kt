@@ -33,6 +33,3 @@ class CoordProperty(
         setter(Coord(x, y))
     }
 }
-
-fun ReflectInfo.coord(name: String, isConstructor: Boolean, defaultValue: Coord, getter: () -> Coord, setter: (s:Coord) -> Unit)
-     = CoordProperty(this, name, isConstructor, defaultValue, getter, setter)

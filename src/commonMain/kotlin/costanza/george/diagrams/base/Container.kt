@@ -1,15 +1,10 @@
 package costanza.george.diagrams.base
 
-import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
 import costanza.george.reflect.ObjectListProperty
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.entityList
-import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.coord
-import costanza.george.reflect.typedproperties.dim
+import ksvg.elements.SVG
 
 abstract class Container: Box() {
     override fun entityType() = "container"

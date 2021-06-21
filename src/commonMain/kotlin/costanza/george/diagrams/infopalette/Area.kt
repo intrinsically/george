@@ -1,15 +1,11 @@
 package costanza.george.diagrams.infopalette
 
-import ksvg.elements.SVG
 import costanza.george.diagrams.base.Container
+import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.base.FontDetails
 import costanza.george.geometry.Coord
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.int
-import costanza.george.reflect.typedproperties.optionalString
-import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.typedproperties.IntProperty
+import ksvg.elements.SVG
 
 class Area(): Container() {
     override fun entityType() = "area"

@@ -28,6 +28,3 @@ class OptionalStringProperty(
         }
     }
 }
-
-fun ReflectInfo.optionalString(name: String, isConstructor: Boolean, getter: () -> String?, setter: (s: String?) -> Unit)
-        = OptionalStringProperty(this, name, isConstructor, null, getter, setter)

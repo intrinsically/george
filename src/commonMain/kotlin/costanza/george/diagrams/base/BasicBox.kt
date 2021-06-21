@@ -1,12 +1,9 @@
 package costanza.george.diagrams.base
 
-import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.IntProperty
-import costanza.george.reflect.typedproperties.int
+import ksvg.elements.SVG
 
 abstract class BasicBox(loc: Coord = Coord(0,0), dim: Dim = Dim(0,0)): Box(loc, dim) {
     override fun entityType() = "basicbox"
