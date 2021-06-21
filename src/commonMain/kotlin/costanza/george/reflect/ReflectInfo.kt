@@ -3,7 +3,7 @@ package costanza.george.reflect
 import costanza.george.utility._List
 import costanza.george.utility._list
 
-open class ReflectInfo(val entityType: String) {
+open class ReflectInfo(var objectType: String) {
     val properties: _List<PrimitiveProperty> = _list()
     val objects: _List<ObjectProperty> = _list()
     val objectLists: _List<ObjectListProperty<IObject>> = _list()

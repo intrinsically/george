@@ -9,13 +9,11 @@ import costanza.george.geometry.Rect
 import costanza.george.geometry.Router
 import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.base.Line
+import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.entityList
 import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.bool
-import costanza.george.reflect.typedproperties.double
-import costanza.george.reflect.typedproperties.optionalString
-import costanza.george.reflect.typedproperties.string
+import costanza.george.reflect.typedproperties.*
 import costanza.george.utility._List
 import costanza.george.utility._list
 
@@ -26,34 +24,32 @@ enum class CompositionType(val marker: String) {
 }
 
 class Association(): Line() {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("association", super.reflectInfo()) {
-            optionalString("label", false, { label }, { label = it })
-            string("composition", false, CompositionType.NONE.name, { composition.name }, { composition = CompositionType.valueOf(it) })
-            bool("arrow", false, { arrow }, { arrow = it })
-            optionalString("startLabel", false, { startLabel }, { startLabel = it })
-            optionalString("startMult", false, { startMult }, { startMult = it })
-            double("startXOffset", false, 0.0, { startXOffset }, { startXOffset = it })
-            double("startYOffset", false, 0.0, { startYOffset }, { startYOffset = it })
-            optionalString("endLabel", false, { endLabel }, { endLabel = it })
-            optionalString("endMult", false, { endMult }, { endMult = it })
-            double("endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
-            double("endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
-            entityList(points)
-        }
+    override fun entityType() = "association"
 
     var label: String? = null
+    var prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
     var composition: CompositionType = CompositionType.NONE
+    var prop_composition = StringProperty(this, "composition", false, CompositionType.NONE.name, { composition.name }, { composition = CompositionType.valueOf(it) })
     var arrow: Boolean = false
+    var prop_arrow = BoolProperty(this, "arrow", false, { arrow }, { arrow = it })
     var startLabel: String? = null
+    var prop_startLabel = OptionalStringProperty(this, "startLabel", false, null, { startLabel }, { startLabel = it })
     var startMult: String? = null
+    var prop_startMult = OptionalStringProperty(this, "startMult", false, null, { startMult }, { startMult = it })
     var startXOffset: Double = 0.0
+    var prop_startXOffset = DoubleProperty(this, "startXOffset", false, 0.0, { startXOffset }, { startXOffset = it })
     var startYOffset: Double = 0.0
+    var prop_startYOffset = DoubleProperty(this, "startYOffset", false, 0.0, { startYOffset }, { startYOffset = it })
     var endLabel: String? = null
+    var prop_endLabel = OptionalStringProperty(this, "endLabel", false, null, { endLabel }, { endLabel = it })
     var endMult: String? = null
+    var prop_endMult = OptionalStringProperty(this, "endMult", false, null, { endMult }, { endMult = it })
     var endXOffset: Double = 0.0
+    var prop_endXOffset = DoubleProperty(this, "endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
     var endYOffset: Double = 0.0
+    var prop_endYOffset = DoubleProperty(this, "endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
     var points: _List<Coord> = _list()
+    var prop_points = ObjectListProperty(this, null, points)
 
     private var parentOffset = Coord(0,0)
 

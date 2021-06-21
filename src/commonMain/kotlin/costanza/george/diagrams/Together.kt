@@ -47,30 +47,30 @@ class Together {
     fun makeDiagram3(calc: ITextCalculator) =
         diagram(calc, "Test") {
             area {
-                loc = Coord(1220, 1350)
-                dim = Dim(200, 100)
+                bounds.loc = Coord(1220, 1350)
+                bounds.dim = Dim(200, 100)
             }
             area {
-                loc = Coord(1220 + 20, 1350 + 20)
-                dim = Dim(200 - 40, 100 - 40)
+                bounds.loc = Coord(1220 + 20, 1350 + 20)
+                bounds.dim = Dim(200 - 40, 100 - 40)
             }
         }
 
     fun makeDiagram(calc: ITextCalculator) =
         diagram(calc, "Test") {
             note {
-                loc = Coord(585, 900)
+                bounds.loc = Coord(585, 900)
                 text = "This is a note, i hope it will word wrap..."
             }
             area("Area 1") {
-                loc = Coord(100, 900)
-                dim = Dim(100, 100)
+                bounds.loc = Coord(100, 900)
+                bounds.dim = Dim(100, 100)
                 area("Area 2") {
-                    loc = Coord(20, 50)
-                    dim = Dim(300, 100)
+                    bounds.loc = Coord(20, 50)
+                    bounds.dim = Dim(300, 100)
 
                     klass("TestClass") {
-                        loc = Coord(50,50)
+                        bounds.loc = Coord(50,50)
                         attribute("+a: Int")
                         attribute("+name: String")
                         operation("printIt(): void")
@@ -82,26 +82,26 @@ class Together {
                 points = _list(Coord(330, 800))
             }
             area("My Area") {
-                loc = Coord(220, 100)
-                dim = Dim(650, 450)
+                bounds.loc = Coord(220, 100)
+                bounds.dim = Dim(650, 450)
                 klass("WidgetFactory") {
-                    loc = Coord(50,50)
+                    bounds.loc = Coord(50,50)
                     attribute("+a: Int")
                     attribute("+name: String")
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
                 klass("ApplicationManager") {
-                    loc = Coord(400,50)
+                    bounds.loc = Coord(400,50)
                     stereotype = "data-class"
                     attribute("+a: Int")
                     attribute("+name: String")
                 }
                 klass("RenderLogic") {
-                    loc = Coord(50,250)
+                    bounds.loc = Coord(50,250)
                 }
                 klass("DisplayLogic") {
-                    loc = Coord(400,270)
+                    bounds.loc = Coord(400,270)
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
@@ -127,7 +127,8 @@ class Together {
                 }
             }
             klass("Outside") {
-                loc = Coord(600,670)
+                bounds.loc = Coord(600,670)
+                bounds.loc = Coord(600,670)
                 operation("printIt(): void")
                 operation("hashCode(): long")
             }

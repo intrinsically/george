@@ -7,25 +7,25 @@ import costanza.george.geometry.Rect
 import costanza.george.geometry.Router
 import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.base.Line
+import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.entityList
 import costanza.george.reflect.reflect
+import costanza.george.reflect.typedproperties.OptionalStringProperty
 import costanza.george.reflect.typedproperties.optionalString
 import costanza.george.utility._List
 import costanza.george.utility._list
 
 class Dependency(): Line() {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("dependency", super.reflectInfo()) {
-            optionalString("label", false, { label }, { label = it })
-            entityList(points)
-        }
+    override fun entityType() = "dependency"
 
     private val END_TYPE = "dependency_arrow"
     private var parentOffset = Coord(0,0)
 
     var label: String? = null
+    var prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
     var points: _List<Coord> = _list()
+    var prop_points = ObjectListProperty(this, null, points)
 
     constructor(from: String, to: String) : this() {
         this.from = from

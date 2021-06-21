@@ -9,9 +9,7 @@ import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.reflect
 
 class Diagram: Container(), ITextCalculator {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("diagram", super.reflectInfo()) {
-        }
+    override fun entityType() = "diagram"
 
     var changer: Changer? = null
     var debug: Boolean = false

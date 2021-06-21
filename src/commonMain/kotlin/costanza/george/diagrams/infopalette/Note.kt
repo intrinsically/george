@@ -9,24 +9,26 @@ import costanza.george.diagrams.base.LINE_Z_ORDER
 import costanza.george.geometry.Dim
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.reflect
+import costanza.george.reflect.typedproperties.IntProperty
+import costanza.george.reflect.typedproperties.StringProperty
 import costanza.george.reflect.typedproperties.int
 import costanza.george.reflect.typedproperties.string
 
 class Note(var text: String = ""): Container() {
+    override fun entityType() = "note"
 
-    override fun reflectInfo(): ReflectInfo =
-        reflect("note", super.reflectInfo()) {
-            string("text", false, "", { text }, { text = it })
-            int("zIndex", false, LINE_Z_ORDER + 10, { zIndex }, { zIndex = it })
-        }
+    val prop_text = StringProperty(this, "text", false, "", { text }, { text = it })
+    var zIndex = LINE_Z_ORDER + 10 // on top of even lines
+    val prop_zIndex = IntProperty(this, "zIndex", false, LINE_Z_ORDER + 10, { zIndex }, { zIndex = it })
 
+    /** hardcoded currently */
     val fillStyle: String = "#fffdd0"
     val strokeStyle: String = "gray"
-    var zIndex = LINE_Z_ORDER + 10 // on top of even lines
+
     override fun determineZIndex() = zIndex
 
     init {
-        dim = Dim(150, 100)
+        bounds.dim = Dim(150, 100)
     }
 
     override fun add(diagram: Diagram, svg: SVG, zIndex: Int) {

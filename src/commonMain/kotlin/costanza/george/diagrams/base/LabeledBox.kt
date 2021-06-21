@@ -5,6 +5,8 @@ import costanza.george.geometry.Coord
 import costanza.george.geometry.Rect
 
 open class LabeledBox(var x: Double = 0.0, var y: Double = 0.0, var width: Double = 0.0, var height: Double = 0.0): BasicBox() {
+    override fun entityType() = "labelledbox"
+
     private var textHeight = 0.0
     private var textWidth = 0.0
 

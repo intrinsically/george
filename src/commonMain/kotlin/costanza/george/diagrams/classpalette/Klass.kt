@@ -14,6 +14,7 @@ import costanza.george.utility._List
 import costanza.george.utility._Set
 import costanza.george.utility._list
 import costanza.george.diagrams.base.Diagram
+import costanza.george.reflect.typedproperties.OptionalStringProperty
 import ksvg.elements.SVG
 import kotlin.collections.MutableList
 import kotlin.collections.filterIsInstance
@@ -25,15 +26,10 @@ import kotlin.math.max
 const val PADDING = 7.0
 
 class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part> = _list()): BasicBox(loc, dim) {
-
-    override fun reflectInfo(): ReflectInfo =
-        reflect("class", super.reflectInfo()) {
-            optionalString("name", true, { name }, { name = it })
-            optionalString("stereotype", false, { stereotype }, { stereotype = it })
-            entityList(parts)
-        }
+    override fun entityType() = "class"
 
     var stereotype: String? = null
+    var prop_stereotype = OptionalStringProperty(this, "stereotype", true, null, { stereotype }, { stereotype = it })
     /** font details for the different parts */
     private val fontN = FontDetails.NAME
     private val fontS = FontDetails.SUB
@@ -42,16 +38,12 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
     private var heightS: Double = 0.0
     private var widthM: Double = 0.0
 
-    override fun type(): String {
-        return "Class"
-    }
-
     /** get the width and height details */
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: _Set<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)
         heightN = diagram.calcHeight(fontN)
         heightS = diagram.calcHeight(fontS) + 3
-        widthM = diagram.calcWidth(fontN, dim.width, name ?: "")
+        widthM = diagram.calcWidth(fontN, bounds.dim.width, name ?: "")
         widthM = diagram.calcWidth(fontS, widthM, stereotype ?: "")
         parts.forEach {
             widthM = diagram.calcWidth(fontS, widthM, it.details ?: "")
@@ -92,7 +84,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
                 } else {
                     0.0
                 }
-        return Rect(loc.x, loc.y, widthM, max(actual, dim.height)) + parentOffset
+        return Rect(bounds.loc.x, bounds.loc.y, widthM, max(actual, bounds.dim.height)) + parentOffset
     }
 
     operator fun String.unaryPlus() {

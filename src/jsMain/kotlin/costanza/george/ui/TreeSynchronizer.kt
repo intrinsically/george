@@ -37,7 +37,7 @@ class TreeSynchronizer(val diagram: Diagram) {
     }
 
     private fun makeChild(shape: Shape): DataNode {
-        val node = tnode(title(shape.type(), shape.name), key++)
+        val node = tnode(title(shape.objectType, shape.name), key++)
 
         // add parts first
         if (shape.collectParts() != null) {

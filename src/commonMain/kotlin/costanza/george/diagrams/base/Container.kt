@@ -4,19 +4,18 @@ import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
+import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.entityList
 import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.coord
 import costanza.george.reflect.typedproperties.dim
 
-open class Container(): Box() {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("container", super.reflectInfo()) {
-            entityList(shapes)
-        }
+abstract class Container: Box() {
+    override fun entityType() = "container"
 
     val shapes: MutableList<Shape> = mutableListOf()
+    val prop_shapes = ObjectListProperty(this, null, shapes)
     protected val PADDING = 5.0
     protected var parentOffset = Coord(0,0)
 
@@ -24,10 +23,10 @@ open class Container(): Box() {
         // children already include the parent offset
         val childs = boundsOfChildren(diagram)
         if (childs === null) {
-            return Rect(loc, dim)
+            return Rect(bounds.loc, bounds.dim)
         }
-        return Rect(loc, Coord(childs.x2 - parentOffset.x, childs.y2 - parentOffset.y))
-                .enforceMinDimensions(dim)
+        return Rect(bounds.loc, Coord(childs.x2 - parentOffset.x, childs.y2 - parentOffset.y))
+                .enforceMinDimensions(bounds.dim)
                 .pad(Dim(0,0), Dim(PADDING*2, PADDING*2)) + parentOffset
     }
 
@@ -57,7 +56,7 @@ open class Container(): Box() {
 
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord) {
         this.parentOffset = parentOffset
-        val offset = parentOffset + Dim(loc.x, loc.y)
+        val offset = parentOffset + Dim(bounds.loc.x, bounds.loc.y)
         shapes.forEach {
             it.prepare(diagram, svg, addedElements, offset)
         }

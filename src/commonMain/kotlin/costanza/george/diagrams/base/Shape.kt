@@ -1,27 +1,21 @@
 package costanza.george.diagrams.base
 
+import costanza.george.ecs.Entity
 import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Rect
-import costanza.george.reflect.IObject
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.*
 
-abstract class Shape: IObject {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("shape") {
-            optionalString("id", false, { id }, { id = it })
-        }
+abstract class Shape: Entity() {
+    override fun entityType() = "shape"
 
     /** use name if item clearly is named on the screen. e.g. service name */
     var name: String? = null
+    var prop_name = OptionalStringProperty(this, "name", true, null, {name}) { name = it }
 
     /** unique id - use if name is duplicate etc */
     var id: String? = null
-
-    /** get the shape type, allowing this to be overridden */
-    open fun type() = this::class.simpleName ?: ""
+    var prop_id = OptionalStringProperty(this, "name", true, null, {name}) { name = it }
 
     /** prepare the shape */
     abstract fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord)

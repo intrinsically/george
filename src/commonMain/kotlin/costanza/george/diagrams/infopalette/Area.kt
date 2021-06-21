@@ -9,15 +9,13 @@ import costanza.george.reflect.reflect
 import costanza.george.reflect.typedproperties.int
 import costanza.george.reflect.typedproperties.optionalString
 import costanza.george.diagrams.base.Diagram
+import costanza.george.reflect.typedproperties.IntProperty
 
 class Area(): Container() {
-    override fun reflectInfo(): ReflectInfo =
-        reflect("area", super.reflectInfo()) {
-            optionalString("name", true, { name }, { name = it })
-            int("zIndex", false, 0, { zIndex }, { zIndex = it })
-        }
+    override fun entityType() = "area"
 
     var zIndex = 0
+    var prop_zIndex = IntProperty(this, "zIndex", false, 0, { zIndex }, { zIndex = it })
 
     override fun determineZIndex() = zIndex
 

@@ -144,7 +144,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                     val title = if (shape == null) {
                                         "??"
                                     } else {
-                                        shape.type() + " / " + (shape.name ?: "??")
+                                        shape.objectType + " / " + (shape.name ?: "??")
                                     }
                                     +("Hello $x, $y -- $title")
                                 }

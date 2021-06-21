@@ -8,7 +8,7 @@ import costanza.george.utility.loop
 class Serializer {
 
     /** serialize an entity */
-    fun serialize(entity: IObject) = serializeEntity(entity.reflectInfo().entityType, entity, 0)
+    fun serialize(entity: IObject) = serializeEntity(entity.reflectInfo().objectType, entity, 0)
 
     private fun serializeEntity(fnName: String, entity: IObject, indentLevel: Int): String {
         val bld = StringBuilder()
@@ -45,7 +45,7 @@ class Serializer {
                 indent()
                 bld += it.name + ":"
                 val elem = it.get()!!
-                bld += serializeEntity(elem.reflectInfo().entityType, elem, indent)
+                bld += serializeEntity(elem.reflectInfo().objectType, elem, indent)
             }
             entityLists.forEach {
                 it.list.size.iloop { index ->
@@ -54,7 +54,7 @@ class Serializer {
                     if (it.name != null) {
                         bld += it.name + ":"
                     }
-                    bld += serializeEntity(elem.reflectInfo().entityType, elem, indent)
+                    bld += serializeEntity(elem.reflectInfo().objectType, elem, indent)
                 }
             }
             indent--
