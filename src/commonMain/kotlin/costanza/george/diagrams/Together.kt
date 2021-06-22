@@ -114,7 +114,7 @@ class Together {
                     arrow = true
                     endLabel = "andrew"
                     endMult = "1..4"
-                    points = _list(Coord(420, 200))
+                    points += Coord(420, 200)
                 }
                 association("DisplayLogic", "WidgetFactory") {
                     composition = CompositionType.COMPOSITION
@@ -123,7 +123,7 @@ class Together {
                     label = "association"
                     endLabel = "andrew"
                     endMult = "1..4"
-                    points = _list(Coord(350, 280))
+                    points += Coord(350, 280)
                 }
             }
             klass("Outside") {

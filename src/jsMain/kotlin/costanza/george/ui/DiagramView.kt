@@ -12,6 +12,7 @@ import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.ui.commands.ITool
 import costanza.george.utility.iloop
+import kotlinext.js.js
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import react.*
@@ -30,7 +31,6 @@ class DiagramState(
     var svg2: String,
     var svg3: String,
     var time: Int = 0,
-    var visible: Boolean = false,
     var x: Double = 0.0,
     var y: Double = 0.0,
     var cursor: String = "crosshair") : RState
@@ -68,33 +68,27 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     private var ignore = false
     override fun RBuilder.render() {
         content {
-//            attrs.style = js { cursor = "${state.cursor}" }
+            attrs.style = js { cursor = "${state.cursor}" }
             attrs {
                 onMouseDown = { e ->
                     if (ignore) {
                         ignore = false
                     } else {
                         markMouse(e)
-                        println("buttons = ${e.buttons}")
                         if (e.buttons == 2) {
                             ignore = true
                         }
                         if (e.buttons == 4) {
-                            if (e.shiftKey) {
-                                marginX = state.x
-                                marginY = state.y
-                                startX = e.clientX.toDouble()
-                                startY = e.clientY.toDouble()
-                                setState {
-                                    x = e.clientX.toDouble() - startX + marginX
-                                    y = e.clientY.toDouble() - startY + marginY
-                                    cursor = "grab"
-                                }
-                            } else {
-                                setState { visible = !visible }
+                            marginX = state.x
+                            marginY = state.y
+                            startX = e.clientX.toDouble()
+                            startY = e.clientY.toDouble()
+                            setState {
+                                x = e.clientX.toDouble() - startX + marginX
+                                y = e.clientY.toDouble() - startY + marginY
+                                cursor = "grab"
                             }
                         } else if (e.buttons == 1) {
-                            println("Creating")
                             props.tool.diagram = diagram
                             props.tool.click(Coord(x, y))
                             setState { svg = together.makeSVG(diagram) }
@@ -106,7 +100,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                 }
                 onMouseMove = { e ->
                     markMouse(e)
-                    if (e.buttons == 4 && e.shiftKey) {
+                    if (e.buttons == 4) {
                         setState {
                             x = e.clientX.toDouble() - startX + marginX
                             y = e.clientY.toDouble() - startY + marginY
@@ -192,30 +186,6 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             div("overlay") {
                                 attrs {
                                     unsafe { +state.svg3 }
-                                }
-                            }
-                            if (state.visible) {
-                                10.iloop { index ->
-                                    div("overlay") {
-                                        val theta = kotlin.math.PI * 2 / 10 * index
-                                        val ty = y + state.y + sin(theta) * 60
-                                        val tx = x + state.x + cos(theta) * 60
-                                        attrs.jsStyle {
-                                            top = ty - 10; left = tx - 20
-                                        }
-
-                                        tooltip {
-                                            attrs.title = "Class $index"
-                                            button {
-                                                attrs {
-                                                    shape = "circle"
-                                                    icon = buildElement {
-                                                        highlightOutlined {}
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }

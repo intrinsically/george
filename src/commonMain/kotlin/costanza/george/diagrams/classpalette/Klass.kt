@@ -15,7 +15,7 @@ import kotlin.math.max
 
 const val PADDING = 7.0
 
-class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part> = _list()): BasicBox(loc, dim) {
+class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), val parts:_List<Part> = _list()): BasicBox(loc, dim) {
     override fun entityType() = "class"
 
     var stereotype: String? = null
@@ -159,7 +159,7 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), var parts:_List<Part
         newY += PADDING
         opers.forEach {
             svg.text {
-                body = it.details ?: ""
+                body = it.details
                 x = "${bounds.x + PADDING}"
                 y = "${newY + heightS * 0.5}"
                 fontFamily = "helvetica"

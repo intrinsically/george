@@ -1,14 +1,11 @@
 package costanza.george.diagrams.art
 
-import ksvg.elements.SVG
 import costanza.george.diagrams.base.BasicBox
 import costanza.george.diagrams.base.Container
-import costanza.george.geometry.Rect
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.double
 import costanza.george.diagrams.base.Diagram
+import costanza.george.geometry.Rect
 import costanza.george.reflect.typedproperties.DoubleProperty
+import ksvg.elements.SVG
 
 class Circle: BasicBox() {
     override fun entityType() = "circle"

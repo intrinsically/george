@@ -1,20 +1,20 @@
-package costanza.george.diagrams.components
+package costanza.george.components
 
 import costanza.george.ecs.Component
 import costanza.george.ecs.Entity
 import costanza.george.geometry.Coord
+import costanza.george.geometry.Dim
 import costanza.george.reflect.typedproperties.CoordProperty
-import costanza.george.reflect.typedproperties.DoubleProperty
+import costanza.george.reflect.typedproperties.DimProperty
 
-class CBoundsCircle(
+class CBounds(
     entity: Entity,
     var loc: Coord,
-    var radius: Double,
+    var dim: Dim,
     prefix: String = ""
 ) : Component(entity) {
     val prop_loc =
         CoordProperty(entity, prefix + "loc", false, Coord(0, 0), { loc }, { loc = it })
-    val prop_radius =
-        DoubleProperty(entity, prefix + "radius", false, 0.0, { radius }, { radius = it })
+    val prop_dim =
+        DimProperty(entity, prefix + "dim", false, Dim(0, 0), { dim }, { dim = it })
 }
-

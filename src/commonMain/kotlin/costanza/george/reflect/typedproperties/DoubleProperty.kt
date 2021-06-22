@@ -23,5 +23,3 @@ class DoubleProperty(
     override fun set(prov: IProvider) = setter(prov.popDouble())
 }
 
-fun ReflectInfo.double(name: String, isConstructor: Boolean, defaultValue: Double, getter: () -> Double, setter: (s: Double) -> Unit)
-        = DoubleProperty(this, name, isConstructor, defaultValue, getter, setter)

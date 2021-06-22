@@ -1,8 +1,8 @@
 package costanza.george.ecs
 
-import costanza.george.diagrams.components.CBounds
-import costanza.george.diagrams.components.CBoundsCircle
-import costanza.george.diagrams.components.CBoundsSquare
+import costanza.george.components.CBounds
+import costanza.george.components.CBoundsCircle
+import costanza.george.components.CBoundsSquare
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.reflect.operations.Serializer

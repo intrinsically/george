@@ -3,7 +3,7 @@ package costanza.george.geometry
 import costanza.george.reflect.IObject
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.double
+import costanza.george.reflect.typedproperties.DoubleProperty
 import kotlin.math.sqrt
 
 data class Coord(var x: Double, var y: Double): IObject {
@@ -11,8 +11,8 @@ data class Coord(var x: Double, var y: Double): IObject {
 
     override fun reflectInfo(): ReflectInfo =
         reflect("coord") {
-            double("x", false, 0.0, { x }, { x = it })
-            double("y", false, 0.0, { y }, { y = it })
+            DoubleProperty(this, "x", false, 0.0, { x }, { x = it })
+            DoubleProperty(this, "y", false, 0.0, { y }, { y = it })
         }
 
     /** adding a coord and a dimension */

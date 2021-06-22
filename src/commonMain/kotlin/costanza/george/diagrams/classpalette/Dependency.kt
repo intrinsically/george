@@ -20,8 +20,6 @@ class Dependency(): Line() {
 
     var label: String? = null
     var prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
-    var points: _List<Coord> = _list()
-    var prop_points = ObjectListProperty(this, null, points)
 
     constructor(from: String, to: String) : this() {
         this.from = from

@@ -1,21 +1,21 @@
 package costanza.george.diagrams.classpalette
 
-import ksvg.elements.SVG
 import costanza.george.diagrams.base.Container
+import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.base.FontDetails
+import costanza.george.diagrams.base.Line
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
 import costanza.george.geometry.Router
-import costanza.george.diagrams.base.Diagram
-import costanza.george.diagrams.base.Line
 import costanza.george.reflect.ObjectListProperty
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.entityList
-import costanza.george.reflect.reflect
-import costanza.george.reflect.typedproperties.*
+import costanza.george.reflect.typedproperties.BoolProperty
+import costanza.george.reflect.typedproperties.DoubleProperty
+import costanza.george.reflect.typedproperties.OptionalStringProperty
+import costanza.george.reflect.typedproperties.StringProperty
 import costanza.george.utility._List
 import costanza.george.utility._list
+import ksvg.elements.SVG
 
 enum class CompositionType(val marker: String) {
     NONE("none"),
@@ -48,8 +48,6 @@ class Association(): Line() {
     val prop_endXOffset = DoubleProperty(this, "endXOffset", false, 0.0, { endXOffset }, { endXOffset = it })
     var endYOffset: Double = 0.0
     val prop_endYOffset = DoubleProperty(this, "endYOffset", false, 0.0, { endYOffset }, { endYOffset = it })
-    val points: _List<Coord> = _list()
-    val prop_points = ObjectListProperty(this, null, points)
 
     private var parentOffset = Coord(0,0)
 

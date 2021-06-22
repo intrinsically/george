@@ -1,4 +1,4 @@
-package costanza.george.diagrams.components
+package costanza.george.components
 
 import costanza.george.ecs.Component
 import costanza.george.ecs.Entity

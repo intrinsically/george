@@ -1,26 +1,20 @@
 package costanza.george.diagrams.classpalette
 
-import ksvg.elements.SVG
 import costanza.george.diagrams.base.Container
+import costanza.george.diagrams.base.Diagram
+import costanza.george.diagrams.base.Line
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Rect
 import costanza.george.geometry.Router
-import costanza.george.diagrams.base.Diagram
-import costanza.george.diagrams.base.Line
 import costanza.george.reflect.ObjectListProperty
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.entityList
-import costanza.george.reflect.reflect
 import costanza.george.utility._List
 import costanza.george.utility._list
+import ksvg.elements.SVG
 
 const val INHERITANCE_MARKER = "inheritance_arrow"
 
 class Inheritance(): Line() {
     override fun entityType() = "inheritance"
-
-    var points: _List<Coord> = _list()
-    var prop_points = ObjectListProperty(this, null, points)
 
     private var parentOffset = Coord(0,0)
 
