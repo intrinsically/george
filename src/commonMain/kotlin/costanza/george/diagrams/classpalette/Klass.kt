@@ -29,6 +29,10 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), val parts:_List<Part
     private var heightS: Double = 0.0
     private var widthM: Double = 0.0
 
+    init {
+        bounds.prop_dim.defaultValue = Dim(150, 0)
+    }
+
     /** get the width and height details */
     override fun prepare(diagram: Diagram, svg: SVG, addedElements: _Set<String>, parentOffset: Coord) {
         super.prepare(diagram, svg, addedElements, parentOffset)

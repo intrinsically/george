@@ -9,7 +9,7 @@ class DimProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: Dim,
+    var defaultValue: Dim,
     var getter: () -> Dim,
     var setter: (s: Dim) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {

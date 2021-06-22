@@ -79,7 +79,7 @@ class Together {
                 }
             }
             inheritance("TestClass", "RenderLogic") {
-                points = _list(Coord(330, 800))
+                points += Coord(330, 800)
             }
             area("My Area") {
                 bounds.loc = Coord(220, 100)

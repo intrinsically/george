@@ -9,7 +9,7 @@ class IntProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: Int,
+    var defaultValue: Int,
     var getter: () -> Int,
     var setter: (s: Int) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {

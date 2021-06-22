@@ -9,7 +9,7 @@ class RectProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: Rect,
+    var defaultValue: Rect,
     var getter: () -> Rect,
     var setter: (s: Rect) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {

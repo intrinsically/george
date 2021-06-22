@@ -8,7 +8,7 @@ class CoordProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: Coord,
+    var defaultValue: Coord,
     var getter: () -> Coord,
     var setter: (s: Coord) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {

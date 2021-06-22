@@ -12,7 +12,6 @@ diagram("Test") {
             dim = (300.0, 100.0)
             class("TestClass") {
                 loc = (50.0, 50.0)
-                dim = (150.0, 0.0)
                 attribute("+a: Int")
                 attribute("+name: String")
                 operation("printIt(): void")
@@ -23,13 +22,16 @@ diagram("Test") {
     inheritance {
         from = "TestClass"
         to = "RenderLogic"
+        coord {
+            x = 330.0
+            y = 800.0
+        }
     }
     area("My Area") {
         loc = (220.0, 100.0)
         dim = (650.0, 450.0)
         class("WidgetFactory") {
             loc = (50.0, 50.0)
-            dim = (150.0, 0.0)
             attribute("+a: Int")
             attribute("+name: String")
             operation("printIt(): void")
@@ -37,18 +39,15 @@ diagram("Test") {
         }
         class("ApplicationManager") {
             loc = (400.0, 50.0)
-            dim = (150.0, 0.0)
             stereotype = "data-class"
             attribute("+a: Int")
             attribute("+name: String")
         }
         class("RenderLogic") {
             loc = (50.0, 250.0)
-            dim = (150.0, 0.0)
         }
         class("DisplayLogic") {
             loc = (400.0, 270.0)
-            dim = (150.0, 0.0)
             operation("printIt(): void")
             operation("hashCode(): long")
         }
@@ -66,6 +65,10 @@ diagram("Test") {
             startMult = "0..*"
             endLabel = "andrew"
             endMult = "1..4"
+            coord {
+                x = 420.0
+                y = 200.0
+            }
         }
         association {
             from = "DisplayLogic"
@@ -76,11 +79,14 @@ diagram("Test") {
             startMult = "0..*"
             endLabel = "andrew"
             endMult = "1..4"
+            coord {
+                x = 350.0
+                y = 280.0
+            }
         }
     }
     class("Outside") {
         loc = (600.0, 670.0)
-        dim = (150.0, 0.0)
         operation("printIt(): void")
         operation("hashCode(): long")
     }

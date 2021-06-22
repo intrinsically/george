@@ -19,7 +19,7 @@ abstract class Line(): Shape() {
     var prop_to = StringProperty(this, "to", false, "", {to}, {to=it})
     var zIndex: Int = LINE_Z_ORDER
     var prop_zIndex = IntProperty(this, "zIndex", false, LINE_Z_ORDER, {zIndex}, {zIndex=it})
-    var points: _List<Coord> = _list()
+    val points: _List<Coord> = _list()
     val prop_points = ObjectListProperty(this, null, points)
 
 

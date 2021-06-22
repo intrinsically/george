@@ -9,7 +9,7 @@ class DoubleProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: Double,
+    var defaultValue: Double,
     var getter: () -> Double,
     var setter: (s: Double) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {

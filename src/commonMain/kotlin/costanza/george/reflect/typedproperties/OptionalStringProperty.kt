@@ -8,7 +8,7 @@ class OptionalStringProperty(
     ri: ReflectInfo,
     name: String,
     isConstructor: Boolean,
-    val defaultValue: String?,
+    var defaultValue: String?,
     var getter: () -> String?,
     var setter: (s: String?) -> Unit
 ) : PrimitiveProperty(name, isConstructor) {
