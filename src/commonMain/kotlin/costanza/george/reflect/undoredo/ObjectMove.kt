@@ -3,7 +3,7 @@ package costanza.george.reflect.undoredo
 import costanza.george.reflect.IObject
 import costanza.george.reflect.operations.findEntityListProperty
 
-class ObjectOrderAdjust(
+class ObjectMove(
     val entity: IObject,
     val propName: String,
     val from: Int,

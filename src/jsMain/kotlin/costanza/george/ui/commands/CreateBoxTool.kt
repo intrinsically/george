@@ -14,7 +14,7 @@ class CreateBoxTool(val creator: ICreateBox): ITool {
         val container = diagram?.locate(loc) ?: diagram
         if (container is Container) {
             diagram?.changer?.apply {
-                makeChange(ObjectCreate(container, null, creator.create(loc)))
+                recordChange(ObjectCreate(container, null, creator.create(loc)))
                 markTransaction()
             }
         }

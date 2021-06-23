@@ -13,10 +13,6 @@ abstract class Shape: Entity() {
     var name: String? = null
     var prop_name = OptionalStringProperty(this, "name", true, null, {name}) { name = it }
 
-    /** unique id - use if name is duplicate etc */
-    var id: String? = null
-    var prop_id = OptionalStringProperty(this, "id", false, null, {id}) { id = it }
-
     /** prepare the shape */
     abstract fun prepare(diagram: Diagram, svg: SVG, addedElements: MutableSet<String>, parentOffset: Coord)
 

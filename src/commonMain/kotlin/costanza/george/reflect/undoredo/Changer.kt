@@ -14,13 +14,16 @@ class Changer(val top: IObject, private val registry: ObjectTypeRegistry) {
 
     /** group a set of changes */
     class GroupChange(val changes:_List<IChange> = _list()) {
-        fun back() = changes.reversed().forEach { it.undo() }
-        fun fwd() = changes.forEach { it.redo() }
+        fun undo() = changes.reversed().forEach { it.undo() }
+        fun redo() = changes.forEach { it.redo() }
     }
 
-    fun makeChange(change: IChange) {
-        current.changes.add(change)
-        change.redo()
+    fun recordChange(change: IChange) {
+        current.changes += change
+    }
+
+    fun recordChanges(changes: List<IChange>) {
+        current.changes += changes
     }
 
     /** mark the transaction */
@@ -34,13 +37,13 @@ class Changer(val top: IObject, private val registry: ObjectTypeRegistry) {
 
     fun undo() {
         if (pos > 0) {
-            changes[--pos].back()
+            changes[--pos].undo()
         }
     }
 
     fun redo() {
         if (pos < changes.size) {
-            changes[pos++].fwd()
+            changes[pos++].redo()
         }
     }
 }

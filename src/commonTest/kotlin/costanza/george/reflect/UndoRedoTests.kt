@@ -18,14 +18,14 @@ class UndoRedoTests {
         val changer = Changer(note, registry)
 
         // try undo redo
-        changer.makeChange(ObjectPropertyChange(note.inside!!, "age", "25"))
+        changer.recordChange(ObjectPropertyChange(note.inside!!, "age", "25", "23"))
         changer.markTransaction()
         assertEquals(25, note.inside!!.age)
         changer.undo()
         assertEquals(10, note.inside!!.age)
         changer.redo()
         assertEquals(25, note.inside!!.age)
-        changer.makeChange(ObjectPropertyChange(note.another!!, "height", "25.2"))
+        changer.recordChange(ObjectPropertyChange(note.another!!, "height", "25.2", "23"))
         changer.markTransaction()
         assertEquals(25.2, note.another!!.height)
         val pos = changer.pos
@@ -33,7 +33,7 @@ class UndoRedoTests {
         // now rewind, add a new change and see if the pos stays same
         changer.undo()
         assertEquals(20.7, note.another!!.height)
-        changer.makeChange(ObjectPropertyChange(note.another!!, "height", "30"))
+        changer.recordChange(ObjectPropertyChange(note.another!!, "height", "30", "23"))
         changer.markTransaction()
         assertEquals(30.0, note.another!!.height)
         assertEquals(pos, changer.pos)
@@ -49,7 +49,7 @@ class UndoRedoTests {
         val changer = Changer(note, registry)
 
         // try undo redo
-        changer.makeChange(ObjectChange(note, "inside", null))
+        changer.recordChange(ObjectChange(note, "inside", null))
         changer.markTransaction()
         assertNull(note.inside)
 
@@ -62,7 +62,7 @@ class UndoRedoTests {
         val inside = Inside()
         inside.age = 12
         inside.height = 13.0
-        changer.makeChange(ObjectChange(note, "inside", inside))
+        changer.recordChange(ObjectChange(note, "inside", inside))
         changer.markTransaction()
 
         assertEquals(12, note.inside!!.age)

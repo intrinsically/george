@@ -48,9 +48,6 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), val parts:_List<Part
 
     /** use the name as the id to find the shape */
     override fun findShape(nameOrId: String): Shape? {
-        if (this.id !== null) {
-            return if (this.id == nameOrId) this else null
-        }
         return if (nameOrId === name) this else null
     }
 

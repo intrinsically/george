@@ -11,13 +11,15 @@ import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
-import costanza.george.utility._list
 import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.base.diagram
+import costanza.george.reflect.undoredo.IdAssigner
 import ksvg.RenderMode
 import ksvg.elements.SVG
 
 class Together {
+    val idAssigner = IdAssigner()
+
     fun makeDiagram2(calc: ITextCalculator) =
         diagram(calc, "Test") {
             val width = 164
@@ -56,8 +58,8 @@ class Together {
             }
         }
 
-    fun makeDiagram(calc: ITextCalculator) =
-        diagram(calc, "Test") {
+    fun makeDiagram(calc: ITextCalculator): Diagram {
+        val diagram = diagram(calc, "Test") {
             note {
                 bounds.loc = Coord(585, 900)
                 text = "This is a note, i hope it will word wrap..."
@@ -70,7 +72,7 @@ class Together {
                     bounds.dim = Dim(300, 100)
 
                     klass("TestClass") {
-                        bounds.loc = Coord(50,50)
+                        bounds.loc = Coord(50, 50)
                         attribute("+a: Int")
                         attribute("+name: String")
                         operation("printIt(): void")
@@ -85,23 +87,23 @@ class Together {
                 bounds.loc = Coord(220, 100)
                 bounds.dim = Dim(650, 450)
                 klass("WidgetFactory") {
-                    bounds.loc = Coord(50,50)
+                    bounds.loc = Coord(50, 50)
                     attribute("+a: Int")
                     attribute("+name: String")
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
                 klass("ApplicationManager") {
-                    bounds.loc = Coord(400,50)
+                    bounds.loc = Coord(400, 50)
                     stereotype = "data-class"
                     attribute("+a: Int")
                     attribute("+name: String")
                 }
                 klass("RenderLogic") {
-                    bounds.loc = Coord(50,250)
+                    bounds.loc = Coord(50, 250)
                 }
                 klass("DisplayLogic") {
-                    bounds.loc = Coord(400,270)
+                    bounds.loc = Coord(400, 270)
                     operation("printIt(): void")
                     operation("hashCode(): long")
                 }
@@ -127,13 +129,16 @@ class Together {
                 }
             }
             klass("Outside") {
-                bounds.loc = Coord(600,670)
-                bounds.loc = Coord(600,670)
+                bounds.loc = Coord(600, 670)
+                bounds.loc = Coord(600, 670)
                 operation("printIt(): void")
                 operation("hashCode(): long")
             }
             inheritance("DisplayLogic", "Outside")
         }
+        idAssigner.assignAndMap(diagram)
+        return diagram
+    }
 
     fun makeSVG(diag: Diagram): String {
         val svg = SVG()

@@ -1,10 +1,13 @@
 package costanza.george.reflect
 
+import costanza.george.reflect.typedproperties.OptionalStringProperty
 import costanza.george.utility._List
 import costanza.george.utility._list
 
 open class ReflectInfo(var objectType: String) {
-    val properties: _List<PrimitiveProperty> = _list()
+    /** id is assigned if we need to reference the object by name */
+    var id: String? = null
+    val properties: _List<PrimitiveProperty> = _list(OptionalStringProperty(null, "id", false, null, {id}) { id = it })
     val objects: _List<ObjectProperty> = _list()
     val objectLists: _List<ObjectListProperty<IObject>> = _list()
 }

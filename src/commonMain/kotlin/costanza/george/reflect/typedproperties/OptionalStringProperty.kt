@@ -5,7 +5,7 @@ import costanza.george.reflect.PrimitiveProperty
 import costanza.george.reflect.ReflectInfo
 
 class OptionalStringProperty(
-    ri: ReflectInfo,
+    ri: ReflectInfo?,
     name: String,
     isConstructor: Boolean,
     var defaultValue: String?,
@@ -14,7 +14,9 @@ class OptionalStringProperty(
 ) : PrimitiveProperty(name, isConstructor) {
 
     init {
-        ri.properties += this
+        if (ri != null) {
+            ri.properties += this
+        }
     }
 
     override fun isDefault() = defaultValue == getter()
