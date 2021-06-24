@@ -3,21 +3,30 @@ package costanza.george.reflect.undoredo
 import costanza.george.reflect.IObject
 import costanza.george.reflect.operations.findEntityListProperty
 
-class ObjectMove(
+data class ObjectMove(
+    val fromEntity: IObject,
+    val fromPropName: String?,
     val entity: IObject,
-    val propName: String,
     val from: Int,
-    val to: Int
-    ) : IChange {
-    fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
+    val toEntity: IObject,
+    val toPropName: String?,
+    val to: Int,
+) : IChange {
+    fun fromProp() = findEntityListProperty(fromEntity, fromPropName)
+        ?: throw Exception("Cannot find entity list property $fromPropName")
 
-        /** going back is same as going fwd ;-P */
-        override fun undo() = redo()
+    fun toProp() =
+        findEntityListProperty(toEntity, toPropName) ?: throw Exception("Cannot find entity list property $toPropName")
 
-        override fun redo() {
-            val ls = prop().list
-            val obj = ls[from]
-            ls[from] = ls[to]
-            ls[to] = obj
-        }
+    val id = entity.reflectInfo().id
+
+    override fun undo() {
+        toProp().list.removeAll { it.reflectInfo().id == id }
+        fromProp().list.add(from, entity)
     }
+
+    override fun redo() {
+        fromProp().list.removeAll { it.reflectInfo().id == id }
+        toProp().list.add(to, entity)
+    }
+}

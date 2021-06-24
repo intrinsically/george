@@ -23,7 +23,7 @@ class IdAssigner {
     /** recursively descend down */
     private fun assign(top: IObject, map: _Map<String, SavedChild>) {
         top.reflectInfo().objectLists.forEach {
-            var listProp = it
+            val listProp = it
             listProp.list.forEachIndexed { index, obj ->
                 val id = obj.reflectInfo().id ?: makeObjectId()
                 obj.reflectInfo().id = id

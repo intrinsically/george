@@ -1,9 +1,8 @@
 package costanza.george.reflect.undoredo
 
-import costanza.george.diagrams.base.Container
 import costanza.george.diagrams.base.Diagram
-import costanza.george.diagrams.base.Shape
 import costanza.george.reflect.IObject
+import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
@@ -17,6 +16,7 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
 
     init {
         // clone by serializing and deserializing
+        ida.assignAndMap(diagram) // make sure we have ids first!
         val ser = Serializer().serialize(diagram)
         clone = Diagram()
         Deserializer(otr).deserialize(
@@ -40,7 +40,7 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         handleProperties(top, changes)
         handleLists(top, after, changes)
         top.reflectInfo().objectLists.forEach {
-            it.list.forEachIndexed { index, obj -> determine(obj, after, changes) }
+            it.list.forEach { determine(it, after, changes) }
         }
     }
 
@@ -56,17 +56,71 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         }
     }
 
-    private fun handleLists(top: IObject, after: Map<String, SavedChild>, changes: _List<IChange>) {
-        // find the same in the previous version. if it's not there, issue an add
-//        val saved = after[shape.id]!!
-//        if (!before.containsKey(shape.id)) {
-//            changes += ObjectCreate(after[saved.parentId]!!, )
-//        }
-//
-//        val iter =
-//        shape.reflectInfo().objectLists.forEach {
-//            // if this is new put in a delete
-//            val bef =
-//        }
+    private fun handleLists(obj: IObject, after: Map<String, SavedChild>, changes: _List<IChange>) {
+        // we may not have a reciprocal object in the past diagram
+        val prevSaved = before[obj.reflectInfo().id]
+        val iter = prevSaved?.let { it.entity.reflectInfo().objectLists.iterator() }
+        obj.reflectInfo().objectLists.forEach {
+            handleList(obj, it, iter?.next(), after, changes)
+        }
+    }
+
+    private fun handleList(
+        obj: IObject,
+        curr: ObjectListProperty<IObject>,
+        prev: ObjectListProperty<IObject>?,
+        after: Map<String, SavedChild>,
+        changes: MutableList<IChange>
+    ) {
+        var pindex = 0
+        var pls = prev?.list
+        var cindex = 0
+        var cls = curr.list
+        var naturalPlace = 0
+        while (cindex < cls.size) {
+            // get current and previous id for the same location
+            val currId = cls[cindex].reflectInfo().id
+            var prevId: String? = null
+            if (pls != null && pls.size > pindex) {
+                prevId = pls[pindex].reflectInfo().id
+            }
+
+            when {
+                // same on both sides - skip
+                    currId == prevId -> {
+                        pindex++
+                        cindex++
+                    }
+                // new object added
+                    before[currId] == null -> {
+                        changes += ObjectCreate(obj, curr.name, cls[cindex], cindex)
+                        handleLists(cls[cindex], after, changes)
+                        cindex++
+                    }
+                // old one has been deleted?
+                    prevId != null && after[prevId] == null -> {
+                        changes += ObjectDelete(obj, curr.name, pls!![pindex], cindex)
+                        pindex++
+                    }
+                // moving from one list to another
+                    else -> {
+                        // if the next element is in place, then assume others moved before it
+                        // limitation: currently only apply if it moves containers
+                        val prevSaved = before[currId]!!
+                        if (prevSaved.parentId != obj.reflectInfo().id) {
+                            changes += ObjectMove(
+                                after[prevSaved.parentId]!!.entity,
+                                prevSaved.parentList,
+                                cls[cindex],
+                                prevSaved.index,
+                                obj,
+                                curr.name,
+                                cindex
+                            )
+                        }
+                        cindex++
+                    }
+            }
+        }
     }
 }
