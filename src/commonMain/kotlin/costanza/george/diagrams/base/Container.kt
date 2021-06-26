@@ -57,12 +57,20 @@ abstract class Container: Box() {
         }
     }
 
-    /** find a top level shape by id */
-    override fun findShape(nameOrId: String): Shape? {
+    /** find a top level shape by id - can only be done on a diagram or container */
+    fun findShape(nameOrId: String): Shape? {
+        if (nameOrId == id || nameOrId == name) {
+            return this
+        }
         shapes.forEach {
-            val found = it.findShape(nameOrId)
-            if (found !== null) {
-                return found
+            if (nameOrId == it.id || nameOrId == it.name) {
+                return it
+            }
+            if (it is Container) {
+                val found = it.findShape(nameOrId)
+                if (found !== null) {
+                    return found
+                }
             }
         }
         return null

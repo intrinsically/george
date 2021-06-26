@@ -11,21 +11,11 @@ import costanza.george.utility._List
 import costanza.george.utility._list
 
 class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diagram) {
-    val clone: Diagram
-    var before: Map<String, SavedChild>
+    lateinit var clone: Diagram
+    lateinit var before: Map<String, SavedChild>
 
     init {
-        // clone by serializing and deserializing
-        ida.assignAndMap(diagram) // make sure we have ids first!
-        val ser = Serializer().serialize(diagram)
-        clone = Diagram()
-        Deserializer(otr).deserialize(
-            clone,
-            TokenProvider(ser)
-        )
-
-        // capture the before state
-        before = ida.assignAndMap(clone)
+        reset()
     }
 
     /** call this once all the changes have been made, to determine the diffs */
@@ -34,6 +24,16 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         val changes = _list<IChange>()
         determine(diagram, after, changes)
         return changes
+    }
+
+    fun reset() {
+        // clone by serializing and deserializing
+        ida.assignAndMap(diagram) // make sure we have ids first!
+        val ser = Serializer().serialize(diagram)
+        clone = Deserializer(otr).deserialize(TokenProvider(ser))
+
+        // capture the before state
+        before = ida.assignAndMap(clone)
     }
 
     private fun determine(top: IObject, after: Map<String, SavedChild>, changes: _List<IChange>) {
@@ -76,7 +76,6 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         var pls = prev?.list
         var cindex = 0
         var cls = curr.list
-        var naturalPlace = 0
         while (cindex < cls.size) {
             // get current and previous id for the same location
             val currId = cls[cindex].reflectInfo().id

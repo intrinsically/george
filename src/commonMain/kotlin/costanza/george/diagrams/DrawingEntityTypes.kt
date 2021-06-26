@@ -1,6 +1,7 @@
 package costanza.george.diagrams
 
 import costanza.george.diagrams.art.Circle
+import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.classpalette.*
 import costanza.george.diagrams.infopalette.Area
 import costanza.george.diagrams.infopalette.Note
@@ -9,6 +10,7 @@ import costanza.george.reflect.ObjectType
 import costanza.george.utility.list
 
 var drawingEntityTypes = list(
+    ObjectType("diagram") { Diagram() },
     ObjectType("coord") { Coord(0,0) },
     ObjectType("circle") { Circle() },
     ObjectType("association") { Association() },

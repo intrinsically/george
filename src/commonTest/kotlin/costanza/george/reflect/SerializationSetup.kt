@@ -1,5 +1,6 @@
 package constanza.george.reflect
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.geometry.Rect
 import costanza.george.reflect.*
 import costanza.george.reflect.typedproperties.*
@@ -109,5 +110,6 @@ fun makeNote(): Note {
     note.people.add(Person("andrew", "malibu"))
     note.people.add(Alien("ET", "earth", 7))
     note.people.add(EvolvedAlien("Elon", "space", 7, 6.4))
+
     return note
 }

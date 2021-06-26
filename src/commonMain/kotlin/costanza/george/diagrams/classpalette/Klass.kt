@@ -46,11 +46,6 @@ class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), val parts:_List<Part
         widthM += PADDING * 2
     }
 
-    /** use the name as the id to find the shape */
-    override fun findShape(nameOrId: String): Shape? {
-        return if (nameOrId === name) this else null
-    }
-
     override fun bounds(diagram: Diagram): Rect {
         val aSize = parts.filterIsInstance<Attribute>().size
         val oSize = parts.size - aSize

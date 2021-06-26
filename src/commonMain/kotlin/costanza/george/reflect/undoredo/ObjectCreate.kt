@@ -1,23 +1,34 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
-import costanza.george.reflect.operations.findEntityListProperty
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.TokenProvider
+import costanza.george.reflect.operations.Deserializer
+import costanza.george.reflect.operations.Serializer
 
-data class ObjectCreate(
-    val entity: IObject,
-    val propName: String?,
-    val value: IObject,
+/** create a new entity inside a parent */
+class ObjectCreate(
+    parent: IObject,
+    val listName: String?,
+    obj: IObject,
     val index: Int
 ) : IChange {
-    fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
-    val id = value.reflectInfo().id
+    // save the info
+    val serial = Serializer().serialize(obj)
+    val parentId = parent.reflectInfo().id!!
+    val id = obj.reflectInfo().id!!
 
-    override fun undo() {
+    override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
         // be resilient even if the index changes
-        prop().list.removeAll { it.reflectInfo().id == id }
+        ChangeUtilities.removeObjectFromDiagram(diagram, id, false)
     }
 
-    override fun redo() {
-        prop().list.add(index, value)
+    override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val obj = Deserializer(registry).deserialize<IObject>(TokenProvider(serial))
+        ChangeUtilities.addObjectToDiagram(diagram, parentId, listName, obj, index)
     }
+
+    override fun toString() =
+        "ObjectCreate(parent = $parentId, index = $index, obj = $serial)"
 }

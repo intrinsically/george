@@ -11,12 +11,11 @@ class CreateBoxTool(val creator: ICreateBox): ITool {
 
     override fun click(loc: Coord) {
         // find the container in the diagram to add to
-        val container = diagram?.locate(loc) ?: diagram
-        if (container is Container) {
-            diagram?.changer?.apply {
-                recordChange(ObjectCreate(container, null, creator.create(loc), 2))
-                markTransaction()
-            }
+        var container = diagram?.locate(loc)
+        if (!(container is Container)) {
+            container = diagram
         }
+        val shape = creator.create(loc)
+        (container as Container).shapes.add(shape)
     }
 }

@@ -1,22 +1,29 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
+import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
-import costanza.george.reflect.operations.findPrimitiveProperty
 
-data class ObjectPropertyChange(
-    val entity: IObject,
+/** change the property of an entity */
+class ObjectPropertyChange(
+    entity: IObject,
     val propName: String,
     val oldValue: String,
     val newValue: String
 ) : IChange {
-    val prop = findPrimitiveProperty(entity, propName) ?: throw Exception("Cannot find property $propName")
+    val id = entity.reflectInfo().id!!
 
-    override fun undo() {
+    override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val prop = ChangeUtilities.findProperty(diagram, id, propName)
         prop.set(TokenProvider(oldValue))
     }
 
-    override fun redo() {
+    override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val prop = ChangeUtilities.findProperty(diagram, id, propName)
         prop.set(TokenProvider(newValue))
     }
+
+    override fun toString() =
+        "ObjectProjectyChange(obj = $id, property = $propName, old val = $oldValue, new val = $newValue)"
 }

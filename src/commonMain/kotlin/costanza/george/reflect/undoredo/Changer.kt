@@ -1,5 +1,6 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.IObject
 import costanza.george.utility._List
@@ -7,15 +8,15 @@ import costanza.george.utility._list
 import costanza.george.utility.loop
 
 
-class Changer(val top: IObject, private val registry: ObjectTypeRegistry) {
+class Changer(val diagram: Diagram, private val registry: ObjectTypeRegistry) {
     private val changes = _list<GroupChange>()
     private var current = GroupChange()
     var pos = 0
 
     /** group a set of changes */
-    class GroupChange(val changes:_List<IChange> = _list()) {
-        fun undo() = changes.reversed().forEach { it.undo() }
-        fun redo() = changes.forEach { it.redo() }
+    inner class GroupChange(val changes:_List<IChange> = _list()) {
+        fun undo() = changes.reversed().forEach { it.undo(registry, diagram) }
+        fun redo() = changes.forEach { it.redo(registry, diagram) }
     }
 
     fun recordChange(change: IChange) {

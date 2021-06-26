@@ -1,23 +1,32 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
-import costanza.george.reflect.operations.findEntityListProperty
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.TokenProvider
+import costanza.george.reflect.operations.Deserializer
+import costanza.george.reflect.operations.Serializer
 
-data class ObjectDelete(
-    val entity: IObject,
-    val propName: String?,
-    val value: IObject,
+/** delete an entity */
+class ObjectDelete(
+    val parent: IObject,
+    val listName: String?,
+    val obj: IObject,
     val index: Int,
 ) : IChange {
-    fun prop() = findEntityListProperty(entity, propName) ?: throw Exception("Cannot find entity list property $propName")
-    val id = value.reflectInfo().id
+    val serial = Serializer().serialize(obj)
+    val parentId = parent.reflectInfo().id!!
+    val id = obj.reflectInfo().id!!
 
-    override fun undo() {
-        prop().list.add(index, value)
+    override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        ChangeUtilities.removeObjectFromDiagram(diagram, id)
     }
 
-    override fun redo() {
-        // be resilient if the index changes
-        prop().list.removeAll { it.reflectInfo().id == id }
+    override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val obj = Deserializer(registry).deserialize<IObject>(TokenProvider(serial))
+        ChangeUtilities.addObjectToDiagram(diagram, parentId, listName, obj, index)
     }
+
+    override fun toString() =
+        "ObjectDelete(parent = $parentId, index = $index, obj = $serial)"
 }

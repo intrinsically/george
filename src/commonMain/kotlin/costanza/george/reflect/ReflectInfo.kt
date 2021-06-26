@@ -10,6 +10,15 @@ open class ReflectInfo(var objectType: String) {
     val properties: _List<PrimitiveProperty> = _list(OptionalStringProperty(null, "id", false, null, {id}) { id = it })
     val objects: _List<ObjectProperty> = _list()
     val objectLists: _List<ObjectListProperty<IObject>> = _list()
+
+    fun findPrimitiveProperty(name: String) =
+        properties.find { it.name == name }
+
+    fun findObjectProperty(fnName: String) =
+        objects.find { it.name == fnName }
+
+    fun findListProperty(fnName: String?) =
+        objectLists.find { it.name == fnName }
 }
 
 /** dsl */

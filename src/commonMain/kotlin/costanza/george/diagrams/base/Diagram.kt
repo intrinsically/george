@@ -4,17 +4,45 @@ import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
+import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.reflect
+import costanza.george.reflect.undoredo.Differ
 
 class Diagram: Container(), ITextCalculator {
     override fun entityType() = "diagram"
 
+    /** undo-redo list for this diagram & the differ to calculate changes */
     var changer: Changer? = null
+    var differ: Differ? = null
+
     var debug: Boolean = false
     val addedElements = mutableSetOf<String>()
     lateinit var calc: ITextCalculator
+
+    /** record and changes to the diagram as a set of IChange deltas, which can be done/undone */
+    fun recordChanges() {
+        val diff = differ ?: return
+        val change = changer ?: return
+
+        val changes = diff.determineChanges()
+        change.recordChanges(changes)
+        change.markTransaction()
+
+        println(changes)
+
+        // reset the differ
+        diff.reset()
+    }
+
+    fun undo() {
+        changer?.undo()
+    }
+
+    fun redo() {
+        changer?.redo()
+    }
 
     /** simpler add */
     fun add(svg: SVG) {
@@ -44,17 +72,6 @@ class Diagram: Container(), ITextCalculator {
     /** get the bounds as a collection of the underlying bounds */
     override fun bounds(diagram: Diagram) =
         (super.boundsOfChildren(diagram) ?: Rect(0,0,0,0)).pad(Dim(0, 0), Dim(PADDING, PADDING))
-
-    /** find a top level box by id (up to shape to interpret, could be name for instance) */
-    fun findBox(nameOrId: String): Box? {
-        shapes.forEach {
-            val found = it.findShape(nameOrId)
-            if (found !== null && found is Box) {
-                return found
-            }
-        }
-        return null
-    }
 
     override fun calcHeight(details: FontDetails): Double {
         return calc.calcHeight(details)

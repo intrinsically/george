@@ -5,6 +5,7 @@ import antd.layout.content
 import antd.layout.header
 import antd.layout.layout
 import antd.layout.sider
+import costanza.george.diagrams.art.Circle
 import costanza.george.diagrams.classpalette.Klass
 import costanza.george.geometry.Dim
 import costanza.george.ui.commands.CreateBoxTool
@@ -84,7 +85,14 @@ class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props)
                         }
                         content {
                             diagramview {
-                                tool = CreateBoxTool({ loc -> Klass(loc, Dim(150,0)) })
+                                tool = CreateBoxTool { loc ->
+                                    val shape = Circle()
+                                    shape.cx = loc.x
+                                    shape.cy = loc.y
+                                    shape.radius = 20.0
+                                    shape.fill = "white"
+                                    shape
+                                }
                             }
                         }
                         sider {

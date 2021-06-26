@@ -49,11 +49,11 @@ class Together {
     fun makeDiagram3(calc: ITextCalculator) =
         diagram(calc, "Test") {
             area {
-                bounds.loc = Coord(1220, 1350)
+                bounds.loc = Coord(1000, 1000)
                 bounds.dim = Dim(200, 100)
             }
             area {
-                bounds.loc = Coord(1220 + 20, 1350 + 20)
+                bounds.loc = Coord(1000 + 20, 1000 + 20)
                 bounds.dim = Dim(200 - 40, 100 - 40)
             }
         }
@@ -154,11 +154,12 @@ class Together {
     fun serialize(diag: Diagram) = Serializer().serialize(diag)
 
     fun makeDiag(calc: ITextCalculator, serial: String): Diagram {
-        val diag = diagram(calc, "diagram") {}
         val reg = ObjectTypeRegistry()
-        reg.addAll(drawingEntityTypes)
         val deser = Deserializer(reg)
-        deser.deserialize(diag, TokenProvider(serial))
+        val diag: Diagram = deser.deserialize(TokenProvider(serial))
+        diag.calc = calc
+        diag.name = "diagram"
+        reg.addAll(drawingEntityTypes)
         return diag
     }
 }

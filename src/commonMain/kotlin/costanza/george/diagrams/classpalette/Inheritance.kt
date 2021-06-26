@@ -45,8 +45,8 @@ class Inheritance(): Line() {
     }
 
     private fun makeRouter(diagram: Diagram): Router {
-        val fromBox = diagram.findBox(from)
-        val toBox = diagram.findBox(to)
+        val fromBox = diagram.findShape(from)
+        val toBox = diagram.findShape(to)
         val none = Rect(0,0,0,0)
         return Router(fromBox?.bounds(diagram) ?: none, toBox?.bounds(diagram) ?: none, points, parentOffset)
     }
@@ -57,8 +57,8 @@ class Inheritance(): Line() {
         if (this.zIndex != zIndex) {
             return
         }
-        val fromBox = diagram.findBox(from)
-        val toBox = diagram.findBox(to)
+        val fromBox = diagram.findShape(from)
+        val toBox = diagram.findShape(to)
         if (fromBox === null || toBox === null) {
             return
         }

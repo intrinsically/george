@@ -10,6 +10,8 @@ import costanza.george.diagrams.drawingEntityTypes
 import costanza.george.geometry.Coord
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.undoredo.Changer
+import costanza.george.reflect.undoredo.Differ
+import costanza.george.reflect.undoredo.IdAssigner
 import costanza.george.ui.commands.ITool
 import costanza.george.utility.iloop
 import kotlinext.js.js
@@ -54,6 +56,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         val reg = ObjectTypeRegistry()
         reg.addAll(drawingEntityTypes)
         diagram.changer = Changer(diagram, reg)
+        diagram.differ = Differ(IdAssigner(), reg, diagram)
         diagram2 = together.makeDiagram2(calc)
         diagram3 = together.makeDiagram3(calc)
         state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
@@ -91,6 +94,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                         } else if (e.buttons == 1) {
                             props.tool.diagram = diagram
                             props.tool.click(Coord(x, y))
+                            diagram.recordChanges()
                             setState { svg = together.makeSVG(diagram) }
                         }
                     }
@@ -121,11 +125,11 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             menu {
                                 attrs.onClick = { inf: MenuInfo ->
                                     if (inf.key == "undo") {
-                                        diagram.changer?.undo()
+                                        diagram.undo()
                                         setState { svg = together.makeSVG(diagram) }
                                     }
                                     if (inf.key == "redo") {
-                                        diagram.changer?.redo()
+                                        diagram.redo()
                                         setState { svg = together.makeSVG(diagram) }
                                     }
                                 }

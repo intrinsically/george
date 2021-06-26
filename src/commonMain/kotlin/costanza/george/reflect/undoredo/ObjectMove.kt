@@ -1,32 +1,33 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
-import costanza.george.reflect.operations.findEntityListProperty
+import costanza.george.reflect.ObjectTypeRegistry
 
-data class ObjectMove(
-    val fromEntity: IObject,
+/** move an entity between 2 parents */
+class ObjectMove(
+    fromEntity: IObject,
     val fromPropName: String?,
-    val entity: IObject,
+    entity: IObject,
     val from: Int,
-    val toEntity: IObject,
+    toEntity: IObject,
     val toPropName: String?,
     val to: Int,
 ) : IChange {
-    fun fromProp() = findEntityListProperty(fromEntity, fromPropName)
-        ?: throw Exception("Cannot find entity list property $fromPropName")
+    val fromEntityId = fromEntity.reflectInfo().id!!
+    val toEntityId = toEntity.reflectInfo().id!!
+    val entityId = entity.reflectInfo().id!!
 
-    fun toProp() =
-        findEntityListProperty(toEntity, toPropName) ?: throw Exception("Cannot find entity list property $toPropName")
-
-    val id = entity.reflectInfo().id
-
-    override fun undo() {
-        toProp().list.removeAll { it.reflectInfo().id == id }
-        fromProp().list.add(from, entity)
+    override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val entity = ChangeUtilities.removeObjectFromDiagram(diagram, entityId, true)!!
+        ChangeUtilities.findPropertyList(diagram, fromEntityId, fromPropName).list.add(from, entity)
     }
 
-    override fun redo() {
-        fromProp().list.removeAll { it.reflectInfo().id == id }
-        toProp().list.add(to, entity)
+    override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
+        val entity = ChangeUtilities.removeObjectFromDiagram(diagram, entityId, true)!!
+        ChangeUtilities.findPropertyList(diagram, toEntityId, toPropName).list.add(to, entity)
     }
+
+    override fun toString() =
+        "ObjectMove(move $entityId from parent $fromEntityId to $toEntityId)"
 }

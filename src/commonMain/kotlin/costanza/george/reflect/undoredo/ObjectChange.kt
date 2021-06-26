@@ -1,17 +1,22 @@
 package costanza.george.reflect.undoredo
 
+import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
-import costanza.george.reflect.operations.findObjectProperty
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.TokenProvider
+import costanza.george.reflect.operations.Deserializer
+import costanza.george.reflect.operations.Serializer
 
-class ObjectChange(val obj: IObject, val propName: String, val value: IObject?) : IChange {
-    fun prop() = findObjectProperty(obj, propName) ?: throw Exception("Cannot find property $propName")
-    private var old = prop().get()
+/** change an entity living inside a parent entity. TBD */
+class ObjectChange(
+    obj: IObject,
+    val propName: String,
+    value: IObject?
+) : IChange {
 
-    override fun undo() {
-        prop().set(old)
+    override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
     }
 
-    override fun redo() {
-        prop().set(value)
+    override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
     }
 }

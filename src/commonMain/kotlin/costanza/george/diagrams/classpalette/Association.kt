@@ -1,9 +1,6 @@
 package costanza.george.diagrams.classpalette
 
-import costanza.george.diagrams.base.Container
-import costanza.george.diagrams.base.Diagram
-import costanza.george.diagrams.base.FontDetails
-import costanza.george.diagrams.base.Line
+import costanza.george.diagrams.base.*
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
@@ -66,9 +63,10 @@ class Association(): Line() {
     }
 
     private fun makeRouter(diagram: Diagram): Router {
-        val fromBox = diagram.findBox(from)
-        val toBox = diagram.findBox(to)
+        val fromBox = diagram.findShape(from)
+        val toBox = diagram.findShape(to)
         val none = Rect(0,0,0,0)
+        val x: Shape
         return Router(fromBox?.bounds(diagram) ?: none, toBox?.bounds(diagram) ?: none, points, parentOffset)
     }
 

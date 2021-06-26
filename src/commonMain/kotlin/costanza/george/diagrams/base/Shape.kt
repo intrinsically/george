@@ -19,9 +19,6 @@ abstract class Shape: Entity() {
     /** get the bounds - always absolute, taking into account the parents offset */
     abstract fun bounds(diagram: Diagram): Rect
 
-    /** find a shape by id - up to each shape to interpret */
-    open fun findShape(nameOrId: String): Shape? = null
-
     /** add the graphics to the svg element */
     abstract fun add(diagram: Diagram, svg: SVG, zIndex: Int)
 

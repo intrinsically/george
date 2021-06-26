@@ -24,14 +24,13 @@ class SerializationTests {
         // now deserialize
         val deserial = Deserializer(registry)
         val prov = TokenProvider(str)
-        val dnote = deserial.deserialize(Note(), prov)
+        val dnote: Note = deserial.deserialize(prov)
         val dstr = serial.serialize(dnote)
         println(dstr)
 
         // serialize again and deserialize - should be same string
         val nprov = TokenProvider(dstr)
-        val nnote = Note()
-        val ndnote = deserial.deserialize(nnote, nprov)
+        val ndnote: Note = deserial.deserialize(nprov)
         val ndstr = serial.serialize(ndnote)
         println(ndstr)
 
@@ -41,7 +40,7 @@ class SerializationTests {
 
     @Test
     fun testDiagram() {
-        var calc = object: ITextCalculator {
+        val calc = object: ITextCalculator {
             override fun calcHeight(details: FontDetails): Double = 20.0
             override fun calcWidth(details: FontDetails, minWidth: Double, text: String): Double = 10.0
         }
