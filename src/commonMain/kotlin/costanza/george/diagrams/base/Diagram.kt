@@ -6,6 +6,7 @@ import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.ReflectInfo
+import costanza.george.reflect.operations.Serializer
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.reflect
 import costanza.george.reflect.undoredo.Differ
@@ -30,19 +31,15 @@ class Diagram: Container(), ITextCalculator {
         change.recordChanges(changes)
         change.markTransaction()
 
-        println(changes)
+        // print out the changes
+        changes.forEach { println(Serializer().serialize((it))) }
 
         // reset the differ
         diff.reset()
     }
 
-    fun undo() {
-        changer?.undo()
-    }
-
-    fun redo() {
-        changer?.redo()
-    }
+    fun undo() = changer?.undo()
+    fun redo() = changer?.redo()
 
     /** simpler add */
     fun add(svg: SVG) {

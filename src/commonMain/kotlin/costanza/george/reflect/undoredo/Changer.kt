@@ -3,6 +3,7 @@ package costanza.george.reflect.undoredo
 import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.IObject
+import costanza.george.reflect.operations.Serializer
 import costanza.george.utility._List
 import costanza.george.utility._list
 import costanza.george.utility.loop
@@ -30,7 +31,7 @@ class Changer(val diagram: Diagram, private val registry: ObjectTypeRegistry) {
     /** mark the transaction */
     fun markTransaction() {
         // if we are in the middle, truncate
-        (pos until changes.size).loop { changes.removeLast() }
+        (changes.size - pos).loop { changes.removeLast() }
         changes.add(current)
         current = GroupChange()
         pos++

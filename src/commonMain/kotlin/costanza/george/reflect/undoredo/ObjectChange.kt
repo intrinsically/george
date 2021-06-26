@@ -3,6 +3,7 @@ package costanza.george.reflect.undoredo
 import costanza.george.diagrams.base.Diagram
 import costanza.george.reflect.IObject
 import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
@@ -12,7 +13,9 @@ class ObjectChange(
     obj: IObject,
     val propName: String,
     value: IObject?
-) : IChange {
+) : IChange, ReflectInfo("objectchange") {
+
+    override fun reflectInfo(): ReflectInfo = this
 
     override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
     }
