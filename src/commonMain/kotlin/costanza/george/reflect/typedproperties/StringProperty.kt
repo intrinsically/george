@@ -47,5 +47,8 @@ fun removeExtraSlash(str: String): String {
             previous = it
         }
     }
+    if (previous != null) {
+        bld.append(previous)
+    }
     return bld.toString()
 }

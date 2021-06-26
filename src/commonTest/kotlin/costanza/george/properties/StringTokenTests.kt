@@ -16,7 +16,7 @@ class StringTokenTests {
 
         val extraextra = extraSlash(extra)
         println("adding 2 slash $extraextra")
-        assertEquals("my name \\\\\"Andrew\\\\\" means \\\\\"something\\\\\"", extra)
+        assertEquals("my name \\\\\"Andrew\\\\\" means \\\\\"something\\\\\"", extraextra)
 
         val uextraextra = removeExtraSlash(extraextra)
         println("unwrapping 2 slash $uextraextra")
@@ -24,6 +24,6 @@ class StringTokenTests {
 
         val uextra = removeExtraSlash(extra)
         println("unwrapping 1 slash $uextra")
-        assertEquals("my name \\\"Andrew\\\" means \\\"something\\\"", uextra)
+        assertEquals("my name \"Andrew\" means \"something\"", uextra)
     }
 }
