@@ -20,13 +20,13 @@ class OptionalStringProperty(
     }
 
     override fun isDefault() = defaultValue == getter()
-    override fun get() = if (getter() == null) { "null" } else { "\"" + getter() + "\"" }
+    override fun get() = if (getter() == null) { "null" } else { "\"" + extraSlash(getter()!!) + "\"" }
     override fun set(prov: IProvider) {
         prov.skip()
         if (prov.peek() == 'n') {
             prov.popName("null")
         } else {
-            setter(prov.popString())
+            setter(removeExtraSlash(prov.popString()))
         }
     }
 }

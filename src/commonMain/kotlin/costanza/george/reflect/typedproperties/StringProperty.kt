@@ -18,6 +18,34 @@ class StringProperty(
     }
 
     override fun isDefault() = defaultValue == getter()
-    override fun get() = "\"${getter()}\""
-    override fun set(prov: IProvider) = setter(prov.popString())
+    override fun get() = "\"${extraSlash(getter())}\""
+    override fun set(prov: IProvider) = setter(removeExtraSlash(prov.popString()))
+
+}
+
+/** add an extra \ in front of each quote */
+fun extraSlash(str: String) = str.fold("") { acc, ch ->
+    if (ch == '\"') {
+        acc + "\\\""
+    } else {
+        acc + ch
+    }
+}
+
+/** remove one level of slash */
+fun removeExtraSlash(str: String): String {
+    var previous: Char? = null
+    val bld = StringBuilder()
+    str.forEach {
+        if (previous == '\\' && it == '\"') {
+            bld.append(it)
+            previous = null
+        } else if (previous != null) {
+            bld.append(previous)
+            previous = it
+        } else {
+            previous = it
+        }
+    }
+    return bld.toString()
 }
