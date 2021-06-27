@@ -7,25 +7,27 @@ class TokenProvider(var s: String): IProvider {
     private val size = s.length
     private var peeked: Char? = null
 
-    private fun popToken(lookingFor: String,  skip: Boolean, pred: (Char) -> Boolean): String {
+    private fun popToken(lookingFor: String,  skip: Boolean, pred: (Char, Char) -> Boolean): String {
         if (skip) {
             skip()
         }
         var name = ""
+        var prev = ' '
         do {
-            val p = peek()
-            if (p != null && pred(p)) {
+            val c = peek()
+            if (c != null && pred(prev, c)) {
                 name += pop()
             } else {
                 return name.ifEmpty {
                     throw Exception("Looking for $lookingFor at ($row, $col)")
                 }
             }
+            prev = c
         } while (true)
     }
 
     /** read various token types */
-    override fun popName() = popToken("entityType", true) { it.isLetterOrDigit() || it == '_' }
+    override fun popName() = popToken("entityType", true) { _, c -> c.isLetterOrDigit() || c == '_' }
     override fun popName(name: String): String {
         val pop = popName()
         if (pop != name) {
@@ -33,8 +35,8 @@ class TokenProvider(var s: String): IProvider {
         }
         return pop
     }
-    override fun popInt() = popToken("integer", true) { it.isDigit() }.toInt()
-    override fun popDouble() = popToken("double", true) { it.isDigit() || "+-.eE".contains(it) }.toDouble()
+    override fun popInt() = popToken("integer", true) { _, c -> c.isDigit() }.toInt()
+    override fun popDouble() = popToken("double", true) { p, c -> c.isDigit() || "+-.eE".contains(c) }.toDouble()
     override fun popChar(char: Char): Char {
         skip()
         if (pop() != char) {
@@ -44,7 +46,7 @@ class TokenProvider(var s: String): IProvider {
     }
     override fun popString(): String {
         popChar('"')
-        val str = popToken("string", false) { it != '\"' }
+        val str = popToken("string", false) { p, c -> p == '\\' || c != '\"' }
         popChar('"')
         return str
     }

@@ -18,37 +18,36 @@ class StringProperty(
     }
 
     override fun isDefault() = defaultValue == getter()
+    /** for serialization */
     override fun get() = "\"${extraSlash(getter())}\""
+    /** for deserialization */
     override fun set(prov: IProvider) = setter(removeExtraSlash(prov.popString()))
 
 }
 
 /** add an extra \ in front of each quote */
-fun extraSlash(str: String) = str.fold("") { acc, ch ->
-    if (ch == '\"') {
-        acc + "\\\""
-    } else {
-        acc + ch
+fun extraSlash(str: String): String {
+    var prev: Char = ' '
+    val bld = StringBuilder()
+    str.forEach {
+        if (prev !== '\\' && (it === '\"' || it === '\\')) {
+            bld.append("\\")
+        }
+        bld.append(it)
+        prev = it
     }
+    return bld.toString()
 }
 
 /** remove one level of slash */
 fun removeExtraSlash(str: String): String {
-    var previous: Char? = null
+    var previous: Char = ' '
     val bld = StringBuilder()
     str.forEach {
-        if (previous == '\\' && it == '\"') {
+        if (previous === '\\' || it !== '\\') {
             bld.append(it)
-            previous = null
-        } else if (previous != null) {
-            bld.append(previous)
-            previous = it
-        } else {
-            previous = it
         }
-    }
-    if (previous != null) {
-        bld.append(previous)
+        previous = it
     }
     return bld.toString()
 }
