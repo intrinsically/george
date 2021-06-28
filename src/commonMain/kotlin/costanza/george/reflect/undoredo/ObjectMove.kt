@@ -1,6 +1,7 @@
 package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
+import costanza.george.ecs.Entity
 import costanza.george.reflect.IObject
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.ReflectInfo
@@ -10,26 +11,27 @@ import costanza.george.reflect.typedproperties.StringProperty
 
 /** move an entity between 2 parents */
 class ObjectMove(
-    fromEntity: IObject,
-    var fromPropName: String?,
-    entity: IObject,
-    var from: Int,
-    toEntity: IObject,
-    var toPropName: String?,
-    var to: Int,
-) : IChange, ReflectInfo("objectmove") {
-    var fromEntityId = fromEntity.reflectInfo().id!!
+    var fromEntityId: String = "",
+    var fromPropName: String? = null,
+    var entityId: String = "",
+    var from: Int = 0,
+    var toEntityId: String = "",
+    var toPropName: String? = null,
+    var to: Int = 0,
+) : IChange, Entity() {
+    override fun entityType() = "objectmove"
+
+    constructor(fromEntity: IObject, fromPropName: String?, entity: IObject, from: Int, toEntity: IObject, toPropName: String?, to: Int):
+            this(fromEntity.reflectInfo().id!!, fromPropName, entity.reflectInfo().id!!, from,
+                toEntity.reflectInfo().id!!, toPropName, to)
+
     val prop_fromEntityId = StringProperty(this, "fromEntityId", false, "", {fromEntityId}, {fromEntityId = it})
-    var toEntityId = toEntity.reflectInfo().id!!
     val prop_toEntityId = StringProperty(this, "toEntityId", false, "", {toEntityId}, {toEntityId = it})
-    var entityId = entity.reflectInfo().id!!
     val prop_entityId = StringProperty(this, "entityId", false, "", {entityId}, {entityId = it})
     val prop_fromPropName = OptionalStringProperty(this, "fromPropName", false, "", {fromPropName}, {fromPropName = it})
     val prop_toPropName = OptionalStringProperty(this, "toPropName", false, "", {toPropName}, {toPropName = it})
     val prop_from = IntProperty(this, "from", false, 0, {from}, {from = it})
     val prop_to = IntProperty(this, "to", false, 0, {to}, {to = it})
-
-    override fun reflectInfo() = this
 
     override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
         val entity = ChangeUtilities.removeObjectFromDiagram(diagram, entityId, true)!!

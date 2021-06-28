@@ -51,7 +51,7 @@ class StringTokenTests {
 
         // now deserialize in 2 parts
         val registry = ObjectTypeRegistry()
-        registry.add(ObjectType("testentity") { TestEntity() })
+        registry.add(ObjectType { TestEntity() })
 
         // first part
         val dsecond: TestEntity = Deserializer(registry).deserialize(TokenProvider(sserial))

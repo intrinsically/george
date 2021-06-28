@@ -155,11 +155,10 @@ class Together {
 
     fun makeDiag(calc: ITextCalculator, serial: String): Diagram {
         val reg = ObjectTypeRegistry()
+        reg.addAll(drawingEntityTypes)
         val deser = Deserializer(reg)
         val diag: Diagram = deser.deserialize(TokenProvider(serial))
         diag.calc = calc
-        diag.name = "diagram"
-        reg.addAll(drawingEntityTypes)
         return diag
     }
 }

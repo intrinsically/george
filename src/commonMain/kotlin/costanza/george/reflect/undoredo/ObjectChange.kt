@@ -1,6 +1,7 @@
 package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
+import costanza.george.ecs.Entity
 import costanza.george.reflect.IObject
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.ReflectInfo
@@ -10,12 +11,13 @@ import costanza.george.reflect.operations.Serializer
 
 /** change an entity living inside a parent entity. TBD */
 class ObjectChange(
-    obj: IObject,
+    obj: IObject?,
     val propName: String,
     value: IObject?
-) : IChange, ReflectInfo("objectchange") {
+) : IChange, Entity() {
+    override fun entityType() = "objectchange"
 
-    override fun reflectInfo(): ReflectInfo = this
+    constructor(): this(null, "", null)
 
     override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
     }

@@ -1,6 +1,7 @@
 package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
+import costanza.george.ecs.Entity
 import costanza.george.reflect.IObject
 import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.ReflectInfo
@@ -13,22 +14,22 @@ import costanza.george.reflect.typedproperties.StringProperty
 
 /** create a new entity inside a parent */
 class ObjectCreate(
-    parent: IObject,
-    var listName: String?,
-    obj: IObject,
-    var index: Int
-) : IChange, ReflectInfo("objectcreate") {
-    // save the info
-    var serial = Serializer().serialize(obj)
+    var parentId: String = "",
+    var listName: String? = null,
+    var entityId: String = "",
+    var serial: String = "",
+    var index: Int = 0
+) : IChange, Entity() {
+    override fun entityType() = "objectcreate"
+
+    constructor(parent: IObject, listName: String?, obj: IObject, index: Int):
+        this(parent.reflectInfo().id!!, listName, obj.reflectInfo().id!!, Serializer().serialize(obj), index)
+
     val prop_serial = StringProperty(this, "serial", false, "", {serial}, {serial=it})
-    var parentId = parent.reflectInfo().id!!
     val prop_parentId = StringProperty(this, "parentId", false, "", {parentId}, {parentId = it})
-    var entityId = obj.reflectInfo().id!!
     val prop_entityId = StringProperty(this, "entityId", false, "", {entityId}, {entityId = it})
     val prop_listName = OptionalStringProperty(this, "listName", false, null, {listName}, {listName = it})
     val prop_index = IntProperty(this, "index", false, 0, {index}, {index = it})
-
-    override fun reflectInfo(): ReflectInfo = this
 
     override fun undo(registry: ObjectTypeRegistry, diagram: Diagram) {
         // be resilient even if the index changes

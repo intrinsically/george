@@ -65,8 +65,8 @@ class ECSTests {
         val entity = InheritingEntity()
         println(serial.serialize(entity))
         printProps(entity)
-        // number of pros is 7
-        assertEquals(7, entity.properties.size)
+        // number of props is 7
+        assertEquals(8, entity.properties.size)
     }
 
     private fun printProps(entity: Entity) {

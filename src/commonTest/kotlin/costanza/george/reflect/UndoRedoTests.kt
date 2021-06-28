@@ -1,4 +1,4 @@
-//package constanza.george.reflect
+package costanza.george.reflect
 //
 //import costanza.george.reflect.ObjectTypeRegistry
 //import costanza.george.reflect.undoredo.Changer

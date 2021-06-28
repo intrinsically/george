@@ -10,11 +10,11 @@ import costanza.george.utility.list
 
 
 var entityTypes = list(
-    ObjectType("note") { Note() },
-    ObjectType("inside") { Inside() },
-    ObjectType("person") { Person() },
-    ObjectType("alien") { Alien() },
-    ObjectType("evolved") { EvolvedAlien() },
+    ObjectType { Note() },
+    ObjectType { Inside() },
+    ObjectType { Person() },
+    ObjectType { Alien() },
+    ObjectType { EvolvedAlien() },
 )
 
 class Note: IObject, ReflectInfo("note") {
