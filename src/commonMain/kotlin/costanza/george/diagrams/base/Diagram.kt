@@ -7,6 +7,8 @@ import costanza.george.geometry.Rect
 import costanza.george.reflect.operations.Serializer
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.undoredo.Differ
+import costanza.george.reflect.undoredo.GroupChange
+import costanza.george.reflect.undoredo.IChange
 
 class Diagram: Container(), ITextCalculator {
     override val objectType = "diagram"
@@ -20,19 +22,20 @@ class Diagram: Container(), ITextCalculator {
     lateinit var calc: ITextCalculator
 
     /** record and changes to the diagram as a set of IChange deltas, which can be done/undone */
-    fun recordChanges() {
-        val diff = differ ?: return
-        val change = changer ?: return
+    fun recordChanges(): GroupChange {
+        val diff = differ!!
+        val change = changer!!
 
         val changes = diff.determineChanges()
         change.recordChanges(changes)
         change.markTransaction()
 
-        // print out the changes
-        changes.forEach { println(Serializer().serialize((it))) }
+        // print it oiut
+        println(Serializer().serialize(changes))
 
         // reset the differ
         diff.reset()
+        return changes
     }
 
     fun undo() = changer?.undo()

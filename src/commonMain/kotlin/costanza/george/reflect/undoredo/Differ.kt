@@ -7,8 +7,6 @@ import costanza.george.reflect.ObjectTypeRegistry
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
-import costanza.george.utility._List
-import costanza.george.utility._list
 
 class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diagram) {
     lateinit var clone: Diagram
@@ -18,25 +16,25 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         reset()
     }
 
-    /** call this once all the changes have been made, to determine the diffs */
-    fun determineChanges(): List<IChange> {
-        val after = ida.assignAndMap(diagram)
-        val changes = _list<IChange>()
-        determine(diagram, after, changes)
-        return changes
-    }
-
     fun reset() {
         // clone by serializing and deserializing
         ida.assignAndMap(diagram) // make sure we have ids first!
         val ser = Serializer().serialize(diagram)
         clone = Deserializer(otr).deserialize(TokenProvider(ser))
-
         // capture the before state
         before = ida.assignAndMap(clone)
     }
 
-    private fun determine(top: IReflect, after: Map<String, SavedChild>, changes: _List<IChange>) {
+    /** call this once all the changes have been made, to determine the diffs */
+    fun determineChanges(): GroupChange {
+        val after = ida.assignAndMap(diagram)
+        val changes = GroupChange(ida.clientSession)
+        determine(diagram, after, changes)
+        return changes
+    }
+
+
+    private fun determine(top: IReflect, after: Map<String, SavedChild>, changes: GroupChange) {
         handleProperties(top, changes)
         handleLists(top, after, changes)
         top.objectLists.forEach {
@@ -44,19 +42,20 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         }
     }
 
-    private fun handleProperties(shape: IReflect, changes: _List<IChange>) {
+    private fun handleProperties(shape: IReflect, changes: GroupChange) {
         // if new, then don't bother, will be covered by add
         val previous = before[shape.id] ?: return
         val iter = previous.entity.properties.iterator()
         shape.properties.forEach {
             val beforeProp = iter.next()
             if (it.get() != beforeProp.get()) {
-                changes += ObjectPropertyChange(shape, it.name, beforeProp.get(), it.get())
+                changes.addChange(
+                    ObjectPropertyChange(shape, it.name, beforeProp.get(), it.get()))
             }
         }
     }
 
-    private fun handleLists(obj: IReflect, after: Map<String, SavedChild>, changes: _List<IChange>) {
+    private fun handleLists(obj: IReflect, after: Map<String, SavedChild>, changes: GroupChange) {
         // we may not have a reciprocal object in the past diagram
         val prevSaved = before[obj.id]
         val iter = prevSaved?.let { it.entity.objectLists.iterator() }
@@ -70,7 +69,7 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
         curr: ObjectListProperty<IReflect>,
         prev: ObjectListProperty<IReflect>?,
         after: Map<String, SavedChild>,
-        changes: MutableList<IChange>
+        changes: GroupChange
     ) {
         var pindex = 0
         val pls = prev?.list
@@ -92,13 +91,15 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
                     }
                 // new object added
                     before[currId] == null -> {
-                        changes += ObjectCreate(obj, curr.name, cls[cindex], cindex)
+                        changes.addChange(
+                            ObjectCreate(obj, curr.name, cls[cindex], cindex))
                         handleLists(cls[cindex], after, changes)
                         cindex++
                     }
                 // old one has been deleted?
                     prevId != null && after[prevId] == null -> {
-                        changes += ObjectDelete(obj, curr.name, pls!![pindex], cindex)
+                        changes.addChange(
+                            ObjectDelete(obj, curr.name, pls!![pindex], cindex))
                         pindex++
                     }
                 // moving from one list to another
@@ -107,15 +108,15 @@ class Differ(val ida: IdAssigner, val otr: ObjectTypeRegistry, val diagram: Diag
                         // limitation: currently only apply if it moves containers
                         val prevSaved = before[currId]!!
                         if (prevSaved.parentId != obj.id) {
-                            changes += ObjectMove(
-                                after[prevSaved.parentId]!!.entity,
-                                prevSaved.parentList,
-                                cls[cindex],
-                                prevSaved.index,
-                                obj,
-                                curr.name,
-                                cindex
-                            )
+                            changes.addChange(
+                                ObjectMove(
+                                    after[prevSaved.parentId]!!.entity,
+                                    prevSaved.parentList,
+                                    cls[cindex],
+                                    prevSaved.index,
+                                    obj,
+                                    curr.name,
+                                    cindex))
                         }
                         cindex++
                     }

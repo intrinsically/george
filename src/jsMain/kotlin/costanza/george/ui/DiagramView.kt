@@ -55,8 +55,9 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         diagram = together.makeDiagram(calc)
         val reg = ObjectTypeRegistry()
         reg.addAll(drawingEntityTypes)
-        diagram.changer = Changer(diagram, reg)
-        diagram.differ = Differ(IdAssigner(), reg, diagram)
+        val ids = IdAssigner()
+        diagram.changer = Changer(ids.clientSession, reg, diagram)
+        diagram.differ = Differ(ids, reg, diagram)
         diagram2 = together.makeDiagram2(calc)
         diagram3 = together.makeDiagram3(calc)
         state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
@@ -94,7 +95,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                         } else if (e.buttons == 1) {
                             props.tool.diagram = diagram
                             props.tool.click(Coord(x, y))
-                            diagram.recordChanges()
+                            val changes = diagram.recordChanges()
                             setState { svg = together.makeSVG(diagram) }
                         }
                     }

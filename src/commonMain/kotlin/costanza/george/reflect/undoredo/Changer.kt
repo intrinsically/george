@@ -7,23 +7,30 @@ import costanza.george.utility._list
 import costanza.george.utility.loop
 
 
-class Changer(val diagram: Diagram, private val registry: ObjectTypeRegistry) {
+class Changer(val clientId: String, private val registry: ObjectTypeRegistry, val diagram: Diagram) {
     private val changes = _list<GroupChange>()
     private var current = GroupChange()
     var pos = 0
 
-    /** group a set of changes */
-    inner class GroupChange(val changes:_List<IChange> = _list()) {
-        fun undo() = changes.reversed().forEach { it.undo(registry, diagram) }
-        fun redo() = changes.forEach { it.redo(registry, diagram) }
-    }
 
     fun recordChange(change: IChange) {
-        current.changes += change
+        current.addChange(change)
     }
 
     fun recordChanges(changes: List<IChange>) {
-        current.changes += changes
+        changes.forEach { current.addChange(it) }
+    }
+
+    /** replace the entire set of changes for this transaction */
+    fun recordChanges(group: GroupChange) {
+        current = group
+    }
+
+    /** only apply these changes if we didn't send them! they don't add to the undo list */
+    fun applyCollaborativeChanges(changes: GroupChange) {
+        if (changes.clientId != clientId) {
+            changes.redo(registry, diagram)
+        }
     }
 
     /** mark the transaction */
@@ -37,13 +44,13 @@ class Changer(val diagram: Diagram, private val registry: ObjectTypeRegistry) {
 
     fun undo() {
         if (canUndo()) {
-            changes[--pos].undo()
+            changes[--pos].undo(registry, diagram)
         }
     }
 
     fun redo() {
         if (canRedo()) {
-            changes[pos++].redo()
+            changes[pos++].redo(registry, diagram)
         }
     }
 

@@ -8,7 +8,7 @@ import kotlin.random.Random
 
 class IdAssigner {
     var id = 0
-    val machine = makeRandomId()
+    val clientSession = makeRandomId()
 
     /** assigns missing ids and also forms a map of entities for comparison */
     fun assignAndMap(diagram: Diagram): Map<String, SavedChild> {
@@ -33,7 +33,7 @@ class IdAssigner {
     }
 
     /** make a unique Id */
-    fun makeObjectId() = "$machine${makeRandomId()}-${id++ % 100}"
+    fun makeObjectId() = "$clientSession${makeRandomId()}-${id++ % 100}"
     /** create a random id between 0 and RANGE - 1 */
     fun makeRandomId() = "${makeRandomChar()}${makeRandomChar()}"
     fun makeRandomChar() = (Random.nextInt(26) + 65).toChar()

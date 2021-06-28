@@ -7,10 +7,7 @@ import costanza.george.diagrams.infopalette.Area
 import costanza.george.diagrams.infopalette.Note
 import costanza.george.geometry.Coord
 import costanza.george.reflect.ObjectType
-import costanza.george.reflect.undoredo.ObjectCreate
-import costanza.george.reflect.undoredo.ObjectDelete
-import costanza.george.reflect.undoredo.ObjectMove
-import costanza.george.reflect.undoredo.ObjectPropertyChange
+import costanza.george.reflect.undoredo.*
 import costanza.george.utility.list
 
 var drawingEntityTypes = list(
@@ -27,6 +24,7 @@ var drawingEntityTypes = list(
     ObjectType { Note() },
 
     /** change commands */
+    ObjectType { GroupChange() },
     ObjectType { ObjectCreate() },
     ObjectType { ObjectDelete() },
     ObjectType { ObjectPropertyChange() },

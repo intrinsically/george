@@ -47,7 +47,7 @@ class UndoTests {
         assertEquals(2, changesA.size)
 
         // now roll back and see
-        val changer = Changer(diag, reg)
+        val changer = Changer("", reg, diag)
         changer.recordChanges(changesA)
         changer.markTransaction()
         changer.undo()
@@ -141,7 +141,7 @@ class UndoTests {
     private fun testIt(old: String, diff: Differ, diag: Diagram, numChanges: Int) {
         val registry = ObjectTypeRegistry()
         registry.addAll(drawingEntityTypes)
-        val changer = Changer(diag, registry)
+        val changer = Changer("", registry, diag)
         val changes = diff.determineChanges()
         changer.recordChanges(changes)
         println("Changes = $changes")

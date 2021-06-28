@@ -90,7 +90,7 @@ class ScreenLayout(props: RProps) : RComponent<RProps, ScreenLayoutState>(props)
                                     shape.cx = loc.x
                                     shape.cy = loc.y
                                     shape.radius = 20.0
-                                    shape.fill = "white"
+                                    shape.fill = "red"
                                     shape
                                 }
                             }
