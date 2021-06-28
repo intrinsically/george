@@ -37,6 +37,8 @@ class Diagram: Container(), ITextCalculator {
 
     fun undo() = changer?.undo()
     fun redo() = changer?.redo()
+    fun canUndo() = changer!!.canUndo()
+    fun canRedo() = changer!!.canRedo()
 
     /** simpler add */
     fun add(svg: SVG) {

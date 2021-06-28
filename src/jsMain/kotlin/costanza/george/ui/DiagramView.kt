@@ -135,40 +135,17 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                                 }
                                 menuItem {
                                     attrs {
-                                        key = "1"
-                                    }
-                                    // work out the shape under the mouse
-                                    val shape = diagram.locate(Coord(x, y))
-                                    val title = if (shape == null) {
-                                        "??"
-                                    } else {
-                                        shape.objectType + " / " + (shape.name ?: "??")
-                                    }
-                                    +("Hello $x, $y -- $title")
-                                }
-                                menuItem {
-                                    attrs {
                                         key = "undo"
+                                        disabled = !diagram.canUndo()
                                     }
                                     +"Undo"
                                 }
                                 menuItem {
                                     attrs {
                                         key = "redo"
+                                        disabled = !diagram.canRedo()
                                     }
                                     +"Redo"
-                                }
-                                subMenu {
-                                    attrs {
-                                        key = "4"
-                                        title = "Submenu"
-                                    }
-                                    menuItem {
-                                        attrs {
-                                            key = "5"
-                                        }
-                                        +"Hello"
-                                    }
                                 }
                             }
                         }

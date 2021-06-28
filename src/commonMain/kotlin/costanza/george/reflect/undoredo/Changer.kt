@@ -36,14 +36,17 @@ class Changer(val diagram: Diagram, private val registry: ObjectTypeRegistry) {
     }
 
     fun undo() {
-        if (pos > 0) {
+        if (canUndo()) {
             changes[--pos].undo()
         }
     }
 
     fun redo() {
-        if (pos < changes.size) {
+        if (canRedo()) {
             changes[pos++].redo()
         }
     }
+
+    fun canUndo() = pos > 0
+    fun canRedo() = pos < changes.size
 }

@@ -29,30 +29,6 @@ class TreeView(props: TreeProps) : RComponent<TreeProps, TreeState>(props) {
             attrs {
                 overlay = buildElement {
                     menu {
-                        menuItem {
-                            attrs {
-                                key = "1"
-                            }
-                            +"Hello"
-                        }
-                        subMenu {
-                            attrs {
-                                key = "4"
-                                title = "Submenu"
-                            }
-                            menuItem {
-                                attrs {
-                                    key = "2"
-                                }
-                                +"One"
-                            }
-                            menuItem {
-                                attrs {
-                                    key = "3"
-                                }
-                                +"Two"
-                            }
-                        }
                     }
                 }
                 trigger = arrayOf("contextMenu")
