@@ -38,6 +38,7 @@ class Diagram: Container(), ITextCalculator {
         return changes
     }
 
+    fun applyCollaborativeChanges(changes: GroupChange) = changer!!.applyCollaborativeChanges(changes)
     fun undo() = changer?.undo()
     fun redo() = changer?.redo()
     fun canUndo() = changer!!.canUndo()
