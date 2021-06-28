@@ -5,7 +5,7 @@ import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 
 abstract class Box(loc: Coord = Coord(0,0), dim: Dim = Dim(0,0)): Shape() {
-    override fun entityType() = "box"
+    override val objectType = "box"
 
     val bounds = CBounds(this, loc, dim)
 }

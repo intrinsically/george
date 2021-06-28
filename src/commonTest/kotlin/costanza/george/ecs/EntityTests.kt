@@ -12,21 +12,21 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class TestEntity : Entity() {
-    override fun entityType() = "TestEntity"
+    override val objectType = "testentity"
 
     val bounds = CBounds(this, Coord(8, 8), Dim(10, 10))
     val square = CBoundsSquare(this, Coord(10, 10), 23.0)
 }
 
 open class BaseEntity : Entity() {
-    override fun entityType() = "BaseEntity"
+    override val objectType = "baseentity"
 
     val bounds = CBounds(this, Coord(8, 8), Dim(10, 10))
     val square = CBoundsSquare(this, Coord(10, 10), 23.0, "square-")
 }
 
 class InheritingEntity : BaseEntity() {
-    override fun entityType() = "InheritingEntity"
+    override val objectType = "inheritingentity"
 
     val circle = CBoundsCircle(this, Coord(12, 12), 10.0, "circle-")
     var address: String = "here"
@@ -71,7 +71,7 @@ class ECSTests {
 
     private fun printProps(entity: Entity) {
         // get the properties
-        entity.reflectInfo().properties.forEach {
+        entity.properties.forEach {
             println("Property ${it.name}")
         }
         println("----")

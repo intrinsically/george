@@ -7,7 +7,7 @@ import costanza.george.geometry.Rect
 import costanza.george.reflect.typedproperties.*
 
 abstract class Shape: Entity() {
-    override fun entityType() = "shape"
+    override val objectType = "shape"
 
     /** use name if item clearly is named on the screen. e.g. service name */
     var name: String? = null

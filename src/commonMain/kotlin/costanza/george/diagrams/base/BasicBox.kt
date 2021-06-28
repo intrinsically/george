@@ -6,7 +6,7 @@ import costanza.george.reflect.typedproperties.IntProperty
 import ksvg.elements.SVG
 
 abstract class BasicBox(loc: Coord = Coord(0,0), dim: Dim = Dim(0,0)): Box(loc, dim) {
-    override fun entityType() = "basicbox"
+    override val objectType = "basicbox"
 
     var parentOffset = Coord(0,0)
     var zIndex = 0

@@ -8,7 +8,6 @@ import costanza.george.reflect.typedproperties.extraSlash
 import costanza.george.reflect.typedproperties.removeExtraSlash
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class StringTokenTests {
     @Test
@@ -32,8 +31,8 @@ class StringTokenTests {
         assertEquals(str, uextra)
     }
 
-    class TestEntity(var name: String = "", var address: String = ""): IObject, ReflectInfo("testentity") {
-        override fun reflectInfo() = this
+    class TestEntity(var name: String = "", var address: String = ""): IReflect, ReflectBase() {
+        override val objectType = "testentity"
         var prop_name = StringProperty(this, "name", false, "", {name}, {name = it})
         var prop_address = StringProperty(this, "address", false, "", {address}, {address = it})
     }

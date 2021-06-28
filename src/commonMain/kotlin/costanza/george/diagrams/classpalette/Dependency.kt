@@ -13,7 +13,7 @@ import costanza.george.utility._list
 import ksvg.elements.SVG
 
 class Dependency(): Line() {
-    override fun entityType() = "dependency"
+    override val objectType = "dependency"
 
     private val END_TYPE = "dependency_arrow"
     private var parentOffset = Coord(0,0)

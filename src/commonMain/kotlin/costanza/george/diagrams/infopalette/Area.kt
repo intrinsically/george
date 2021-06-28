@@ -8,7 +8,7 @@ import costanza.george.reflect.typedproperties.IntProperty
 import ksvg.elements.SVG
 
 class Area(): Container() {
-    override fun entityType() = "area"
+    override val objectType = "area"
 
     var zIndex = 0
     var prop_zIndex = IntProperty(this, "zIndex", false, 0, { zIndex }, { zIndex = it })

@@ -1,18 +1,18 @@
 package costanza.george.reflect.operations
 
 import costanza.george.reflect.ObjectTypeRegistry
-import costanza.george.reflect.IObject
+import costanza.george.reflect.IReflect
 import costanza.george.reflect.TokenProvider
 
 class Deserializer(val registry: ObjectTypeRegistry) {
 
-    fun <T: IObject> deserialize(prov: TokenProvider) =
+    fun <T: IReflect> deserialize(prov: TokenProvider) =
         deserializeEntity(prov) as T
 
-    fun deserializeEntity(prov: TokenProvider, entityType: String? = null): IObject {
+    fun deserializeEntity(prov: TokenProvider, overrideEntityType: String? = null): IReflect {
 
         // create the top level entity
-        val entityType = entityType ?: prov.popName()
+        val entityType = overrideEntityType ?: prov.popName()
         val entity = registry.create(entityType)
 
         prov.skip()
@@ -21,7 +21,7 @@ class Deserializer(val registry: ObjectTypeRegistry) {
             prov.pop()
             // handle constructor params
             var some = false
-            entity.reflectInfo().properties.forEach {
+            entity.properties.forEach {
                 if (it.isConstructor) {
                     if (some) {
                         prov.popChar(',')
@@ -46,9 +46,9 @@ class Deserializer(val registry: ObjectTypeRegistry) {
                     break
                 }
                 val name = prov.popName()
-                val prop = entity.reflectInfo().findPrimitiveProperty(name)
-                val ent = entity.reflectInfo().findObjectProperty(name)
-                val entls = entity.reflectInfo().findListProperty(name)
+                val prop = entity.findPrimitiveProperty(name)
+                val ent = entity.findObjectProperty(name)
+                val entls = entity.findListProperty(name)
                 when {
                     prop != null -> {
                         prov.popChar('=')
@@ -66,7 +66,7 @@ class Deserializer(val registry: ObjectTypeRegistry) {
                     }
                     else -> {
                         // possibly a polymorphic entity
-                        var poly = entity.reflectInfo().findListProperty(null) ?: throw Exception("Cannot find property $name")
+                        val poly = entity.findListProperty(null) ?: throw Exception("Cannot find property $name")
                         val sub = deserializeEntity(prov, name)
                         poly.list.add(sub)
                     }

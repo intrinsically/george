@@ -1,19 +1,16 @@
 package costanza.george.geometry
 
-import costanza.george.reflect.IObject
-import costanza.george.reflect.ReflectInfo
-import costanza.george.reflect.reflect
+import costanza.george.reflect.ReflectBase
 import costanza.george.reflect.typedproperties.DoubleProperty
 import kotlin.math.sqrt
 
-data class Coord(var x: Double, var y: Double): IObject {
-    constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
+data class Coord(var x: Double = 0.0, var y: Double = 0.0): ReflectBase() {
+    override val objectType = "coord"
 
-    override fun reflectInfo(): ReflectInfo =
-        reflect("coord") {
-            DoubleProperty(this, "x", false, 0.0, { x }, { x = it })
-            DoubleProperty(this, "y", false, 0.0, { y }, { y = it })
-        }
+    val prop_x = DoubleProperty(this, "x", false, 0.0, {x}, {x=it})
+    val prop_y = DoubleProperty(this, "y", false, 0.0, {y}, {y =it})
+
+    constructor(x: Int, y: Int): this(x.toDouble(), y.toDouble())
 
     /** adding a coord and a dimension */
     operator fun plus(d: Dim): Coord = Coord(x + d.width, y + d.height)

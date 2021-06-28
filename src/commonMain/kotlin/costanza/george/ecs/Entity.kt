@@ -1,22 +1,14 @@
 package costanza.george.ecs
 
-import costanza.george.reflect.IObject
-import costanza.george.reflect.ReflectInfo
-import costanza.george.utility._list
+import costanza.george.reflect.IReflect
+import costanza.george.reflect.ReflectBase
 import costanza.george.utility._map
 
-abstract class Entity: ReflectInfo(""), IObject {
+abstract class Entity: ReflectBase() {
     val components = _map<String, Component>()
     val behaviors = _map<String, IBehavior>()
     fun add(component: Component) = components.put(component::class.simpleName!!, component)
     fun add(behavior: IBehavior) = behaviors.put(behavior::class.simpleName!!, behavior)
-    override fun reflectInfo() = this
-    /** override with entity type */
-    abstract fun entityType(): String
-
-    init {
-        objectType = entityType()
-    }
 
     /** get a component by the class of the component */
     inline fun <reified C: Component> component() = components[C::class.simpleName!!] as C?

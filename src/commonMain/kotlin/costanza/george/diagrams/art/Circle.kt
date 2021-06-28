@@ -9,7 +9,7 @@ import costanza.george.reflect.typedproperties.StringProperty
 import ksvg.elements.SVG
 
 class Circle: BasicBox() {
-    override fun entityType() = "circle"
+    override val objectType = "circle"
 
     var cx: Double = 0.0
     var prop_cx = DoubleProperty(this, "cx", false, 0.0, { cx }, { cx = it })

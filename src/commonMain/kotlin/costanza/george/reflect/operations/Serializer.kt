@@ -1,7 +1,6 @@
 package costanza.george.reflect.operations
 
-import costanza.george.reflect.IObject
-import costanza.george.reflect.PrimitiveProperty
+import costanza.george.reflect.IReflect
 import costanza.george.utility.iloop
 import costanza.george.utility.loop
 
@@ -9,9 +8,9 @@ import costanza.george.utility.loop
 class Serializer {
 
     /** serialize an entity */
-    fun serialize(entity: IObject) = serializeEntity(entity.reflectInfo().objectType, entity, 0)
+    fun serialize(entity: IReflect) = serializeEntity(entity.objectType, entity, 0)
 
-    private fun serializeEntity(fnName: String, entity: IObject, indentLevel: Int): String {
+    private fun serializeEntity(fnName: String, entity: IReflect, indentLevel: Int): String {
         val bld = StringBuilder()
         var indent = indentLevel
         operator fun StringBuilder.plusAssign(str: String) {
@@ -25,7 +24,7 @@ class Serializer {
         indent++
 
         // handle constructor parameters - but omit trailing nulls
-        val cons = entity.reflectInfo().properties.filter { it.isConstructor }
+        val cons = entity.properties.filter { it.isConstructor }
         var lastNonNull = -1
         cons.forEachIndexed { pos, prop ->
             if (prop.get() != "null") {
@@ -35,14 +34,14 @@ class Serializer {
         if (lastNonNull != -1) {
             // we have some constructor parameters
             val use = cons.subList(0, lastNonNull + 1)
-            val cons = use.joinToString { it.get() }
-            bld += "($cons)"
+            val constr = use.joinToString { it.get() }
+            bld += "($constr)"
         }
 
         // only add the block if we have actual properties
-        val prims = entity.reflectInfo().properties.filter { !it.isConstructor && !it.isDefault() }
-        val entities = entity.reflectInfo().objects.filter { it.get() != null }
-        val entityLists = entity.reflectInfo().objectLists.filter { it.list.isNotEmpty() }
+        val prims = entity.properties.filter { !it.isConstructor && !it.isDefault() }
+        val entities = entity.objects.filter { it.get() != null }
+        val entityLists = entity.objectLists.filter { it.list.isNotEmpty() }
         if (prims.isNotEmpty() || entities.isNotEmpty() || entityLists.isNotEmpty()) {
             // handle properties
             bld += " {\n"
@@ -53,7 +52,7 @@ class Serializer {
                 indent()
                 bld += it.name + ":"
                 val elem = it.get()!!
-                bld += serializeEntity(elem.reflectInfo().objectType, elem, indent)
+                bld += serializeEntity(elem.objectType, elem, indent)
             }
             entityLists.forEach {
                 it.list.size.iloop { index ->
@@ -62,7 +61,7 @@ class Serializer {
                     if (it.name != null) {
                         bld += it.name + ":"
                     }
-                    bld += serializeEntity(elem.reflectInfo().objectType, elem, indent)
+                    bld += serializeEntity(elem.objectType, elem, indent)
                 }
             }
             indent--

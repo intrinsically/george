@@ -11,7 +11,7 @@ import costanza.george.utility._list
 const val LINE_Z_ORDER = 10
 
 abstract class Line(): Shape() {
-    override fun entityType() = "line"
+    override val objectType = "line"
 
     var from: String = ""
     var prop_from = StringProperty(this, "from", false, "", {from}, {from=it})

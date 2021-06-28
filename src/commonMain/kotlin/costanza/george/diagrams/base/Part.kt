@@ -6,7 +6,7 @@ import costanza.george.reflect.typedproperties.StringProperty
 
 
 abstract class Part: Entity() {
-    override fun entityType() = "part"
+    override val objectType = "part"
 
     /** details to display on the screen */
     var details: String = ""

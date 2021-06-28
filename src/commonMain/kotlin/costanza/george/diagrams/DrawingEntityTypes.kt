@@ -15,7 +15,7 @@ import costanza.george.utility.list
 
 var drawingEntityTypes = list(
     ObjectType { Diagram() },
-    ObjectType { Coord(0,0) },
+    ObjectType { Coord() },
     ObjectType { Circle() },
     ObjectType { Association() },
     ObjectType { Dependency() },

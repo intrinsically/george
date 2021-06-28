@@ -16,7 +16,7 @@ import kotlin.math.max
 const val PADDING = 7.0
 
 class Klass(loc: Coord = Coord(0,0), dim: Dim = Dim(150,0), val parts:_List<Part> = _list()): BasicBox(loc, dim) {
-    override fun entityType() = "class"
+    override val objectType = "class"
 
     var stereotype: String? = null
     var prop_stereotype = OptionalStringProperty(this, "stereotype", false, null, { stereotype }, { stereotype = it })

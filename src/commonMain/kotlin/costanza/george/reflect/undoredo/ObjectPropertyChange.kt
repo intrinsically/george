@@ -2,9 +2,8 @@ package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
 import costanza.george.ecs.Entity
-import costanza.george.reflect.IObject
+import costanza.george.reflect.IReflect
 import costanza.george.reflect.ObjectTypeRegistry
-import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.typedproperties.StringProperty
 
@@ -15,10 +14,10 @@ class ObjectPropertyChange(
     var oldValue: String = "",
     var newValue: String = ""
 ) : IChange, Entity() {
-    override fun entityType() = "objectpropertychange"
+    override val objectType = "objectpropertychange"
 
-    constructor(entity: IObject, propName: String, oldValue: String, newValue: String):
-            this(entity.reflectInfo().id!!, propName, oldValue, newValue)
+    constructor(entity: IReflect, propName: String, oldValue: String, newValue: String):
+            this(entity.id!!, propName, oldValue, newValue)
 
     val prop_entityId = StringProperty(this, "entityId", false, "", {entityId}, {entityId = it})
     var prop_propName = StringProperty(this, "propName", false, "", {propName}, {propName = it})

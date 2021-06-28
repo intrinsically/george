@@ -14,7 +14,7 @@ import ksvg.elements.SVG
 const val INHERITANCE_MARKER = "inheritance_arrow"
 
 class Inheritance(): Line() {
-    override fun entityType() = "inheritance"
+    override val objectType = "inheritance"
 
     private var parentOffset = Coord(0,0)
 

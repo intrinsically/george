@@ -2,9 +2,8 @@ package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
 import costanza.george.ecs.Entity
-import costanza.george.reflect.IObject
+import costanza.george.reflect.IReflect
 import costanza.george.reflect.ObjectTypeRegistry
-import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.TokenProvider
 import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
@@ -20,10 +19,10 @@ class ObjectCreate(
     var serial: String = "",
     var index: Int = 0
 ) : IChange, Entity() {
-    override fun entityType() = "objectcreate"
+    override val objectType = "objectcreate"
 
-    constructor(parent: IObject, listName: String?, obj: IObject, index: Int):
-        this(parent.reflectInfo().id!!, listName, obj.reflectInfo().id!!, Serializer().serialize(obj), index)
+    constructor(parent: IReflect, listName: String?, obj: IReflect, index: Int):
+        this(parent.id, listName, obj.id, Serializer().serialize(obj), index)
 
     val prop_serial = StringProperty(this, "serial", false, "", {serial}, {serial=it})
     val prop_parentId = StringProperty(this, "parentId", false, "", {parentId}, {parentId = it})
@@ -37,7 +36,7 @@ class ObjectCreate(
     }
 
     override fun redo(registry: ObjectTypeRegistry, diagram: Diagram) {
-        val obj = Deserializer(registry).deserialize<IObject>(TokenProvider(serial))
+        val obj = Deserializer(registry).deserialize<IReflect>(TokenProvider(serial))
         ChangeUtilities.addObjectToDiagram(diagram, parentId, listName, obj, index)
     }
 

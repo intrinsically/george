@@ -2,9 +2,8 @@ package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
 import costanza.george.ecs.Entity
-import costanza.george.reflect.IObject
+import costanza.george.reflect.IReflect
 import costanza.george.reflect.ObjectTypeRegistry
-import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.typedproperties.IntProperty
 import costanza.george.reflect.typedproperties.OptionalStringProperty
 import costanza.george.reflect.typedproperties.StringProperty
@@ -19,11 +18,11 @@ class ObjectMove(
     var toPropName: String? = null,
     var to: Int = 0,
 ) : IChange, Entity() {
-    override fun entityType() = "objectmove"
+    override val objectType = "objectmove"
 
-    constructor(fromEntity: IObject, fromPropName: String?, entity: IObject, from: Int, toEntity: IObject, toPropName: String?, to: Int):
-            this(fromEntity.reflectInfo().id!!, fromPropName, entity.reflectInfo().id!!, from,
-                toEntity.reflectInfo().id!!, toPropName, to)
+    constructor(fromEntity: IReflect, fromPropName: String?, entity: IReflect, from: Int, toEntity: IReflect, toPropName: String?, to: Int):
+            this(fromEntity.id, fromPropName, entity.id, from,
+                toEntity.id, toPropName, to)
 
     val prop_fromEntityId = StringProperty(this, "fromEntityId", false, "", {fromEntityId}, {fromEntityId = it})
     val prop_toEntityId = StringProperty(this, "toEntityId", false, "", {toEntityId}, {toEntityId = it})

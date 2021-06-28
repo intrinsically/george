@@ -1,12 +1,10 @@
 package costanza.george.reflect.typedproperties
 
-import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
-import costanza.george.geometry.Rect
 import costanza.george.reflect.*
 
 class DimProperty(
-    ri: ReflectInfo,
+    ri: ReflectBase,
     name: String,
     isConstructor: Boolean,
     var defaultValue: Dim,

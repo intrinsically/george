@@ -1,7 +1,7 @@
 package costanza.george.reflect.undoredo
 
 import costanza.george.diagrams.base.Diagram
-import costanza.george.reflect.IObject
+import costanza.george.reflect.IReflect
 import costanza.george.reflect.ObjectListProperty
 import costanza.george.reflect.ObjectProperty
 import costanza.george.reflect.PrimitiveProperty
@@ -21,15 +21,15 @@ class ChangeUtilities {
         /** find the property of an entity */
         fun findProperty(diagram: Diagram, id: String, propName: String): PrimitiveProperty {
             val shape = findShape(diagram, id)
-            return shape.reflectInfo().findPrimitiveProperty(propName)
-                ?: throw ChangeErrorException("Cannot find primitive property $propName on shape $id, type ${shape.entityType()}")
+            return shape.findPrimitiveProperty(propName)
+                ?: throw ChangeErrorException("Cannot find primitive property $propName on shape $id, type ${shape.objectType}")
         }
 
         /** find the objectproperty of an entity */
         fun findObjectProperty(diagram: Diagram, id: String, propName: String): ObjectProperty {
             val shape = findShape(diagram, id)
-            return shape.reflectInfo().findObjectProperty(propName)
-                ?: throw ChangeErrorException("Cannot find object property $propName on shape $id, type ${shape.entityType()}")
+            return shape.findObjectProperty(propName)
+                ?: throw ChangeErrorException("Cannot find object property $propName on shape $id, type ${shape.objectType}")
         }
 
         /** find a shape by id */
@@ -41,7 +41,7 @@ class ChangeUtilities {
             diagram: Diagram,
             childId: String,
             exceptionOnFail: Boolean = false
-        ): IObject? {
+        ): IReflect? {
             val ids = IdAssigner().assignAndMap(diagram)
             val saved = ids[childId]
             if (saved == null) {
@@ -52,21 +52,21 @@ class ChangeUtilities {
             }
 
             val prop = findPropertyList(diagram, saved.parentId, saved.parentList)
-            prop.list.removeAll { it.reflectInfo().id == childId }
+            prop.list.removeAll { it.id == childId }
 
             return saved.entity
         }
 
         /** find the list property of an entity */
-        fun findPropertyList(diagram: Diagram, id: String, listName: String? = null): ObjectListProperty<IObject> {
+        fun findPropertyList(diagram: Diagram, id: String, listName: String? = null): ObjectListProperty<IReflect> {
             val shape = findShape(diagram, id)
-            return shape.reflectInfo().findListProperty(listName)
-                ?: throw ChangeErrorException("Cannot find list property $listName on shape $id, type ${shape.entityType()}")
+            return shape.findListProperty(listName)
+                ?: throw ChangeErrorException("Cannot find list property $listName on shape $id, type ${shape.objectType}")
         }
 
         /** add the object to the diagram, but only if it is not there already */
-        fun addObjectToDiagram(diagram: Diagram, parentId: String, listName: String?, obj: IObject, index: Int) {
-            if (diagram.findShape(obj.reflectInfo().id!!) != null) {
+        fun addObjectToDiagram(diagram: Diagram, parentId: String, listName: String?, obj: IReflect, index: Int) {
+            if (diagram.findShape(obj.id) != null) {
                 return
             }
             findPropertyList(diagram, parentId, listName).list.add(index, obj)

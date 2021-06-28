@@ -11,7 +11,7 @@ import costanza.george.reflect.typedproperties.StringProperty
 import ksvg.elements.SVG
 
 class Note(var text: String = ""): Container() {
-    override fun entityType() = "note"
+    override val objectType = "note"
 
     val prop_text = StringProperty(this, "text", false, "", { text }, { text = it })
     var zIndex = LINE_Z_ORDER + 10 // on top of even lines

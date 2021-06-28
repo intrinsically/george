@@ -21,7 +21,7 @@ enum class CompositionType(val marker: String) {
 }
 
 class Association(): Line() {
-    override fun entityType() = "association"
+    override val objectType = "association"
 
     var label: String? = null
     val prop_label = OptionalStringProperty(this, "label", false, null, { label }, { label = it })
@@ -66,7 +66,6 @@ class Association(): Line() {
         val fromBox = diagram.findShape(from)
         val toBox = diagram.findShape(to)
         val none = Rect(0,0,0,0)
-        val x: Shape
         return Router(fromBox?.bounds(diagram) ?: none, toBox?.bounds(diagram) ?: none, points, parentOffset)
     }
 

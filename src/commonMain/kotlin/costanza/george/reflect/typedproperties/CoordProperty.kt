@@ -1,11 +1,10 @@
 package costanza.george.reflect.typedproperties
 
 import costanza.george.geometry.Coord
-import costanza.george.geometry.Rect
 import costanza.george.reflect.*
 
 class CoordProperty(
-    ri: ReflectInfo,
+    ri: ReflectBase,
     name: String,
     isConstructor: Boolean,
     var defaultValue: Coord,

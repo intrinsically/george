@@ -4,15 +4,12 @@ import ksvg.elements.SVG
 import costanza.george.geometry.Coord
 import costanza.george.geometry.Dim
 import costanza.george.geometry.Rect
-import costanza.george.reflect.ObjectTypeRegistry
-import costanza.george.reflect.ReflectInfo
 import costanza.george.reflect.operations.Serializer
 import costanza.george.reflect.undoredo.Changer
-import costanza.george.reflect.reflect
 import costanza.george.reflect.undoredo.Differ
 
 class Diagram: Container(), ITextCalculator {
-    override fun entityType() = "diagram"
+    override val objectType = "diagram"
 
     /** undo-redo list for this diagram & the differ to calculate changes */
     var changer: Changer? = null

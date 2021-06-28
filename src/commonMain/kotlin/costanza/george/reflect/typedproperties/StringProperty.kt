@@ -2,10 +2,10 @@ package costanza.george.reflect.typedproperties
 
 import costanza.george.reflect.IProvider
 import costanza.george.reflect.PrimitiveProperty
-import costanza.george.reflect.ReflectInfo
+import costanza.george.reflect.ReflectBase
 
 class StringProperty(
-    ri: ReflectInfo,
+    ri: ReflectBase?,
     name: String,
     isConstructor: Boolean,
     var defaultValue: String,
@@ -14,7 +14,9 @@ class StringProperty(
 ) : PrimitiveProperty(name, isConstructor) {
 
     init {
-        ri.properties += this
+        if (ri != null) {
+            ri.properties += this
+        }
     }
 
     override fun isDefault() = defaultValue == getter()
@@ -30,7 +32,7 @@ fun extraSlash(str: String): String {
     var prev: Char = ' '
     val bld = StringBuilder()
     str.forEach {
-        if (prev !== '\\' && (it === '\"' || it === '\\')) {
+        if (prev != '\\' && (it == '\"' || it == '\\')) {
             bld.append("\\")
         }
         bld.append(it)
@@ -44,7 +46,7 @@ fun removeExtraSlash(str: String): String {
     var previous: Char = ' '
     val bld = StringBuilder()
     str.forEach {
-        if (previous === '\\' || it !== '\\') {
+        if (previous == '\\' || it != '\\') {
             bld.append(it)
         }
         previous = it

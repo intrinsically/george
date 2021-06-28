@@ -7,7 +7,7 @@ import costanza.george.reflect.ObjectListProperty
 import ksvg.elements.SVG
 
 abstract class Container: Box() {
-    override fun entityType() = "container"
+    override val objectType = "container"
 
     val shapes: MutableList<Shape> = mutableListOf()
     val prop_shapes = ObjectListProperty(this, null, shapes)

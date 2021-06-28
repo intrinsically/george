@@ -1,6 +1,5 @@
 package constanza.george.reflect
 
-import costanza.george.diagrams.base.Diagram
 import costanza.george.geometry.Rect
 import costanza.george.reflect.*
 import costanza.george.reflect.typedproperties.*
@@ -17,8 +16,8 @@ var entityTypes = list(
     ObjectType { EvolvedAlien() },
 )
 
-class Note: IObject, ReflectInfo("note") {
-    override fun reflectInfo(): ReflectInfo = this
+class Note(): ReflectBase() {
+    override val objectType = "note"
 
     var name = ""
     var details = ""
@@ -37,8 +36,8 @@ class Note: IObject, ReflectInfo("note") {
     }
 }
 
-class Inside: IObject, ReflectInfo("inside") {
-    override fun reflectInfo(): ReflectInfo = this
+class Inside: ReflectBase() {
+    override val objectType = "inside"
 
     var age = 0
     val prop_age = IntProperty(this, "age", true, 0, { age }, { age = it })
@@ -46,8 +45,8 @@ class Inside: IObject, ReflectInfo("inside") {
     var prop_height = DoubleProperty(this, "height", false, 0.0, { height }, { height = it })
 }
 
-open class Person(): IObject, ReflectInfo("person") {
-    override fun reflectInfo(): ReflectInfo = this
+open class Person(): ReflectBase() {
+    override val objectType = "person"
 
     constructor(_name: String, _address: String) : this() {
         name = _name
@@ -61,7 +60,7 @@ open class Person(): IObject, ReflectInfo("person") {
 }
 
 open class Alien(): Person() {
-    override fun reflectInfo(): ReflectInfo = this
+    override val objectType = "alien"
 
     constructor(_name: String, _address: String, _age: Int): this() {
         name = _name
@@ -69,26 +68,18 @@ open class Alien(): Person() {
         age = _age
     }
 
-    init {
-        objectType = "alien"
-    }
-
     var age = 0
     var prop_age = IntProperty(this, "age", true, 0, { age }, { age = it })
 }
 
 class EvolvedAlien(): Alien() {
-    override fun reflectInfo(): ReflectInfo = this
+    override val objectType = "evolved"
 
     constructor(_name: String, _address: String, _age: Int, _height: Double): this() {
         name = _name
         address = _address
         age = _age
         height = _height
-    }
-
-    init {
-        objectType = "evolved"
     }
 
     var height = 0.0
