@@ -40,3 +40,17 @@ fun main() {
         }
     }.start(wait = true)
 }
+
+fun server.module() {
+    install(WebSockets)
+    routing {
+        webSocket("/") {
+            send("You are connected!")
+            for(frame in incoming) {
+                frame as? Frame.Text ?: continue
+                val receivedText = frame.readText()
+                send("You said: $receivedText")
+            }
+        }
+    }
+}
