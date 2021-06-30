@@ -81,10 +81,11 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             install(WebSockets)
         }
         mainScope.launch {
+            val wsHost = window.origin.replace("http://", "").replace("https://", "")
             client.ws(
                 method = HttpMethod.Get,
-                host = "localhost",
-                port = 8080, path = "/diagram-changes"
+                host = "localhost:8080",
+                path = "/diagram-changes"
             ) { // this: DefaultClientWebSocketSession
                 send(ids.clientSession)
                 while (true) {
@@ -259,7 +260,7 @@ suspend fun fetchDiagram(): String {
 }
 
 suspend fun sendChanges(change: GroupChange, redo: Boolean) {
-    window.fetch("http://localhost:8080/changes", object: RequestInit {
+    window.fetch("/changes", object: RequestInit {
         override var method: String? = "PUT"
         override var body = JSON.stringify(
             js {payload = Serializer().serialize(change); forward = redo})
