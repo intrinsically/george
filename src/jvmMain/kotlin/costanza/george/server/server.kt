@@ -67,10 +67,22 @@ fun main() {
                 val changes: GroupChange = deserializer.deserialize(TokenProvider(details.payload))
                 diagram.applyCollaborativeChanges(changes)
                 call.response.status(HttpStatusCode.Accepted)
+                val remove = _list<WebSocketServerSession>()
                 connections.forEach {
-                    it.send(Frame.Text(details.payload))
+                    try {
+                        println("Sent to $it")
+                        it.send(Frame.Text(details.payload))
+                        println("----")
+                    } catch (ex: Exception) {
+                        // remove from the list
+                        println(ex)
+                        remove.add(it)
+                        println("Removing $it")
+                    }
                 }
+                connections -= remove
             }
+
             webSocket("/diagram-changes") {
                 connections += this
                 for (frame in incoming) {
