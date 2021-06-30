@@ -9,17 +9,34 @@ import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.drawingEntityTypes
 import costanza.george.geometry.Coord
 import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.TokenProvider
+import costanza.george.reflect.operations.Deserializer
+import costanza.george.reflect.operations.Serializer
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.undoredo.Differ
+import costanza.george.reflect.undoredo.GroupChange
 import costanza.george.reflect.undoredo.IdAssigner
 import costanza.george.ui.commands.ITool
 import costanza.george.utility.iloop
+import io.ktor.client.*
+import io.ktor.client.features.websocket.*
+import io.ktor.http.*
+import io.ktor.http.cio.websocket.*
 import kotlinext.js.js
+import kotlinx.browser.window
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.await
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
+import org.w3c.fetch.RequestInit
+import org.w3c.xhr.XMLHttpRequest
 import react.*
 import react.dom.div
 import react.dom.jsStyle
+import kotlin.js.Json
+import kotlin.js.json
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -40,9 +57,12 @@ class DiagramState(
 @JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
     val together = Together()
-    val diagram: Diagram
+    var diagram: Diagram
     val diagram2: Diagram
     val diagram3: Diagram
+    val registry = ObjectTypeRegistry()
+    val ids = IdAssigner()
+    val calc = ClientTextCalculator()
     var marginX = 0.0
     var marginY = 0.0
     var startX = 0.0
@@ -51,16 +71,55 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     var y = 0.0
 
     init {
-        val calc = ClientTextCalculator()
-        diagram = together.makeDiagram(calc)
-        val reg = ObjectTypeRegistry()
-        reg.addAll(drawingEntityTypes)
-        val ids = IdAssigner()
-        diagram.changer = Changer(ids.clientSession, reg, diagram)
-        diagram.differ = Differ(ids, reg, diagram)
+
+        val mainScope = MainScope()
+        mainScope.launch {
+            val serial = fetchDiagram()
+            diagram = makeDiagram(serial)
+            setState { svg = together.makeSVG(diagram) }
+        }
+
+        registry.addAll(drawingEntityTypes)
+        diagram = makeDiagram()
         diagram2 = together.makeDiagram2(calc)
         diagram3 = together.makeDiagram3(calc)
         state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
+
+        val client = HttpClient {
+            install(WebSockets)
+        }
+        mainScope.launch {
+            client.ws(
+                method = HttpMethod.Get,
+                host = "127.0.0.1",
+                port = 8080, path = "/diagram-changes"
+            ) { // this: DefaultClientWebSocketSession
+                send(ids.clientSession)
+                while (true) {
+                    val frame = incoming.receive()
+                    when (frame) {
+                        is Frame.Text -> {
+                            val serial = frame.readText()
+                            val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
+                            diagram.applyCollaborativeChanges(changes)
+                            setState { svg = together.makeSVG(diagram) }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun makeDiagram(serial: String? = null): Diagram {
+        if (serial != null) {
+            diagram = Deserializer(registry).deserialize(TokenProvider((serial)))
+        } else {
+            diagram = Diagram()
+        }
+        diagram.changer = Changer(ids.clientSession, registry, diagram)
+        diagram.calc = calc
+        diagram.differ = Differ(ids, registry, diagram)
+        return diagram
     }
 
     fun <T> markMouse(e: antd.MouseEvent<T>) {
@@ -97,6 +156,10 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             props.tool.click(Coord(x, y))
                             val changes = diagram.recordChanges()
                             setState { svg = together.makeSVG(diagram) }
+                            val mainScope = MainScope()
+                            mainScope.launch {
+                                sendChanges(changes)
+                            }
                         }
                     }
                 }
@@ -183,4 +246,24 @@ fun RBuilder.diagramview(handler: DiagramProps.() -> Unit): ReactElement {
         this.attrs(handler)
     }
 }
+
+suspend fun fetchDiagram(): String {
+    val response = window
+        .fetch("http://localhost:8080/diagram")
+        .await()
+        .json()
+        .await()
+    return (response as Json)["payload"] as String
+}
+
+suspend fun sendChanges(changes: GroupChange) {
+    val response = window.fetch("http://localhost:8080/changes", object: RequestInit {
+        override var method: String? = "PUT"
+        override var body = JSON.stringify(
+            js {payload = Serializer().serialize(changes) })
+        override var headers = js {Accept = "application/json" }
+    }).await()
+}
+
+
 

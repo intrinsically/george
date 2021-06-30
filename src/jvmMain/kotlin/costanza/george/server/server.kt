@@ -1,14 +1,29 @@
-import costanza.george.diagrams.Together
+import com.google.gson.Gson
+import com.google.gson.annotations.SerializedName
 import costanza.george.app.G2DTextCalculator
-import io.ktor.application.call
-import io.ktor.html.respondHtml
-import io.ktor.http.HttpStatusCode
-import io.ktor.routing.get
-import io.ktor.routing.routing
-import io.ktor.server.engine.embeddedServer
-import io.ktor.server.netty.Netty
-import io.ktor.http.content.resources
-import io.ktor.http.content.static
+import costanza.george.diagrams.Together
+import costanza.george.diagrams.drawingEntityTypes
+import costanza.george.reflect.ObjectTypeRegistry
+import costanza.george.reflect.TokenProvider
+import costanza.george.reflect.operations.Deserializer
+import costanza.george.reflect.operations.Serializer
+import costanza.george.reflect.undoredo.Changer
+import costanza.george.reflect.undoredo.GroupChange
+import costanza.george.utility._List
+import costanza.george.utility._list
+import io.ktor.application.*
+import io.ktor.html.*
+import io.ktor.http.*
+import io.ktor.http.cio.websocket.*
+import io.ktor.http.content.*
+import io.ktor.http.websocket.*
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
+import io.ktor.websocket.*
+import kotlinx.coroutines.channels.broadcast
 import kotlinx.html.*
 
 fun HTML.index() {
@@ -27,16 +42,53 @@ fun main() {
     val calc = G2DTextCalculator()
     val together = Together()
     val diagram = together.makeDiagram(calc)
-    println(together.serialize(diagram))
+    val registry = ObjectTypeRegistry()
+    val deserializer = Deserializer(registry)
 
+    registry.addAll(drawingEntityTypes)
+    diagram.changer = Changer("", registry, diagram)
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
+
+        install(WebSockets)
+
+        val connections = _list<WebSocketServerSession>()
         routing {
             get("/") {
                 call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
+            get("/diagram") {
+                val str = Serializer().serialize(diagram)
+                val json = Gson().toJson(JsonPayload(str))
+                call.respond(json)
+            }
+            put("/changes") {
+                val str = call.receive<String>()
+                val details = Gson().fromJson(str, JsonPayload::class.javaObjectType)
+                val changes: GroupChange = deserializer.deserialize(TokenProvider(details.payload))
+                diagram.applyCollaborativeChanges(changes)
+                call.response.status(HttpStatusCode.Accepted)
+                connections.forEach {
+                    it.send(Frame.Text(details.payload))
+                }
+            }
+            webSocket("/diagram-changes") {
+                connections += this
+                for (frame in incoming) {
+                    when (frame) {
+                        is Frame.Text -> {
+                            val clientSession = frame.readText()
+                            println("Client $clientSession registered")
+                        }
+                    }
+                }
+            }
+
             static("/static") {
                 resources()
             }
         }
     }.start(wait = true)
+
 }
+
+data class JsonPayload(@SerializedName("payload") val payload: String)

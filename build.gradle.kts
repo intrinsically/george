@@ -48,8 +48,10 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
+                implementation("com.google.code.gson:gson:2.8.7")
                 implementation("io.ktor:ktor-server-netty:1.5.2")
                 implementation("io.ktor:ktor-html-builder:1.5.2")
+                implementation("io.ktor:ktor-websockets:1.5.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.2")
             }
         }
@@ -64,6 +66,7 @@ kotlin {
                 implementation("org.jetbrains:kotlin-react-dom:17.0.1-pre.148-kotlin-1.4.30")
                 implementation("org.jetbrains:kotlin-styled:5.2.1-pre.150-kotlin-1.4.31")
                 implementation("io.github.samgarasx:kotlin-antd:4.8.6-pre.7-kotlin-1.4.30")
+                implementation("io.ktor:ktor-client-websockets:1.5.2")
                 implementation(npm("antd", "4.8.6"))
             }
         }
