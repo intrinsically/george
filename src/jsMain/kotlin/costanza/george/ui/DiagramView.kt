@@ -84,7 +84,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             val wsHost = window.origin.replace("http://", "").replace("https://", "")
             client.ws(
                 method = HttpMethod.Get,
-                host = "localhost:8080",
+                host = wsHost,
                 path = "/diagram-changes"
             ) { // this: DefaultClientWebSocketSession
                 send(ids.clientSession)
@@ -252,7 +252,7 @@ fun RBuilder.diagramview(handler: DiagramProps.() -> Unit): ReactElement {
 
 suspend fun fetchDiagram(): String {
     val response = window
-        .fetch("http://localhost:8080/diagram")
+        .fetch("/diagram")
         .await()
         .json()
         .await()
