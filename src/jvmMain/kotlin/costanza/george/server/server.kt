@@ -9,21 +9,18 @@ import costanza.george.reflect.operations.Deserializer
 import costanza.george.reflect.operations.Serializer
 import costanza.george.reflect.undoredo.Changer
 import costanza.george.reflect.undoredo.GroupChange
-import costanza.george.utility._List
 import costanza.george.utility._list
 import io.ktor.application.*
 import io.ktor.html.*
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.http.content.*
-import io.ktor.http.websocket.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.channels.broadcast
 import kotlinx.html.*
 
 fun HTML.index() {
@@ -58,26 +55,22 @@ fun main() {
             }
             get("/diagram") {
                 val str = Serializer().serialize(diagram)
-                val json = Gson().toJson(JsonPayload(str))
+                val json = Gson().toJson(JsonPayload(str, true))
                 call.respond(json)
             }
             put("/changes") {
                 val str = call.receive<String>()
                 val details = Gson().fromJson(str, JsonPayload::class.javaObjectType)
                 val changes: GroupChange = deserializer.deserialize(TokenProvider(details.payload))
-                diagram.applyCollaborativeChanges(changes)
-                call.response.status(HttpStatusCode.Accepted)
+                diagram.applyCollaborativeChanges(changes, details.forward)
+                call.respond("ok")
                 val remove = _list<WebSocketServerSession>()
                 connections.forEach {
                     try {
-                        println("Sent to $it")
-                        it.send(Frame.Text(details.payload))
-                        println("----")
+                        it.send(Frame.Text(str))
                     } catch (ex: Exception) {
                         // remove from the list
-                        println(ex)
                         remove.add(it)
-                        println("Removing $it")
                     }
                 }
                 connections -= remove
@@ -100,7 +93,8 @@ fun main() {
             }
         }
     }.start(wait = true)
-
 }
 
-data class JsonPayload(@SerializedName("payload") val payload: String)
+data class JsonPayload(
+    @SerializedName("payload") val payload: String,
+    @SerializedName("forward") val forward: Boolean)

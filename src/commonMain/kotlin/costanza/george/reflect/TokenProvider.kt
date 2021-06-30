@@ -36,7 +36,7 @@ class TokenProvider(var s: String): IProvider {
         return pop
     }
     override fun popInt() = popToken("integer", true) { _, c -> c.isDigit() }.toInt()
-    override fun popDouble() = popToken("double", true) { p, c -> c.isDigit() || "+-.eE".contains(c) }.toDouble()
+    override fun popDouble() = popToken("double", true) { _, c -> c.isDigit() || "+-.eE".contains(c) }.toDouble()
     override fun popChar(char: Char): Char {
         skip()
         if (pop() != char) {

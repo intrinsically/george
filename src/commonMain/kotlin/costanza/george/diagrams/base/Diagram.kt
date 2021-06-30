@@ -30,17 +30,27 @@ class Diagram: Container(), ITextCalculator {
         change.recordChanges(changes)
         change.markTransaction()
 
-        // print it oiut
-        println(Serializer().serialize(changes))
-
         // reset the differ
         diff.reset()
         return changes
     }
 
-    fun applyCollaborativeChanges(changes: GroupChange) = changer!!.applyCollaborativeChanges(changes)
-    fun undo() = changer?.undo()
-    fun redo() = changer?.redo()
+    fun applyCollaborativeChanges(changes: GroupChange, forward: Boolean) {
+        changer!!.applyCollaborativeChanges(changes, forward)
+        differ?.reset()
+    }
+
+    fun undo(): GroupChange? {
+        val change = changer?.undo()
+        differ?.reset()
+        return change
+    }
+
+    fun redo(): GroupChange? {
+        val change = changer?.redo()
+        differ?.reset()
+        return change
+    }
     fun canUndo() = changer!!.canUndo()
     fun canRedo() = changer!!.canRedo()
 

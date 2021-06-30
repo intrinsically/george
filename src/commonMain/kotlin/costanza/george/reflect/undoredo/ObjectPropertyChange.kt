@@ -17,7 +17,7 @@ class ObjectPropertyChange(
     override val objectType = "objectpropertychange"
 
     constructor(entity: IReflect, propName: String, oldValue: String, newValue: String):
-            this(entity.id!!, propName, oldValue, newValue)
+            this(entity.id, propName, oldValue, newValue)
 
     val prop_entityId = StringProperty(this, "entityId", false, "", {entityId}, {entityId = it})
     var prop_propName = StringProperty(this, "propName", false, "", {propName}, {propName = it})

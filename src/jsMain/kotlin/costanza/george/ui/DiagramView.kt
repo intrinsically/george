@@ -1,6 +1,4 @@
-import antd.button.button
 import antd.dropdown.dropdown
-import antd.icon.highlightOutlined
 import antd.layout.content
 import antd.menu.*
 import antd.tooltip.*
@@ -17,7 +15,6 @@ import costanza.george.reflect.undoredo.Differ
 import costanza.george.reflect.undoredo.GroupChange
 import costanza.george.reflect.undoredo.IdAssigner
 import costanza.george.ui.commands.ITool
-import costanza.george.utility.iloop
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.*
@@ -26,19 +23,14 @@ import kotlinext.js.js
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.await
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
 import org.w3c.fetch.RequestInit
-import org.w3c.xhr.XMLHttpRequest
 import react.*
 import react.dom.div
 import react.dom.jsStyle
 import kotlin.js.Json
-import kotlin.js.json
-import kotlin.math.cos
-import kotlin.math.sin
 
 
 external interface DiagramProps : RProps {
@@ -69,10 +61,10 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     var startY = 0.0
     var x = 0.0
     var y = 0.0
+    val mainScope = MainScope()
 
     init {
 
-        val mainScope = MainScope()
         mainScope.launch {
             val serial = fetchDiagram()
             diagram = makeDiagram(serial)
@@ -91,17 +83,18 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         mainScope.launch {
             client.ws(
                 method = HttpMethod.Get,
-                host = "127.0.0.1",
+                host = "localhost",
                 port = 8080, path = "/diagram-changes"
             ) { // this: DefaultClientWebSocketSession
                 send(ids.clientSession)
                 while (true) {
-                    val frame = incoming.receive()
-                    when (frame) {
+                    when (val frame = incoming.receive()) {
                         is Frame.Text -> {
-                            val serial = frame.readText()
+                            val json = JSON.parse<Json>(frame.readText())
+                            val serial = json["payload"] as String
+                            val forward = json["forward"] as Boolean
                             val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
-                            diagram.applyCollaborativeChanges(changes)
+                            diagram.applyCollaborativeChanges(changes, forward)
                             setState { svg = together.makeSVG(diagram) }
                         }
                     }
@@ -156,9 +149,8 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             props.tool.click(Coord(x, y))
                             val changes = diagram.recordChanges()
                             setState { svg = together.makeSVG(diagram) }
-                            val mainScope = MainScope()
                             mainScope.launch {
-                                sendChanges(changes)
+                                sendChanges(changes, true)
                             }
                         }
                     }
@@ -189,12 +181,22 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
                             menu {
                                 attrs.onClick = { inf: MenuInfo ->
                                     if (inf.key == "undo") {
-                                        diagram.undo()
+                                        val changes = diagram.undo()
                                         setState { svg = together.makeSVG(diagram) }
+                                        mainScope.launch {
+                                            if (changes != null) {
+                                                sendChanges(changes, false)
+                                            }
+                                        }
                                     }
                                     if (inf.key == "redo") {
-                                        diagram.redo()
+                                        val changes = diagram.redo()
                                         setState { svg = together.makeSVG(diagram) }
+                                        mainScope.launch {
+                                            if (changes != null) {
+                                                sendChanges(changes, true)
+                                            }
+                                        }
                                     }
                                 }
                                 menuItem {
@@ -256,11 +258,11 @@ suspend fun fetchDiagram(): String {
     return (response as Json)["payload"] as String
 }
 
-suspend fun sendChanges(changes: GroupChange) {
-    val response = window.fetch("http://localhost:8080/changes", object: RequestInit {
+suspend fun sendChanges(change: GroupChange, redo: Boolean) {
+    window.fetch("http://localhost:8080/changes", object: RequestInit {
         override var method: String? = "PUT"
         override var body = JSON.stringify(
-            js {payload = Serializer().serialize(changes) })
+            js {payload = Serializer().serialize(change); forward = redo})
         override var headers = js {Accept = "application/json" }
     }).await()
 }

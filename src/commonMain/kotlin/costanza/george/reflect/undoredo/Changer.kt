@@ -27,9 +27,13 @@ class Changer(val clientId: String, private val registry: ObjectTypeRegistry, va
     }
 
     /** only apply these changes if we didn't send them! they don't add to the undo list */
-    fun applyCollaborativeChanges(changes: GroupChange) {
+    fun applyCollaborativeChanges(changes: GroupChange, forward: Boolean) {
         if (changes.clientId != clientId) {
-            changes.redo(registry, diagram)
+            if (forward) {
+                changes.redo(registry, diagram)
+            } else {
+                changes.undo(registry, diagram)
+            }
         }
     }
 
@@ -42,16 +46,22 @@ class Changer(val clientId: String, private val registry: ObjectTypeRegistry, va
         pos++
     }
 
-    fun undo() {
+    fun undo(): GroupChange? {
         if (canUndo()) {
-            changes[--pos].undo(registry, diagram)
+            val change = changes[--pos]
+            change.undo(registry, diagram)
+            return change
         }
+        return null
     }
 
-    fun redo() {
+    fun redo(): GroupChange? {
         if (canRedo()) {
-            changes[pos++].redo(registry, diagram)
+            val change = changes[pos++]
+            change.redo(registry, diagram)
+            return change
         }
+        return null
     }
 
     fun canUndo() = pos > 0

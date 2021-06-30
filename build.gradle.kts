@@ -1,8 +1,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
-    kotlin("multiplatform") version "1.5.0-RC"
-    kotlin("plugin.serialization") version "1.4.30"
+    kotlin("multiplatform") version "1.5.20-RC"
     application
 }
 
@@ -66,6 +65,7 @@ kotlin {
                 implementation("org.jetbrains:kotlin-react-dom:17.0.1-pre.148-kotlin-1.4.30")
                 implementation("org.jetbrains:kotlin-styled:5.2.1-pre.150-kotlin-1.4.31")
                 implementation("io.github.samgarasx:kotlin-antd:4.8.6-pre.7-kotlin-1.4.30")
+                implementation("io.ktor:ktor-http-cio-js:1.5.2")
                 implementation("io.ktor:ktor-client-websockets:1.5.2")
                 implementation(npm("antd", "4.8.6"))
             }
@@ -100,7 +100,7 @@ tasks.getByName<JavaExec>("run") {
 configurations.all {
     resolutionStrategy.eachDependency {
         if (requested.group == "org.jetbrains.kotlin" && requested.name == "kotlin-reflect") {
-            useVersion("1.5.0-RC")
+            useVersion("1.5.20-RC")
         }
     }
 }
