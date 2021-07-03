@@ -17,16 +17,17 @@ import costanza.george.reflect.undoredo.IdAssigner
 import costanza.george.ui.commands.ITool
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
+import io.ktor.client.features.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.http.cio.websocket.*
 import kotlinext.js.js
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.html.unsafe
 import org.w3c.dom.HTMLDivElement
-import org.w3c.fetch.RequestInit
 import react.*
 import react.dom.div
 import react.dom.jsStyle
@@ -46,7 +47,6 @@ class DiagramState(
     var y: Double = 0.0,
     var cursor: String = "crosshair") : RState
 
-@JsExport
 class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(props) {
     val together = Together()
     var diagram: Diagram
@@ -62,8 +62,19 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     var x = 0.0
     var y = 0.0
     val mainScope = MainScope()
+    val client: HttpClient
+    val origin: String
+    val portless: String
+    val useWss: Boolean
 
     init {
+        client = HttpClient {
+            install(WebSockets)
+        }
+        // where are we browsing
+        useWss = window.origin.startsWith("https://")
+        origin = window.origin.replace("http://", "").replace("https://", "")
+        portless = origin.split(":")[0]
 
         mainScope.launch {
             val serial = fetchDiagram()
@@ -77,30 +88,32 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         diagram3 = together.makeDiagram3(calc)
         state = DiagramState(together.makeSVG(diagram), together.makeSVG(diagram2), together.makeSVG(diagram3))
 
-        val client = HttpClient {
-            install(WebSockets)
-        }
         mainScope.launch {
-            val wsHost = window.origin.replace("http://", "").replace("https://", "")
-            client.ws(
-                method = HttpMethod.Get,
-                host = wsHost,
-                path = "/diagram-changes"
-            ) { // this: DefaultClientWebSocketSession
-                send(ids.clientSession)
-                while (true) {
-                    when (val frame = incoming.receive()) {
-                        is Frame.Text -> {
-                            val json = JSON.parse<Json>(frame.readText())
-                            val serial = json["payload"] as String
-                            val forward = json["forward"] as Boolean
-                            val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
-                            diagram.applyCollaborativeChanges(changes, forward)
-                            setState { svg = together.makeSVG(diagram) }
+            if (useWss) {
+                println("Using secure websockets")
+            }
+
+            client.webSocket(
+                {
+                    method = HttpMethod.Get
+                    url(if (useWss) { "wss" } else { "ws" }, origin, 0, "/diagram-changes")
+                },
+                {
+                    send(ids.clientSession)
+                    while (true) {
+                        when (val frame = incoming.receive()) {
+                            is Frame.Text -> {
+                                val json = JSON.parse<Json>(frame.readText())
+                                val serial = json["payload"] as String
+                                val forward = json["forward"] as Boolean
+                                val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
+                                diagram.applyCollaborativeChanges(changes, forward)
+                                setState { svg = together.makeSVG(diagram) }
+                            }
                         }
                     }
                 }
-            }
+            )
         }
     }
 
@@ -242,6 +255,24 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             }
         }
     }
+
+    suspend fun fetchDiagram(): String {
+        val content = client.get<HttpResponse> {
+            url("http://$origin/diagram")
+        }.readText()
+        val js: IJsonPayload = JSON.parse(content)
+        return js.payload
+    }
+
+    suspend fun sendChanges(change: GroupChange, redo: Boolean) {
+        client.put<HttpResponse> {
+            contentType(ContentType.Application.Json)
+            body = JSON.stringify(js {
+                payload = Serializer().serialize(change)
+                forward = redo})
+            url("http://$origin/changes")
+        }
+    }
 }
 
 fun RBuilder.diagramview(handler: DiagramProps.() -> Unit): ReactElement {
@@ -250,23 +281,11 @@ fun RBuilder.diagramview(handler: DiagramProps.() -> Unit): ReactElement {
     }
 }
 
-suspend fun fetchDiagram(): String {
-    val response = window
-        .fetch("/diagram")
-        .await()
-        .json()
-        .await()
-    return (response as Json)["payload"] as String
+
+external interface IJsonPayload {
+    val payload: String
+    val forward: Boolean
 }
 
-suspend fun sendChanges(change: GroupChange, redo: Boolean) {
-    window.fetch("/changes", object: RequestInit {
-        override var method: String? = "PUT"
-        override var body = JSON.stringify(
-            js {payload = Serializer().serialize(change); forward = redo})
-        override var headers = js {Accept = "application/json" }
-    }).await()
-}
-
-
+class JsonPayload(override val payload: String, override val forward: Boolean): IJsonPayload
 

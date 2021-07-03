@@ -1,6 +1,5 @@
-package costanza
+package costanza.george.server
 
-import costanza.george.app.G2DTextCalculator
 import costanza.george.diagrams.base.FontDetails
 import org.junit.Test
 

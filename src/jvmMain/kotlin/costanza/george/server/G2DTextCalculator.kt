@@ -1,4 +1,4 @@
-package costanza.george.app
+package costanza.george.server
 
 import costanza.george.diagrams.base.FontDetails
 import costanza.george.diagrams.base.ITextCalculator
