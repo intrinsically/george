@@ -1,3 +1,5 @@
+package costanza.george.ui
+
 import antd.ReactNode
 import antd.tree.DataNode
 import costanza.george.diagrams.base.Container

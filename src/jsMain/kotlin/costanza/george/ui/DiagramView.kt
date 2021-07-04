@@ -1,7 +1,10 @@
+package costanza.george.ui
+
 import antd.dropdown.dropdown
 import antd.layout.content
-import antd.menu.*
-import antd.tooltip.*
+import antd.menu.MenuInfo
+import antd.menu.menu
+import antd.menu.menuItem
 import costanza.george.diagrams.Together
 import costanza.george.diagrams.base.Diagram
 import costanza.george.diagrams.drawingEntityTypes
@@ -17,7 +20,6 @@ import costanza.george.reflect.undoredo.IdAssigner
 import costanza.george.ui.commands.ITool
 import io.ktor.client.*
 import io.ktor.client.features.websocket.*
-import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -145,7 +147,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     private var ignore = false
     override fun RBuilder.render() {
         content {
-            attrs.style = js { cursor = "${state.cursor}" }
+            attrs.style = js { cursor = state.cursor }
             attrs {
                 onMouseDown = { e ->
                     if (ignore) {
@@ -293,6 +295,4 @@ external interface IJsonPayload {
     val payload: String
     val forward: Boolean
 }
-
-class JsonPayload(override val payload: String, override val forward: Boolean): IJsonPayload
 

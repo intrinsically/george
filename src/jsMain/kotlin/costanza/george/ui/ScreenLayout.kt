@@ -1,3 +1,5 @@
+package costanza.george.ui
+
 import antd.button.button
 import antd.collapse.collapse
 import antd.collapse.collapsePanel

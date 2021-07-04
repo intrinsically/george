@@ -1,7 +1,7 @@
+package costanza.george.ui
+
 import antd.dropdown.dropdown
 import antd.menu.menu
-import antd.menu.menuItem
-import antd.menu.subMenu
 import antd.tree.tree
 import costanza.george.diagrams.Together
 import react.*

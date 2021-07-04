@@ -1,3 +1,5 @@
+package costanza.george.ui
+
 import costanza.george.diagrams.base.FontDetails
 import costanza.george.diagrams.base.ITextCalculator
 import kotlin.math.max
