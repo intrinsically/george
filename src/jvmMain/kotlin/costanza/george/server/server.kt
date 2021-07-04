@@ -37,19 +37,10 @@ fun HTML.index() {
 }
 
 fun main(args: Array<String>): Unit {
-    val wss = if (args.isNotEmpty() && args[0] == "wss") {
-        "wss"
-    } else {
-        "ws"
-    }
-    EngineMain.main(arrayOf(*args, "-P:wsProtocol=$wss"))
+    EngineMain.main(args)
 }
 
 fun Application.module() {
-    val wsProtocol = environment.config.property("wsProtocol").getString()
-    if (wsProtocol == "wss") {
-        println("Using secure websockets")
-    }
     val calc = G2DTextCalculator()
     val together = Together()
     val diagram = together.makeDiagram(calc)
@@ -91,7 +82,7 @@ fun Application.module() {
             connections -= remove
         }
 
-        webSocket("/diagram-changes", protocol = if (wsProtocol == "wss") { "wss" } else { null }) {
+        webSocket("/diagram-changes") {
             connections += this
             for (frame in incoming) {
                 when (frame) {

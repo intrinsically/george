@@ -91,29 +91,40 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
         mainScope.launch {
             if (useWss) {
                 println("Using secure websockets")
+            } else {
+                println("Using insecure websockets")
             }
 
-            client.webSocket(
-                {
-                    method = HttpMethod.Get
-                    url(if (useWss) { "wss" } else { "ws" }, origin, 0, "/diagram-changes")
-                },
-                {
-                    send(ids.clientSession)
-                    while (true) {
-                        when (val frame = incoming.receive()) {
-                            is Frame.Text -> {
-                                val json = JSON.parse<Json>(frame.readText())
-                                val serial = json["payload"] as String
-                                val forward = json["forward"] as Boolean
-                                val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
-                                diagram.applyCollaborativeChanges(changes, forward)
-                                setState { svg = together.makeSVG(diagram) }
-                            }
+            val block: suspend DefaultClientWebSocketSession.() -> Unit = {
+                send(ids.clientSession)
+                while (true) {
+                    when (val frame = incoming.receive()) {
+                        is Frame.Text -> {
+                            val json = JSON.parse<Json>(frame.readText())
+                            val serial = json["payload"] as String
+                            val forward = json["forward"] as Boolean
+                            val changes: GroupChange = Deserializer(registry).deserialize(TokenProvider((serial)))
+                            diagram.applyCollaborativeChanges(changes, forward)
+                            setState { svg = together.makeSVG(diagram) }
                         }
                     }
                 }
-            )
+            }
+            if (useWss) {
+                client.wss(
+                    method = HttpMethod.Get,
+                    host = portless,
+                    path = "/diagram-changes",
+                    block = block
+                )
+            } else {
+                client.ws(
+                    method = HttpMethod.Get,
+                    host = origin,
+                    path = "/diagram-changes",
+                    block = block
+                )
+            }
         }
     }
 

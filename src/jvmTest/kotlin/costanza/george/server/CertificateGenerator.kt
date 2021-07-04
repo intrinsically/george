@@ -4,6 +4,9 @@ import io.ktor.network.tls.certificates.generateCertificate
 import java.io.File
 import kotlin.test.Test
 
+/**
+ * used to generate a self signed certificate for testing https
+ */
 class CertificateGeneratorTest {
     @Test
     fun testCreateCertificate() {

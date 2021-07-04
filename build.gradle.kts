@@ -111,10 +111,3 @@ configurations.all {
 }
 
 
-tasks.register<Copy>("copyJks") {
-    from(file("src/jvmMain/resources/temporary.jks"))
-    into(file("build"))
-
-}
-
-getTasksByName("run", false).first().dependsOn("copyJks")
