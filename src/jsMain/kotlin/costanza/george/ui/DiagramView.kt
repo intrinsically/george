@@ -62,20 +62,16 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
     var x = 0.0
     var y = 0.0
     val mainScope = MainScope()
-    val client: HttpClient
-    val origin: String
-    val portless: String
-    val useWss: Boolean
+    val client: HttpClient = HttpClient {
+        install(WebSockets)
+    }
+    /** where are we browsing from? */
+    val origin = window.origin
+    val schemeless = origin.replace("http://", "").replace("https://", "")
+    val portless = schemeless.split(":")[0]
+    val useWss = origin.startsWith("https://")
 
     init {
-        client = HttpClient {
-            install(WebSockets)
-        }
-        // where are we browsing
-        useWss = window.origin.startsWith("https://")
-        origin = window.origin.replace("http://", "").replace("https://", "")
-        portless = origin.split(":")[0]
-
         mainScope.launch {
             val serial = fetchDiagram()
             diagram = makeDiagram(serial)
@@ -120,7 +116,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             } else {
                 client.ws(
                     method = HttpMethod.Get,
-                    host = origin,
+                    host = schemeless,
                     path = "/diagram-changes",
                     block = block
                 )
@@ -269,7 +265,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
 
     suspend fun fetchDiagram(): String {
         val content = client.get<HttpResponse> {
-            url("http://$origin/diagram")
+            url("$origin/diagram")
         }.readText()
         val js: IJsonPayload = JSON.parse(content)
         return js.payload
@@ -281,7 +277,7 @@ class DiagramView(props: DiagramProps) : RComponent<DiagramProps, DiagramState>(
             body = JSON.stringify(js {
                 payload = Serializer().serialize(change)
                 forward = redo})
-            url("http://$origin/changes")
+            url("$origin/changes")
         }
     }
 }

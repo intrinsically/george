@@ -110,4 +110,11 @@ configurations.all {
     }
 }
 
-
+// avoid horrendous gradle 7 duplicates error bug
+gradle.taskGraph.whenReady {
+    allTasks
+        .filter { it.hasProperty("duplicatesStrategy") } // Because it's some weird decorated wrapper that I can't cast.
+        .forEach {
+            it.setProperty("duplicatesStrategy", "EXCLUDE")
+        }
+}

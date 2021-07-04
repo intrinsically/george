@@ -36,9 +36,7 @@ fun HTML.index() {
     }
 }
 
-fun main(args: Array<String>): Unit {
-    EngineMain.main(args)
-}
+fun main(args: Array<String>) = EngineMain.main(args)
 
 fun Application.module() {
     val calc = G2DTextCalculator()
@@ -50,8 +48,8 @@ fun Application.module() {
     registry.addAll(drawingEntityTypes)
     diagram.changer = Changer("", registry, diagram)
 
+    // note: installing CORS breaks it on gitpod, need to investigate
     install(WebSockets)
-    install(CORS)
     install(Compression)
 
     val connections = _list<WebSocketServerSession>()
