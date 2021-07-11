@@ -8,11 +8,9 @@ import antd.layout.header
 import antd.layout.layout
 import antd.layout.sider
 import costanza.george.diagrams.art.Circle
-import costanza.george.diagrams.classpalette.Klass
-import costanza.george.geometry.Dim
 import costanza.george.ui.commands.CreateBoxTool
 import costanza.george.ui.palette.Palette
-import costanza.george.ui.palette.servicePalette
+import costanza.george.ui.palettes.standard.servicePalette
 import costanza.george.utility.list
 import kotlinx.css.*
 import react.*
